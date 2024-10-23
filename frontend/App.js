@@ -1,20 +1,75 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+// Import your screens
+import LoginScreen from "./Components/LoginScreen";
+import WelcomeScreen from "./Components/WelcomeScreen";
+import ProfileScreen from "./Components/ProfileScreen";
+import BudgetOverviewScreen from "./Components/BudgetOverviewScreen";
+
+const Stack = createNativeStackNavigator();
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(null); // Initialize as null
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        setIsLoggedIn(!!token);
+      } catch (error) {
+        console.error("Error fetching token:", error);
+        setIsLoggedIn(false);
+      }
+    };
+
+    checkLoginStatus();
+  }, []);
+
+  if (isLoggedIn === null) {
+    // Optional: Show a loading indicator while checking login status
+    return null;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        {isLoggedIn ? (
+          // If logged in, show the Welcome screen
+          <>
+            <Stack.Screen name="WelcomeScreen" options={{ headerShown: false }}>
+              {(props) => (
+                <WelcomeScreen {...props} setIsLoggedIn={setIsLoggedIn} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name="ProfileScreen" options={{ headerShown: false }}>
+              {(props) => (
+                <ProfileScreen {...props} setIsLoggedIn={setIsLoggedIn} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen
+              name="BudgetOverviewScreen"
+              options={{ headerShown: false }}
+            >
+              {(props) => (
+                <BudgetOverviewScreen
+                  {...props}
+                  setIsLoggedIn={setIsLoggedIn}
+                />
+              )}
+            </Stack.Screen>
+          </>
+        ) : (
+          // Not logged in, show the Login screen
+          <Stack.Screen name="Login" options={{ headerShown: false }}>
+            {(props) => (
+              <LoginScreen {...props} setIsLoggedIn={setIsLoggedIn} />
+            )}
+          </Stack.Screen>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
