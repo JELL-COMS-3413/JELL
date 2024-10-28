@@ -28,8 +28,9 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.headerText}>Welcome!</Text>
+
+    <SafeAreaView style={styles.welcomeScreenBackground}>
+      <Text style={styles.headerText}>Welcome to jell!</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           title="Your Profile"
@@ -41,10 +42,11 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
           />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity title="Budget" onPress={navigateToBudgetOverview}>
-        <Text>Budget</Text>
+      <TouchableOpacity style={styles.budgetButton} title="Budget" onPress={navigateToBudgetOverview}>
+      <Text>Budget</Text>
       </TouchableOpacity>
-      <TouchableOpacity title="Logout" onPress={handleLogout}>
+
+      <TouchableOpacity style={styles.budgetButton} title="Logout" onPress={handleLogout}>
         <Text>Logout</Text>
       </TouchableOpacity>
     </SafeAreaView>

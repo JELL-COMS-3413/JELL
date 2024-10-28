@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -6,9 +7,10 @@ export default StyleSheet.create({
     padding: 16,
   },
   headerText: {
-    fontSize: 24,
+    fontSize: 27,
     marginBottom: 20,
     textAlign: "center",
+    fontFamily: 'monospace',
   },
   buttonContainer: {
     marginVertical: 10,
@@ -101,16 +103,32 @@ export default StyleSheet.create({
   profileIcon: {
     height: 30,
     width: 30,
+    alignSelf: 'center',    
   },
   background: {
-    backgroundColor: "E7C6CD",
+    backgroundColor: "#E7C6CD",
     flex: 1,
     justifyContent: "center",
     padding: 16,
   },
   pageContentContainer: {
     borderRadius: 20,
-    backgroundColor: "C1BC6B",
+    backgroundColor: "#C1BC6B",
     width: "100%",
   },
+  welcomeScreenBackground: {
+    backgroundColor: "#C1BC6B",
+    flex: 1,
+    justifyContent: "center",
+  },
+  budgetButton: {
+    alignItems: "center",
+    backgroundColor: '#E7C6CD',
+    padding: 5,
+    width: '40%',
+    alignSelf: 'center',
+    marginBottom: 5,
+    boarderRadius: "25px",
+  },
 });
+
