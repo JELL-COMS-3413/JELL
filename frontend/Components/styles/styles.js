@@ -101,8 +101,8 @@ export default StyleSheet.create({
     fontSize: 16,
   },
   profileIcon: {
-    height: 30,
-    width: 30,
+    height: 40,
+    width: 40,
     alignSelf: 'center',    
   },
   background: {
@@ -128,7 +128,8 @@ export default StyleSheet.create({
     width: '40%',
     alignSelf: 'center',
     marginBottom: 5,
-    boarderRadius: "25px",
+    borderRadius: 20,
+    
   },
 });
 
