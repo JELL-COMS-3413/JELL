@@ -5,10 +5,20 @@ export default StyleSheet.create({
     justifyContent: "center",
     padding: 16,
   },
-  headerText: {
-    fontSize: 24,
+  header: {
     marginBottom: 20,
     textAlign: "center",
+    backgroundColor: "white",
+    borderRadius: 20,
+    alignSelf: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: 10,
+  },
+  headerText: {
+    fontSize: 24,
+    fontFamily: "Arial",
+    fontWeight: "bold",
   },
   buttonContainer: {
     marginVertical: 10,
@@ -19,6 +29,9 @@ export default StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "center",
     borderRadius: 20,
+    width: "80%",
+    alignSelf: "center",
+    marginTop: 10,
   },
   item: {
     flexDirection: "row",
@@ -82,7 +95,6 @@ export default StyleSheet.create({
     justifyContent: "space-around",
   },
   button: {
-    flex: 1,
     padding: 10,
     marginHorizontal: 5,
     alignItems: "center",
@@ -103,14 +115,23 @@ export default StyleSheet.create({
     width: 30,
   },
   background: {
-    backgroundColor: "E7C6CD",
+    backgroundColor: "#E7C6CD",
     flex: 1,
     justifyContent: "center",
     padding: 16,
   },
+  greenPageSection: {
+    backgroundColor: "#C1BC6B",
+    width: "100%",
+    height: "60%",
+    justifyContent: "center",
+  },
   pageContentContainer: {
     borderRadius: 20,
-    backgroundColor: "C1BC6B",
-    width: "100%",
+    padding: 20,
+    backgroundColor: "white",
+    width: "80%",
+    alignSelf: "center",
+    margin: 20,
   },
 });

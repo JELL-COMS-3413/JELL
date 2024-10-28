@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  StyleSheet,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
@@ -28,25 +29,29 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.headerText}>Welcome!</Text>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          title="Your Profile"
-          onPress={navigateToProfileScreen}
-        >
-          <Image
-            style={styles.profileIcon}
-            source={require("../assets/profileIcon.png")}
-          />
+    <SafeAreaView style={styles.background}>
+      <Text style={styles.header}>Welcome to JELL!</Text>
+      <View>
+        <Text>
+          Take a look around and set yourself up for a better financial future
+        </Text>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            title="Your Profile"
+            onPress={navigateToProfileScreen}
+          >
+            <Text>Set Up Your Profile</Text>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity title="Budget" onPress={navigateToBudgetOverview}>
+          <Text>Make Your Budget</Text>
+        </TouchableOpacity>
+        <TouchableOpacity title="Logout" onPress={handleLogout}>
+          <Text>Logout</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity title="Budget" onPress={navigateToBudgetOverview}>
-        <Text>Budget</Text>
-      </TouchableOpacity>
-      <TouchableOpacity title="Logout" onPress={handleLogout}>
-        <Text>Logout</Text>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 }
+
+const welcomeStyle = StyleSheet.create({});
