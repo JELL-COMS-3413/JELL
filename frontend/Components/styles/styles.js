@@ -10,6 +10,17 @@ export default StyleSheet.create({
     fontSize: 27,
     marginBottom: 20,
     textAlign: "center",
+    backgroundColor: "white",
+    borderRadius: 20,
+    alignSelf: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: 10,
+  },
+  headerText: {
+    fontSize: 27,
+    marginBottom: 20,
+    textAlign: "center",
     fontFamily: "monospace",
   },
   buttonContainer: {
@@ -127,12 +138,7 @@ export default StyleSheet.create({
     alignSelf: "center",
     margin: 20,
   },
-  welcomeScreenBackground: {
-    backgroundColor: "#C1BC6B",
-    flex: 1,
-    justifyContent: "center",
-  },
-  budgetButton: {
+  welcomeButton: {
     alignItems: "center",
     backgroundColor: "#E7C6CD",
     padding: 5,
@@ -140,5 +146,10 @@ export default StyleSheet.create({
     alignSelf: "center",
     marginBottom: 5,
     borderRadius: 20,
+  },
+  welcomeBackground: {
+    backgroundColor: "#C1BC6B",
+    flex: 1,
+    justifyContent: "center",
   },
 });

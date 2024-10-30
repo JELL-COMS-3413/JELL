@@ -5,11 +5,10 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 router.post("/", authMiddleware, async (req, res) => {
   try {
-    const { profile, bio } = req.body;
+    const { profile } = req.body;
 
     const newProfile = new Profile({
       profile,
-      bio,
       user: req.user.id, // req.user is set by authMiddleware
     });
 
@@ -33,7 +32,7 @@ router.get("/", authMiddleware, async (req, res) => {
 
 router.put("/:id", authMiddleware, async (req, res) => {
   try {
-    const { profile, bio } = req.body;
+    const { profile } = req.body;
 
     // Find the profile by ID and ensure it belongs to the authenticated user
     const foundProfile = await Profile.findOne({
@@ -47,7 +46,6 @@ router.put("/:id", authMiddleware, async (req, res) => {
 
     // Update the profile's fields
     foundProfile.profile = profile || foundProfile.profile;
-    foundProfile.bio = bio || foundProfile.bio;
 
     const updatedProfile = await foundProfile.save();
     res.json(updatedProfile);
