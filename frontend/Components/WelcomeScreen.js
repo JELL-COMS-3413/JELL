@@ -29,27 +29,34 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   };
 
   return (
-    <SafeAreaView style={styles.background}>
-      <Text style={styles.header}>Welcome to JELL!</Text>
-      <View>
-        <Text>
-          Take a look around and set yourself up for a better financial future
-        </Text>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            title="Your Profile"
-            onPress={navigateToProfileScreen}
-          >
-            <Text>Set Up Your Profile</Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity title="Budget" onPress={navigateToBudgetOverview}>
-          <Text>Make Your Budget</Text>
-        </TouchableOpacity>
-        <TouchableOpacity title="Logout" onPress={handleLogout}>
-          <Text>Logout</Text>
+    <SafeAreaView style={styles.welcomeScreenBackground}>
+      <Text style={styles.headerText}>Welcome to jell!</Text>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          title="Your Profile"
+          onPress={navigateToProfileScreen}
+        >
+          <Image
+            style={styles.profileIcon}
+            source={require("../assets/profileIcon.png")}
+          />
         </TouchableOpacity>
       </View>
+      <TouchableOpacity
+        style={styles.budgetButton}
+        title="Budget"
+        onPress={navigateToBudgetOverview}
+      >
+        <Text>Budget</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.budgetButton}
+        title="Logout"
+        onPress={handleLogout}
+      >
+        <Text>Logout</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }

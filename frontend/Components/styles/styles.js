@@ -1,24 +1,16 @@
 import { StyleSheet } from "react-native";
+
 export default StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     padding: 16,
   },
-  header: {
+  headerText: {
+    fontSize: 27,
     marginBottom: 20,
     textAlign: "center",
-    backgroundColor: "white",
-    borderRadius: 20,
-    alignSelf: "center",
-    flexDirection: "row",
-    justifyContent: "center",
-    padding: 10,
-  },
-  headerText: {
-    fontSize: 24,
-    fontFamily: "Arial",
-    fontWeight: "bold",
+    fontFamily: "monospace",
   },
   buttonContainer: {
     marginVertical: 10,
@@ -111,8 +103,9 @@ export default StyleSheet.create({
     fontSize: 16,
   },
   profileIcon: {
-    height: 30,
-    width: 30,
+    height: 40,
+    width: 40,
+    alignSelf: "center",
   },
   background: {
     backgroundColor: "#E7C6CD",
@@ -133,5 +126,19 @@ export default StyleSheet.create({
     width: "80%",
     alignSelf: "center",
     margin: 20,
+  },
+  welcomeScreenBackground: {
+    backgroundColor: "#C1BC6B",
+    flex: 1,
+    justifyContent: "center",
+  },
+  budgetButton: {
+    alignItems: "center",
+    backgroundColor: "#E7C6CD",
+    padding: 5,
+    width: "40%",
+    alignSelf: "center",
+    marginBottom: 5,
+    borderRadius: 20,
   },
 });
