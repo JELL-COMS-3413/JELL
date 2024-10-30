@@ -9,9 +9,11 @@ import {
   ActivityIndicator,
   TextInput,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
+import TabNavigation from "./TabNavigation";
 
 const profileImages = {
   default: require("../assets/defaultProfileIcon.png"),
@@ -34,7 +36,9 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
   const [profile, setProfile] = useState("default");
-  const [bio, setBio] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem("token");
@@ -68,7 +72,6 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
         },
         body: JSON.stringify({
           profile: profile,
-          bio: bio,
         }),
       });
 
@@ -84,11 +87,11 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
   };
 
   const createDefaultProfile = async () => {
-    const profileBody = { profile: "default", bio: "" };
+    const profileBody = { profile: "default" };
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(`http://192.168.1.124:5000/profile`, {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -104,13 +107,12 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
 
       const newProfile = await response.json();
       setProfile(newProfile.profile);
-      setBio(newProfile.bio);
     } catch (error) {
       console.error("Error creating profile:", error);
       alert(error.message);
     }
   };
-  // backend not working rn, will fix later
+  // fetching user profile and data from backend
   useEffect(() => {
     const fetchProfile = async () => {
       setLoading(true);
@@ -134,7 +136,6 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
         } else {
           const loadedProfile = await response.json();
           setProfile(loadedProfile.profile);
-          setBio(loadedProfile.bio);
         }
       } catch (error) {
         console.error("Error fetching profile:", error);
@@ -143,8 +144,36 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
         setLoading(false);
       }
     };
+    const fetchUserData = async () => {
+      setLoading(true);
+      try {
+        const token = await AsyncStorage.getItem("token");
+        const response = await fetch("http://192.168.1.124:5000/users", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          console.error("Server Error:", errorResponse);
+          throw new Error(errorResponse.message || "Failed to fetch profile");
+        } else {
+          const loadedUser = await response.json();
+          setUsername(loadedUser.username);
+          setFirstName(loadedUser.firstname);
+          setLastName(loadedUser.lastname);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        alert(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchProfile();
+    fetchUserData();
   }, []);
 
   return (
@@ -161,11 +190,18 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
             style={profileStyles.profileIcon}
           />
           <View style={styles.pageContentContainer}>
-            <Text>Bio: {bio}</Text>
+            <Text>
+              Name: {firstName} {lastName}
+            </Text>
+            <Text>Username: {username}</Text>
             <Pressable onPress={handleClickEdit}>
               <Text>Click to edit</Text>
             </Pressable>
           </View>
+
+          <Pressable onPress={handleLogout} style={profileStyles.logout}>
+            <Text>Logout</Text>
+          </Pressable>
         </View>
       ) : (
         <View style={styles.greenPageSection}>
@@ -185,9 +221,14 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
           />
           <View style={styles.pageContentContainer}>
             <TextInput
-              placeholder="Enter bio"
-              value={bio}
-              onChangeText={(text) => setBio(text)}
+              placeholder="Enter first name"
+              value={firstName}
+              onChangeText={(text) => setFirstName(text)}
+            />
+            <TextInput
+              placeholder="Enter last name"
+              value={lastName}
+              onChangeText={(text) => setLastName(text)}
             />
             <Pressable
               onPress={handleEditSave}
@@ -196,10 +237,37 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
               <Text>Save Edits</Text>
             </Pressable>
           </View>
+          <Pressable onPress={handleLogout} style={profileStyles.logout}>
+            <Text>Logout</Text>
+          </Pressable>
         </View>
       )}
-      <Pressable title="Go to Budget" onPress={navigateToBudgetOverview} />
-      <Pressable title="Logout" onPress={handleLogout} />
+      <View style={navStyles.navContainer}>
+        <TouchableOpacity
+          onPress={navigateToBudgetOverview}
+          style={navStyles.navButton}
+        >
+          <Image source={require("../assets/homeIcon.png")}></Image>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={navigateToBudgetOverview}
+          style={navStyles.navButton}
+        >
+          <Image source={require("../assets/calculatorIcon.png")}></Image>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={navigateToBudgetOverview}
+          style={navStyles.navButton}
+        >
+          <Image source={require("../assets/addIcon.png")}></Image>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={navigateToBudgetOverview}
+          style={navStyles.navButton}
+        >
+          <Image source={require("../assets/settingsIcon.png")}></Image>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
@@ -226,5 +294,36 @@ const profileStyles = StyleSheet.create({
     height: 50,
     width: 50,
     margin: 10,
+  },
+  logout: {
+    borderRadius: 20,
+    backgroundColor: "white",
+    width: "30%",
+    alignSelf: "center",
+    alignItems: "center",
+    padding: 10,
+    margin: 10,
+  },
+});
+
+const navStyles = StyleSheet.create({
+  navContainer: {
+    borderRadius: 20,
+    backgroundColor: "white",
+    flexDirection: "row",
+    height: 70,
+    justifyContent: "center",
+    width: "90%",
+    alignSelf: "center",
+    margin: 20,
+    padding: 10,
+  },
+  navIcon: {
+    height: 30,
+    width: 30,
+  },
+  navButton: {
+    marginLeft: 20,
+    marginRight: 20,
   },
 });

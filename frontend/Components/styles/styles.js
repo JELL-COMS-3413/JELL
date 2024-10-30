@@ -16,9 +16,10 @@ export default StyleSheet.create({
     padding: 10,
   },
   headerText: {
-    fontSize: 24,
-    fontFamily: "Arial",
-    fontWeight: "bold",
+    fontSize: 27,
+    marginBottom: 20,
+    textAlign: "center",
+    fontFamily: "monospace",
   },
   buttonContainer: {
     marginVertical: 10,
@@ -133,5 +134,19 @@ export default StyleSheet.create({
     width: "80%",
     alignSelf: "center",
     margin: 20,
+  },
+  welcomeButton: {
+    alignItems: "center",
+    backgroundColor: "#E7C6CD",
+    padding: 5,
+    width: "40%",
+    alignSelf: "center",
+    marginBottom: 5,
+    borderRadius: 20,
+  },
+  welcomeBackground: {
+    backgroundColor: "#C1BC6B",
+    flex: 1,
+    justifyContent: "center",
   },
 });

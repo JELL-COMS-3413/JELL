@@ -47,10 +47,22 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    res.json({ token });
+    res.json({ token, username });
   } catch (error) {
     res.status(500).json({ error: "Failed to login" });
     console.error("Error:", error);
+  }
+});
+
+router.get("/", async (req, res) => {
+  try {
+    const items = await User.find({ user: req.user.id }).sort({
+      createdAt: -1,
+    });
+    res.json(items);
+  } catch (error) {
+    console.error("Error retrieving user data:", error);
+    res.status(500).json({ error: "Failed to retrieve user data" });
   }
 });
 module.exports = router;

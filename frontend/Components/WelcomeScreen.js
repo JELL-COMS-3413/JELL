@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   Text,
@@ -11,6 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
 
 export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
+  const [username, setUsername] = useState("");
   const handleLogout = async () => {
     await AsyncStorage.removeItem("token");
     setIsLoggedIn(false);
@@ -28,28 +29,48 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
     navigation.navigate("BudgetOverviewScreen");
   };
 
+  useEffect(() => {
+    const getUsername = async () => {
+      try {
+        const user = await AsyncStorage.getItem("username");
+        setUsername(user);
+      } catch (error) {
+        console.error("Error getting username:", error);
+        alert(error.message);
+      } finally {
+        console.log(username);
+      }
+    };
+    getUsername();
+  }, []);
   return (
-    <SafeAreaView style={styles.background}>
-      <Text style={styles.header}>Welcome to JELL!</Text>
-      <View>
-        <Text>
-          Take a look around and set yourself up for a better financial future
-        </Text>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            title="Your Profile"
-            onPress={navigateToProfileScreen}
-          >
-            <Text>Set Up Your Profile</Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity title="Budget" onPress={navigateToBudgetOverview}>
-          <Text>Make Your Budget</Text>
-        </TouchableOpacity>
-        <TouchableOpacity title="Logout" onPress={handleLogout}>
-          <Text>Logout</Text>
-        </TouchableOpacity>
-      </View>
+    <SafeAreaView style={styles.welcomeBackground}>
+      <Text style={styles.headerText}>Welcome to JELL, {username}!</Text>
+      <Text>
+        Take a look around and set yourself up for a better financial future.
+        Here are some links to help you get started:
+      </Text>
+      <TouchableOpacity
+        title="Your Profile"
+        onPress={navigateToProfileScreen}
+        style={styles.buttonContainer}
+      >
+        <Text>Set Up Your Profile</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        title="Budget"
+        onPress={navigateToBudgetOverview}
+        style={styles.welcomeButton}
+      >
+        <Text>Make Your Budget</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        title="Logout"
+        onPress={handleLogout}
+        style={styles.welcomeButton}
+      >
+        <Text>Logout</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
