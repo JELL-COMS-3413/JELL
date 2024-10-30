@@ -1,1 +1,6 @@
-# JELL - Lisset, Laura, Janniebeth, Evelin
+# JELL
+
+Lisset Luna
+Laura Paul
+Janniebeth Melendez
+Evelin Cerros
