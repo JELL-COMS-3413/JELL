@@ -12,8 +12,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import styles from "./styles/styles";
 import TabNavigation from "./TabNavigation";
+import styles from "./styles/styles";
 
 const profileImages = {
   default: require("../assets/defaultProfileIcon.png"),
@@ -30,6 +30,7 @@ const iconChoices = [
   { key: "3", name: "cow" },
   { key: "4", name: "crab" },
   { key: "5", name: "whale" },
+  { key: "6", name: "default" },
 ];
 
 export default function ProfileScreen({ navigation, setIsLoggedIn }) {
@@ -57,14 +58,20 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
   };
 
   const handleEditSave = () => {
-    setEditing(false);
     saveProfile();
+    saveName();
+    setEditing(false);
+  };
+
+  const updateProfile = (newProfile) => {
+    setProfile(newProfile);
+    console.log("profile: ", profile);
   };
 
   const saveProfile = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
-      const response = await fetch(`http://192.168.1.124:5000/profile/`, {
+      const response = await fetch(`http://10.200.136.177:5000/profile/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -86,11 +93,40 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
     }
   };
 
+  const saveName = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const uName = await AsyncStorage.getItem("username");
+      const response = await fetch(
+        `http://10.200.136.177:5000/users/${uName}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            firstname: firstName,
+            lastname: lastName,
+          }),
+        }
+      );
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        console.error("Server Error:", errorResponse);
+        throw new Error(errorResponse.message || "Failed to update name");
+      }
+    } catch (error) {
+      console.error("Error updating name:", error);
+      alert(error.message);
+    }
+  };
+
   const createDefaultProfile = async () => {
     const profileBody = { profile: "default" };
     try {
       const token = await AsyncStorage.getItem("token");
-      const response = await fetch(`http://192.168.1.124:5000/profile`, {
+      const response = await fetch(`http://10.200.136.177:5000/profile`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -107,6 +143,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
 
       const newProfile = await response.json();
       setProfile(newProfile.profile);
+      console.log("Created new profile: ", newProfile.profile);
     } catch (error) {
       console.error("Error creating profile:", error);
       alert(error.message);
@@ -118,7 +155,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
       setLoading(true);
       try {
         const token = await AsyncStorage.getItem("token");
-        const response = await fetch("http://192.168.1.124:5000/profile", {
+        const response = await fetch("http://10.200.136.177:5000/profile", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -135,7 +172,9 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
           }
         } else {
           const loadedProfile = await response.json();
+          console.log("loadedProfile: ", loadedProfile);
           setProfile(loadedProfile.profile);
+          console.log("profile: ", profile);
         }
       } catch (error) {
         console.error("Error fetching profile:", error);
@@ -148,20 +187,25 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
       setLoading(true);
       try {
         const token = await AsyncStorage.getItem("token");
-        const response = await fetch("http://192.168.1.124:5000/users", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const uName = await AsyncStorage.getItem("username");
+        setUsername(uName);
+        const response = await fetch(
+          `http://10.200.136.177:5000/users/${uName}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (!response.ok) {
           const errorResponse = await response.json();
           console.error("Server Error:", errorResponse);
-          throw new Error(errorResponse.message || "Failed to fetch profile");
+          throw new Error(errorResponse.message || "Failed to fetch user data");
         } else {
           const loadedUser = await response.json();
-          setUsername(loadedUser.username);
+          console.log("loadedUser: ", loadedUser);
           setFirstName(loadedUser.firstname);
           setLastName(loadedUser.lastname);
         }
@@ -181,92 +225,69 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
       <View style={styles.header}>
         <Text style={styles.headerText}>PROFILE</Text>
       </View>
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : !editing ? (
-        <View style={styles.greenPageSection}>
-          <Image
-            source={profileImages[profile]}
-            style={profileStyles.profileIcon}
-          />
-          <View style={styles.pageContentContainer}>
-            <Text>
-              Name: {firstName} {lastName}
-            </Text>
-            <Text>Username: {username}</Text>
-            <Pressable onPress={handleClickEdit}>
-              <Text>Click to edit</Text>
-            </Pressable>
-          </View>
-
-          <Pressable onPress={handleLogout} style={profileStyles.logout}>
-            <Text>Logout</Text>
-          </Pressable>
-        </View>
-      ) : (
-        <View style={styles.greenPageSection}>
-          <Text>Select Profile Icon</Text>
-          <FlatList
-            data={iconChoices}
-            renderItem={({ item }) => (
-              <Pressable onPress={setProfile(item.name)}>
-                <Image
-                  style={profileStyles.selection}
-                  source={profileImages[item.name]}
-                />
+      <View style={styles.greenPageSection}>
+        {loading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : !editing ? (
+          <View>
+            <Image
+              source={profileImages[profile]}
+              style={profileStyles.profileIcon}
+            />
+            <View style={styles.pageContentContainer}>
+              <Text>
+                Name: {firstName} {lastName}
+              </Text>
+              <Text>Username: {username}</Text>
+              <Pressable onPress={handleClickEdit}>
+                <Text>Click to edit</Text>
               </Pressable>
-            )}
-            keyExtractor={(item) => item.key}
-            horizontal
-          />
-          <View style={styles.pageContentContainer}>
-            <TextInput
-              placeholder="Enter first name"
-              value={firstName}
-              onChangeText={(text) => setFirstName(text)}
-            />
-            <TextInput
-              placeholder="Enter last name"
-              value={lastName}
-              onChangeText={(text) => setLastName(text)}
-            />
-            <Pressable
-              onPress={handleEditSave}
-              style={profileStyles.saveButton}
-            >
-              <Text>Save Edits</Text>
+            </View>
+
+            <Pressable onPress={handleLogout} style={profileStyles.logout}>
+              <Text>Logout</Text>
             </Pressable>
           </View>
-          <Pressable onPress={handleLogout} style={profileStyles.logout}>
-            <Text>Logout</Text>
-          </Pressable>
-        </View>
-      )}
-      <View style={navStyles.navContainer}>
-        <TouchableOpacity
-          onPress={navigateToBudgetOverview}
-          style={navStyles.navButton}
-        >
-          <Image source={require("../assets/homeIcon.png")}></Image>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={navigateToBudgetOverview}
-          style={navStyles.navButton}
-        >
-          <Image source={require("../assets/calculatorIcon.png")}></Image>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={navigateToBudgetOverview}
-          style={navStyles.navButton}
-        >
-          <Image source={require("../assets/addIcon.png")}></Image>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={navigateToBudgetOverview}
-          style={navStyles.navButton}
-        >
-          <Image source={require("../assets/settingsIcon.png")}></Image>
-        </TouchableOpacity>
+        ) : (
+          <View>
+            <Text>Select Profile Icon</Text>
+            <FlatList
+              data={iconChoices}
+              renderItem={({ item }) => (
+                <Pressable onPress={() => updateProfile(item.name)}>
+                  <Image
+                    style={profileStyles.selection}
+                    source={profileImages[item.name]}
+                  />
+                </Pressable>
+              )}
+              keyExtractor={(item) => item.key}
+              horizontal
+            />
+            <View style={styles.pageContentContainer}>
+              <TextInput
+                placeholder="Enter first name"
+                value={firstName}
+                onChangeText={(text) => setFirstName(text)}
+              />
+              <TextInput
+                placeholder="Enter last name"
+                value={lastName}
+                onChangeText={(text) => setLastName(text)}
+              />
+              <Pressable
+                onPress={handleEditSave}
+                style={profileStyles.saveButton}
+              >
+                <Text>Save Edits</Text>
+              </Pressable>
+            </View>
+            <Pressable onPress={handleLogout} style={profileStyles.logout}>
+              <Text>Logout</Text>
+            </Pressable>
+          </View>
+        )}
+        <TabNavigation navigation={navigation} />
       </View>
     </SafeAreaView>
   );

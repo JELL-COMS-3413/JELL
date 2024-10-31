@@ -22,21 +22,24 @@ router.post("/", authMiddleware, async (req, res) => {
 
 router.get("/", authMiddleware, async (req, res) => {
   try {
-    const profile = await Profile.find({ user: req.user.id });
-    res.json(profile);
+    const profile = await Profile.findOne({ user: req.user.id });
+    if (profile == null) {
+      return res.status(404).json({ error: "profile not found" });
+    }
+    console.log("profile", profile.profile);
+    res.json({ profile: profile.profile });
   } catch (error) {
     console.error("Error retrieving items:", error);
     res.status(500).json({ error: "Failed to retrieve items" });
   }
 });
 
-router.put("/:id", authMiddleware, async (req, res) => {
+router.put("/", authMiddleware, async (req, res) => {
   try {
     const { profile } = req.body;
 
     // Find the profile by ID and ensure it belongs to the authenticated user
     const foundProfile = await Profile.findOne({
-      _id: req.params.id,
       user: req.user.id,
     });
 

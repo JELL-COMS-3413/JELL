@@ -46,33 +46,41 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   return (
     <SafeAreaView style={styles.welcomeBackground}>
       <Text style={styles.headerText}>Welcome to JELL, {username}!</Text>
-      <Text>
-        Take a look around and set yourself up for a better financial future.
-        Here are some links to help you get started:
-      </Text>
-      <TouchableOpacity
-        title="Your Profile"
-        onPress={navigateToProfileScreen}
-        style={styles.buttonContainer}
-      >
-        <Text>Set Up Your Profile</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        title="Budget"
-        onPress={navigateToBudgetOverview}
-        style={styles.welcomeButton}
-      >
-        <Text>Make Your Budget</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        title="Logout"
-        onPress={handleLogout}
-        style={styles.welcomeButton}
-      >
-        <Text>Logout</Text>
-      </TouchableOpacity>
+      <View style={styles.pageContentContainer}>
+        <View style={welcomeStyles.instruction}>
+          <Text style={styles.text}>
+            Take a look around and set yourself up for a better financial
+            future. Here are some links to help you get started:
+          </Text>
+        </View>
+        <TouchableOpacity
+          title="Your Profile"
+          onPress={navigateToProfileScreen}
+          style={styles.welcomeButton}
+        >
+          <Text>Set Up Your Profile</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          title="Budget"
+          onPress={navigateToBudgetOverview}
+          style={styles.welcomeButton}
+        >
+          <Text>Make Your Budget</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          title="Logout"
+          onPress={handleLogout}
+          style={styles.welcomeButton}
+        >
+          <Text>Logout</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
 
-const welcomeStyle = StyleSheet.create({});
+const welcomeStyles = StyleSheet.create({
+  instruction: {
+    marginBottom: 10,
+  },
+});

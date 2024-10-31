@@ -9,9 +9,12 @@ import {
 } from "react-native";
 import styles from "./styles/styles";
 
-export default function TabNavigation(navigation) {
+export default function TabNavigation({ navigation }) {
   const navigateToHomeScreen = () => {
     navigation.navigate("BudgetOverviewScreen");
+  };
+  const navigateToCalculationScreen = () => {
+    navigation.navigate("LoanCalculationScreen");
   };
   return (
     <View style={navStyles.navContainer}>
@@ -22,7 +25,7 @@ export default function TabNavigation(navigation) {
         <Image source={require("../assets/homeIcon.png")}></Image>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={navigateToHomeScreen}
+        onPress={navigateToCalculationScreen}
         style={navStyles.navButton}
       >
         <Image source={require("../assets/calculatorIcon.png")}></Image>

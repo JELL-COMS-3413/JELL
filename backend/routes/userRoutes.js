@@ -54,15 +54,38 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/:username", async (req, res) => {
   try {
-    const items = await User.find({ user: req.user.id }).sort({
+    const user = await User.findOne({ username: req.params.username }).sort({
       createdAt: -1,
     });
-    res.json(items);
+    res.json({ firstname: user.firstname, lastname: user.lastname });
+    console.log(user);
   } catch (error) {
     console.error("Error retrieving user data:", error);
     res.status(500).json({ error: "Failed to retrieve user data" });
   }
 });
+
+router.put("/:username", async (req, res) => {
+  try {
+    const { firstname, lastname } = req.body;
+    const foundUser = await User.findOne({
+      username: req.params.username,
+    }).sort({
+      createdAt: -1,
+    });
+    if (!foundUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    foundUser.firstname = firstname || foundUser.firstname;
+    foundUser.lastname = lastname || foundUser.lastname;
+    const updatedUser = await foundUser.save();
+    res.json(updatedUser);
+  } catch (error) {
+    console.error("Error updating first and last name:", error);
+    res.status(500).json({ error: "Failed to update first and last name" });
+  }
+});
+
 module.exports = router;

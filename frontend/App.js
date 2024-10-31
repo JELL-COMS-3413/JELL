@@ -9,6 +9,7 @@ import LoginScreen from "./Components/LoginScreen";
 import WelcomeScreen from "./Components/WelcomeScreen";
 import ProfileScreen from "./Components/ProfileScreen";
 import BudgetOverviewScreen from "./Components/BudgetOverviewScreen";
+import LoanCalculationScreen from "./Components/LoanCalculationScreen";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -55,6 +56,18 @@ export default function App() {
             >
               {(props) => (
                 <BudgetOverviewScreen
+                  {...props}
+                  setIsLoggedIn={setIsLoggedIn}
+                />
+              )}
+            </Stack.Screen>
+
+            <Stack.Screen
+              name="LoanCalculationScreen"
+              options={{ headerShown: false }}
+            >
+              {(props) => (
+                <LoanCalculationScreen
                   {...props}
                   setIsLoggedIn={setIsLoggedIn}
                 />

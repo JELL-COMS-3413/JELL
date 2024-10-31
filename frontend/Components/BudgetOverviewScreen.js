@@ -32,7 +32,7 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-        `http://192.168.1.124:5000/budget/${budgetItemId}`,
+        `http://10.200.136.177:5000/budget/${budgetItemId}`,
         {
           method: "DELETE",
           headers: {
@@ -65,7 +65,7 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
   const addBudgetItem = async (newBudgetItem) => {
     try {
       const token = await AsyncStorage.getItem("token");
-      const response = await fetch("http://192.168.1.124:5000/budget/", {
+      const response = await fetch("http://10.200.136.177:5000/budget/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -95,7 +95,7 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-        `http://192.168.1.124:5000/budget/${updatedItem._id}`,
+        `http://10.200.136.177:5000/budget/${updatedItem._id}`,
         {
           method: "PUT",
           headers: {
@@ -133,7 +133,7 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
       setLoading(true);
       try {
         const token = await AsyncStorage.getItem("token");
-        const response = await fetch("http://192.168.1.124:5000/budget/", {
+        const response = await fetch("http://10.200.136.177:5000/budget/", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -175,7 +175,7 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
         </TouchableOpacity>
       </View>
       <View style={styles.header}>
-        <Text style={styles.headerText}>OVERVIEW</Text>
+        <Text style={styles.headerText}>OVERVIEW </Text>
         <Text style={styles.headerText}>GOALS</Text>
       </View>
       {loading ? (

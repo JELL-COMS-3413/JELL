@@ -6,10 +6,8 @@ export default StyleSheet.create({
     justifyContent: "center",
     padding: 16,
   },
-  headerText: {
-    fontSize: 27,
+  header: {
     marginBottom: 20,
-    textAlign: "center",
     backgroundColor: "white",
     borderRadius: 20,
     alignSelf: "center",
@@ -19,7 +17,6 @@ export default StyleSheet.create({
   },
   headerText: {
     fontSize: 27,
-    marginBottom: 20,
     textAlign: "center",
     fontFamily: "monospace",
   },
@@ -66,6 +63,7 @@ export default StyleSheet.create({
   },
   addButtonText: {
     fontSize: 24,
+    fontFamily: "monospace",
     textAlign: "center",
   },
   modalOverlay: {
@@ -85,6 +83,7 @@ export default StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
+    fontFamily: "monospace",
   },
   input: {
     height: 40,
@@ -112,6 +111,7 @@ export default StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontSize: 16,
+    fontFamily: "monospace",
   },
   profileIcon: {
     height: 40,
@@ -151,5 +151,8 @@ export default StyleSheet.create({
     backgroundColor: "#C1BC6B",
     flex: 1,
     justifyContent: "center",
+  },
+  text: {
+    fontFamily: "monospace",
   },
 });
