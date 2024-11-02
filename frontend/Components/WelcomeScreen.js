@@ -9,9 +9,12 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
+import * as Font from 'expo-font';
 
 export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   const [username, setUsername] = useState("");
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+  
   const handleLogout = async () => {
     await AsyncStorage.removeItem("token");
     setIsLoggedIn(false);
@@ -43,12 +46,20 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
     };
     getUsername();
   }, []);
+
+  useEffect(() => {
+    Font.loadAsync({
+      'Retrograde': require('../assets/fonts/Retrograde.ttf'),
+    }).then(() => setFontsLoaded(true));
+    }, []);
+    if (!fontsLoaded) return null; 
+    
   return (
     <SafeAreaView style={styles.welcomeBackground}>
       <Text style={styles.headerText}>Welcome to JELL, {username}!</Text>
       <View style={styles.pageContentContainer}>
         <View style={welcomeStyles.instruction}>
-          <Text style={styles.text}>
+          <Text style={styles.welcomefont}>
             Take a look around and set yourself up for a better financial
             future. Here are some links to help you get started:
           </Text>
