@@ -9,7 +9,8 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
-import * as Font from 'expo-font';
+import loadFonts from './styles/fonts'; 
+
 
 export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   const [username, setUsername] = useState("");
@@ -47,17 +48,12 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
     getUsername();
   }, []);
 
-
-    useEffect(() => {
-      Font.loadAsync({
-        'LouisGeorgeCafe': require('../assets/fonts/LouisGeorgeCafe.ttf'),
-      }).then(() => setFontsLoaded(true));
-      }, []);
-      if (!fontsLoaded) return null; 
+  useEffect(() => {
+    loadFonts().then(() => setFontsLoaded(true));
+  }, []);
+  if (!fontsLoaded) return null; 
 
 
-
-    
   return (
     <SafeAreaView style={styles.welcomeBackground}>
       <Text style={styles.headerText}>Welcome to JELL, {username}!</Text>
