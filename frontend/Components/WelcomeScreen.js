@@ -47,12 +47,16 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
     getUsername();
   }, []);
 
-  useEffect(() => {
-    Font.loadAsync({
-      'Retrograde': require('../assets/fonts/Retrograde.ttf'),
-    }).then(() => setFontsLoaded(true));
-    }, []);
-    if (!fontsLoaded) return null; 
+
+    useEffect(() => {
+      Font.loadAsync({
+        'LouisGeorgeCafe': require('../assets/fonts/LouisGeorgeCafe.ttf'),
+      }).then(() => setFontsLoaded(true));
+      }, []);
+      if (!fontsLoaded) return null; 
+
+
+
     
   return (
     <SafeAreaView style={styles.welcomeBackground}>
@@ -69,21 +73,21 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
           onPress={navigateToProfileScreen}
           style={styles.welcomeButton}
         >
-          <Text>Set Up Your Profile</Text>
+          <Text style={styles.text}> Set Up Your Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity
           title="Budget"
           onPress={navigateToBudgetOverview}
           style={styles.welcomeButton}
         >
-          <Text>Make Your Budget</Text>
+          <Text style={styles.text}>Make Your Budget</Text>
         </TouchableOpacity>
         <TouchableOpacity
           title="Logout"
           onPress={handleLogout}
           style={styles.welcomeButton}
         >
-          <Text>Logout</Text>
+          <Text style={styles.text}>Logout</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

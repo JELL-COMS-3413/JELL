@@ -18,7 +18,7 @@ export default StyleSheet.create({
   headerText: {
     fontSize: 27,
     textAlign: "center",
-    fontFamily: "Retrograde",
+    fontFamily: "LouisGeorgeCafe",
   },
   buttonContainer: {
     marginVertical: 10,
@@ -63,7 +63,7 @@ export default StyleSheet.create({
   },
   addButtonText: {
     fontSize: 24,
-    fontFamily: "monospace",
+    fontFamily: "LouisGeorgeCafe",
     textAlign: "center",
   },
   modalOverlay: {
@@ -83,7 +83,7 @@ export default StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
-    fontFamily: "monospace",
+    fontFamily: "LouisGeorgeCafe",
   },
   input: {
     height: 40,
@@ -111,7 +111,7 @@ export default StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontSize: 16,
-    fontFamily: "monospace",
+    fontFamily: "LouisGeorgeCafe",
   },
   profileIcon: {
     height: 40,
@@ -146,6 +146,7 @@ export default StyleSheet.create({
     alignSelf: "center",
     marginBottom: 5,
     borderRadius: 20,
+
   },
   welcomeBackground: {
     backgroundColor: "#C1BC6B",
@@ -153,10 +154,10 @@ export default StyleSheet.create({
     justifyContent: "center",
   },
   text: {
-    fontFamily: "monospace",
+    fontFamily: "LouisGeorgeCafe",
   },
   welcomefont: {
-    fontFamily: "Retrograde",
+    fontFamily: "LouisGeorgeCafe",
     fontSize: 16,
   },
   
