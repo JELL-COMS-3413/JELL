@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Text, SafeAreaView, TextInput, Button, View } from "react-native";
+import {
+  Text,
+  SafeAreaView,
+  TextInput,
+  Button,
+  View,
+  StyleSheet,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
 
@@ -30,12 +37,17 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
     }
 
     const url = isLogin
-      ? "http://192.168.1.101:5000/users/login"
-      : "http://192.168.1.101:5000/users/register";
+      ? "http://10.200.136.177:5000/users/login"
+      : "http://10.200.136.177:5000/users/register";
 
     const body = isLogin
       ? { username: email, password }
-      : { username: email, password, firstname: firstName, lastname: lastName };
+      : {
+          username: email,
+          password,
+          firstname: firstName,
+          lastname: lastName,
+        };
 
     try {
       const response = await fetch(url, {
@@ -54,8 +66,11 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
             // Save token and update login state
             console.log("Received token:", result.token);
             await AsyncStorage.setItem("token", result.token);
+            await AsyncStorage.setItem("username", result.username);
             const storedToken = await AsyncStorage.getItem("token");
+            const storedUsername = await AsyncStorage.getItem("username");
             console.log("Stored token:", storedToken);
+            console.log("Stored username:", storedUsername);
             setIsLoggedIn(true);
             navigation.reset({
               index: 0,
@@ -76,9 +91,9 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={loginStyles.background}>
       <View>
-        <Text style={styles.headerText}>{isLogin ? "Login" : "Sign Up"}</Text>
+        <Text style={styles.header}>{isLogin ? "Login" : "Sign Up"}</Text>
 
         {!isLogin && (
           <>
@@ -98,14 +113,14 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
         )}
 
         <TextInput
-          style={styles.input}
+          style={loginStyles.input}
           placeholder="Enter email"
           value={email}
           onChangeText={(text) => setEmail(text)}
           keyboardType="email-address"
         />
         <TextInput
-          style={styles.input}
+          style={loginStyles.input}
           placeholder="Enter password"
           value={password}
           onChangeText={(text) => setPassword(text)}
@@ -133,3 +148,20 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
     </SafeAreaView>
   );
 }
+
+const loginStyles = StyleSheet.create({
+  background: {
+    backgroundColor: "#C1BC6B",
+    flex: 1,
+    justifyContent: "center",
+    padding: 16,
+  },
+  input: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    padding: 8,
+    marginVertical: 10,
+    backgroundColor: "white",
+  },
+});

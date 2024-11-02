@@ -12,6 +12,7 @@ import {
 
 import AddBudgetItemModal from "./AddBudgetItemModal";
 import EditBudgetItemModal from "./EditBudgetItemModal";
+import TabNavigation from "./TabNavigation";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
@@ -31,7 +32,7 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-        `http://192.168.1.101:5000/budget/${budgetItemId}`,
+        `http://10.200.136.177:5000/budget/${budgetItemId}`,
         {
           method: "DELETE",
           headers: {
@@ -56,15 +57,6 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
     }
   };
 
-  const handleLogout = async () => {
-    await AsyncStorage.removeItem("token");
-    setIsLoggedIn(false);
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Login" }],
-    });
-  };
-
   const navigateToProfileScreen = () => {
     navigation.navigate("ProfileScreen");
   };
@@ -73,7 +65,7 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
   const addBudgetItem = async (newBudgetItem) => {
     try {
       const token = await AsyncStorage.getItem("token");
-      const response = await fetch("http://192.168.1.101:5000/budget/", {
+      const response = await fetch("http://10.200.136.177:5000/budget/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -103,7 +95,7 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-        `http://192.168.1.101:5000/budget/${updatedItem._id}`,
+        `http://10.200.136.177:5000/budget/${updatedItem._id}`,
         {
           method: "PUT",
           headers: {
@@ -141,7 +133,7 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
       setLoading(true);
       try {
         const token = await AsyncStorage.getItem("token");
-        const response = await fetch("http://192.168.1.101:5000/budget/", {
+        const response = await fetch("http://10.200.136.177:5000/budget/", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -178,15 +170,18 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
         >
           <Image
             style={styles.profileIcon}
-            source={require("../assets/profileIcon.png")}
+            source={require("../assets/defaultProfileIcon.png")}
           />
         </TouchableOpacity>
       </View>
-      <Text style={styles.headerText}>Budget Overview</Text>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>OVERVIEW </Text>
+        <Text style={styles.headerText}>GOALS</Text>
+      </View>
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : data.length ? (
-        <View style={styles.pageContentContainer}>
+        <View style={styles.greenPageSection}>
           <View style={styles.itemList}>
             <FlatList
               data={data}
@@ -225,7 +220,7 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
           <AddBudgetItemModal onAddItem={addBudgetItem} />
         </View>
       )}
-      <Pressable title="Logout" onPress={handleLogout} />
+      <TabNavigation navigation={navigation} />
     </SafeAreaView>
   );
 }
