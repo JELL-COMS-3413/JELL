@@ -18,7 +18,7 @@ export default StyleSheet.create({
   headerText: {
     fontSize: 27,
     textAlign: "center",
-    fontFamily: "monospace",
+    fontFamily: "Retrograde",
   },
   buttonContainer: {
     marginVertical: 10,
@@ -158,4 +158,9 @@ export default StyleSheet.create({
   text: {
     fontFamily: "monospace",
   },
+  welcomefont: {
+    fontFamily: "Retrograde",
+    fontSize: 16,
+  },
+  
 });
