@@ -92,6 +92,14 @@ export default StyleSheet.create({
     padding: 8,
     marginVertical: 10,
   },
+  profileIcon: {
+    height: 200,
+    width: 200,
+    borderWidth: 2,
+    borderRadius: 20,
+    alignSelf: "center",
+    margin: 20,
+  },
   addButtonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -112,11 +120,6 @@ export default StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontFamily: "monospace",
-  },
-  profileIcon: {
-    height: 40,
-    width: 40,
-    alignSelf: "center",
   },
   background: {
     backgroundColor: "#E7C6CD",
