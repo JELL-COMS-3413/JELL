@@ -5,6 +5,8 @@ const loadFonts = () => {
         'Retrograde': require('../../assets/fonts/Retrograde.ttf'),
         'LouisGeorgeCafe': require('../../assets/fonts/LouisGeorgeCafe.ttf'),
         'Quagi': require('../../assets/fonts/Quagi.otf'),
+        'coolveticarg': require('../../assets/fonts/coolveticarg.otf'),
+
 
     });
 };

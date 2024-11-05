@@ -16,9 +16,10 @@ export default StyleSheet.create({
     padding: 10,
   },
   headerText: {
-    fontSize: 27,
+    fontSize: 35,
     textAlign: "center",
-    fontFamily: "LouisGeorgeCafe",
+    fontFamily: "coolveticarg",
+    color: "#A39E48",
   },
   buttonContainer: {
     marginVertical: 10,
@@ -149,7 +150,7 @@ export default StyleSheet.create({
 
   },
   welcomeBackground: {
-    backgroundColor: "#C1BC6B",
+    backgroundColor: "#DEDBAE",
     flex: 1,
     justifyContent: "center",
   },
