@@ -11,7 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
 import TabNavigation from "./TabNavigation";
 
-export default function LoanCalculationScreen({ navigation, setIsLoggedIn }) {
+export default function CalculationScreen({ navigation, setIsLoggedIn }) {
   const [username, setUsername] = useState("");
   const handleLogout = async () => {
     await AsyncStorage.removeItem("token");
@@ -46,7 +46,7 @@ export default function LoanCalculationScreen({ navigation, setIsLoggedIn }) {
   }, []);
   return (
     <SafeAreaView style={styles.welcomeBackground}>
-      <Text style={styles.headerText}>Loan Calculation</Text>
+      <Text style={styles.headerText}>Calculation</Text>
       <Text>This will be the screen for loan calculators.</Text>
 
       <TabNavigation navigation={navigation} />

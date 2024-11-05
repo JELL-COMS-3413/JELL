@@ -46,7 +46,7 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
     const fetchProfile = async () => {
       try {
         const token = await AsyncStorage.getItem("token");
-        const response = await fetch("http://10.200.136.177:5000/profile", {
+        const response = await fetch("http://10.200.169.92:5000/profile", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
