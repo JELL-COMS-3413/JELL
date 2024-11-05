@@ -53,3 +53,4 @@ export default function LoanCalculationScreen({ navigation, setIsLoggedIn }) {
     </SafeAreaView>
   );
 }
+//Everything before this is the base components!!!! (DO NOT DELETE)
