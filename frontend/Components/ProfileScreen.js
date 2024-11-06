@@ -101,10 +101,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
       const token = await AsyncStorage.getItem("token");
       const uName = await AsyncStorage.getItem("username");
       const response = await fetch(
-
-
         `http://10.200.169.92:5000/users/${uName}`,
-
         {
           method: "PUT",
           headers: {
@@ -132,10 +129,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
     const profileBody = { profile: "default" };
     try {
       const token = await AsyncStorage.getItem("token");
-
-
       const response = await fetch(`http://10.200.169.92:5000/profile`, {
-
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -164,9 +158,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
       setLoading(true);
       try {
         const token = await AsyncStorage.getItem("token");
-
         const response = await fetch("http://10.200.169.92:5000/profile", {
-
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -201,9 +193,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
         const uName = await AsyncStorage.getItem("username");
         setUsername(uName);
         const response = await fetch(
-
           `http://10.200.169.92:5000/users/${uName}`,
-
           {
             headers: {
               "Content-Type": "application/json",

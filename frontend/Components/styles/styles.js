@@ -7,6 +7,7 @@ export default StyleSheet.create({
     padding: 16,
   },
   header: {
+    marginTop: 50,
     marginBottom: 20,
     backgroundColor: "white",
     borderRadius: 20,

@@ -37,10 +37,8 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
     }
 
     const url = isLogin
-
       ? "http://10.200.169.92:5000/users/login"
       : "http://10.200.169.92:5000/users/register";
-
 
     const body = isLogin
       ? { username: email, password }
