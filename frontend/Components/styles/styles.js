@@ -95,11 +95,11 @@ export default StyleSheet.create({
     marginVertical: 10,
   },
   profileIcon: {
-    height: 200,
-    width: 200,
+    height: 50,
+    width: 50,
     borderWidth: 2,
     borderRadius: 20,
-    alignSelf: "center",
+    alignSelf: "left",
     margin: 20,
   },
   addButtonContainer: {
@@ -165,5 +165,14 @@ export default StyleSheet.create({
     fontFamily: "LouisGeorgeCafe",
     fontSize: 16,
   },
-  
+  profileHeader: {
+    height: 200,
+    width: 200,
+    borderWidth: 2,
+    borderRadius: 20,
+    alignSelf: "center",
+    margin: 20,
+  },
 });
+
+export const ipAddress = "10.200.180.57";

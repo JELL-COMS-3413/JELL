@@ -14,7 +14,10 @@ import EditBudgetItemModal from "./EditBudgetItemModal";
 import TabNavigation from "./TabNavigation";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { profileImages } from "./ProfileScreen";
 import styles from "./styles/styles";
+import { ipAddress } from "./styles/styles";
 
 export default function BudgetOverviewScreen({ navigation }) {
   const [data, setData] = useState([]);
@@ -22,6 +25,7 @@ export default function BudgetOverviewScreen({ navigation }) {
   const [error, setError] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [profile, setProfile] = useState("default");
 
   const fetchItems = useCallback(async () => {
     setLoading(true);
@@ -70,7 +74,7 @@ export default function BudgetOverviewScreen({ navigation }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-        `http://10.200.169.92:5000/budget/${budgetItemId}`,
+        `http://${ipAddress}:5000/budget/${budgetItemId}`,
         {
           method: "DELETE",
           headers: {
@@ -99,8 +103,7 @@ export default function BudgetOverviewScreen({ navigation }) {
   const addBudgetItem = useCallback(async (newBudgetItem) => {
     try {
       const token = await AsyncStorage.getItem("token");
-      const response = await fetch("http://10.200.169.92:5000/budget/", {
-
+      const response = await fetch(`http://${ipAddress}:5000/budget/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -128,7 +131,7 @@ export default function BudgetOverviewScreen({ navigation }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-        `http://10.200.169.92:5000/budget/${updatedItem._id}`,
+        `http://${ipAddress}:5000/budget/${updatedItem._id}`,
         {
           method: "PUT",
           headers: {
@@ -156,13 +159,43 @@ export default function BudgetOverviewScreen({ navigation }) {
 
   // Fetch items from the backend when the component mounts
   useEffect(() => {
+    const fetchProfile = async () => {
+      setLoading(true);
+      try {
+        const token = await AsyncStorage.getItem("token");
+        const response = await fetch(`http://${ipAddress}:5000/profile`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          if (response.status === 404) {
+            await createDefaultProfile();
+          } else {
+            console.error("Server Error:", errorResponse);
+            throw new Error(errorResponse.message || "Failed to fetch profile");
+          }
+        } else {
+          const loadedProfile = await response.json();
+          console.log("loadedProfile: ", loadedProfile);
+          setProfile(loadedProfile.profile);
+          console.log("profile: ", profile);
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        alert(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
     const fetchItems = async () => {
       setLoading(true);
       try {
         const token = await AsyncStorage.getItem("token");
-
-        const response = await fetch("http://10.200.169.92:5000/budget/", {
-
+        const response = await fetch(`http://${ipAddress}:5000/budget/`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -186,15 +219,18 @@ export default function BudgetOverviewScreen({ navigation }) {
         setLoading(false);
       }
     };
-
+    fetchProfile();
     fetchItems();
   }, []);
 
   return (
     <SafeAreaView style={styles.background}>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={navigateToProfileScreen}>
-          <Image style={styles.profileIcon} source={require("../assets/defaultProfileIcon.png")} />
+        <TouchableOpacity
+          title="Your Profile"
+          onPress={navigateToProfileScreen}
+        >
+          <Image source={profileImages[profile]} style={styles.profileIcon} />
         </TouchableOpacity>
       </View>
       <View style={styles.header}>

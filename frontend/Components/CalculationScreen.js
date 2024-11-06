@@ -26,10 +26,6 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
     navigation.navigate("ProfileScreen");
   };
 
-  const navigateToBudgetOverview = () => {
-    navigation.navigate("BudgetOverviewScreen");
-  };
-
   useEffect(() => {
     const getUsername = async () => {
       try {
@@ -53,5 +49,6 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
     </SafeAreaView>
   );
 }
+
 //Everything before this is the base components!!!! (DO NOT DELETE)
 

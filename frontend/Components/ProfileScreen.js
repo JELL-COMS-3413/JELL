@@ -14,6 +14,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TabNavigation from "./TabNavigation";
 import styles from "./styles/styles";
+import { ipAddress } from "./styles/styles";
+import loadFonts from "./styles/fonts";
 
 export const profileImages = {
   default: require("../assets/defaultProfileIcon.png"),
@@ -40,6 +42,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem("token");
@@ -48,9 +51,6 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
       index: 0,
       routes: [{ name: "Login" }],
     });
-  };
-  const navigateToBudgetOverview = () => {
-    navigation.navigate("BudgetOverviewScreen");
   };
 
   const handleClickEdit = () => {
@@ -72,9 +72,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
     try {
       const token = await AsyncStorage.getItem("token");
 
-
-      const response = await fetch(`http://10.200.169.92:5000/profile/`, {
-
+      const response = await fetch(`http://${ipAddress}:5000/profile/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -100,20 +98,18 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const uName = await AsyncStorage.getItem("username");
-      const response = await fetch(
-        `http://10.200.169.92:5000/users/${uName}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            firstname: firstName,
-            lastname: lastName,
-          }),
-        }
-      );
+
+      const response = await fetch(`http://${ipAddress}/users/${uName}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          firstname: firstName,
+          lastname: lastName,
+        }),
+      });
       if (!response.ok) {
         const errorResponse = await response.json();
         console.error("Server Error:", errorResponse);
@@ -129,7 +125,8 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
     const profileBody = { profile: "default" };
     try {
       const token = await AsyncStorage.getItem("token");
-      const response = await fetch(`http://10.200.169.92:5000/profile`, {
+      const response = await fetch(`http://${ipAddress}:5000/profile`, {
+
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -158,7 +155,8 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
       setLoading(true);
       try {
         const token = await AsyncStorage.getItem("token");
-        const response = await fetch("http://10.200.169.92:5000/profile", {
+        const response = await fetch(`http://${ipAddress}:5000/profile`, {
+
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -175,9 +173,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
           }
         } else {
           const loadedProfile = await response.json();
-          console.log("loadedProfile: ", loadedProfile);
           setProfile(loadedProfile.profile);
-          console.log("profile: ", profile);
         }
       } catch (error) {
         console.error("Error fetching profile:", error);
@@ -193,7 +189,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
         const uName = await AsyncStorage.getItem("username");
         setUsername(uName);
         const response = await fetch(
-          `http://10.200.169.92:5000/users/${uName}`,
+          `http://${ipAddress}:5000/users/${uName}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -223,6 +219,11 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
     fetchUserData();
   }, []);
 
+  useEffect(() => {
+    loadFonts().then(() => setFontsLoaded(true));
+  }, []);
+  //if (!fontsLoaded) return null;
+
   return (
     <SafeAreaView style={styles.background}>
       <View style={styles.header}>
@@ -233,7 +234,10 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
           <ActivityIndicator size="large" color="#0000ff" />
         ) : !editing ? (
           <View>
-            <Image source={profileImages[profile]} style={styles.profileIcon} />
+            <Image
+              source={profileImages[profile]}
+              style={styles.profileHeader}
+            />
             <View style={styles.pageContentContainer}>
               <Text>
                 Name: {firstName} {lastName}
