@@ -42,10 +42,13 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
   }, []);
   return (
     <SafeAreaView style={styles.welcomeBackground}>
-      <Text style={styles.headerText}>Loan Calculation</Text>
+      <Text style={styles.headerText}>Calculation</Text>
       <Text>This will be the screen for loan calculators.</Text>
 
       <TabNavigation navigation={navigation} />
     </SafeAreaView>
   );
 }
+
+//Everything before this is the base components!!!! (DO NOT DELETE)
+

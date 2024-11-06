@@ -15,9 +15,11 @@ export default function TabNavigation({ navigation }) {
   };
   const navigateToCalculationScreen = () => {
     navigation.navigate("CalculationScreen");
+
   };
   const navigateToInputExpensesScreen = () => {
     navigation.navigate("InputExpensesScreen");
+
   };
   return (
     <View style={navStyles.navContainer}>

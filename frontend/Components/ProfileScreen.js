@@ -71,6 +71,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
   const saveProfile = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
+
       const response = await fetch(`http://${ipAddress}:5000/profile/`, {
         method: "PUT",
         headers: {
@@ -97,6 +98,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const uName = await AsyncStorage.getItem("username");
+
       const response = await fetch(`http://${ipAddress}/users/${uName}`, {
         method: "PUT",
         headers: {
@@ -124,6 +126,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(`http://${ipAddress}:5000/profile`, {
+
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -153,6 +156,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
       try {
         const token = await AsyncStorage.getItem("token");
         const response = await fetch(`http://${ipAddress}:5000/profile`, {
+
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
