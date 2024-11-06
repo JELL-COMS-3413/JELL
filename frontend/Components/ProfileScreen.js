@@ -15,7 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import TabNavigation from "./TabNavigation";
 import styles from "./styles/styles";
 
-const profileImages = {
+export const profileImages = {
   default: require("../assets/defaultProfileIcon.png"),
   bear: require("../assets/bear.png"),
   frog: require("../assets/frog.png"),
@@ -71,7 +71,10 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
   const saveProfile = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
-      const response = await fetch(`http://10.200.200.140:5000/profile/`, {
+
+
+      const response = await fetch(`http://10.200.169.92:5000/profile/`, {
+
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -98,7 +101,10 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
       const token = await AsyncStorage.getItem("token");
       const uName = await AsyncStorage.getItem("username");
       const response = await fetch(
-        `http://10.200.200.140:5000/users/${uName}`,
+
+
+        `http://10.200.169.92:5000/users/${uName}`,
+
         {
           method: "PUT",
           headers: {
@@ -126,7 +132,10 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
     const profileBody = { profile: "default" };
     try {
       const token = await AsyncStorage.getItem("token");
-      const response = await fetch(`http://10.200.200.140:5000/profile`, {
+
+
+      const response = await fetch(`http://10.200.169.92:5000/profile`, {
+
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -155,7 +164,9 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
       setLoading(true);
       try {
         const token = await AsyncStorage.getItem("token");
-        const response = await fetch("http://10.200.200.140:5000/profile", {
+
+        const response = await fetch("http://10.200.169.92:5000/profile", {
+
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -190,7 +201,9 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
         const uName = await AsyncStorage.getItem("username");
         setUsername(uName);
         const response = await fetch(
-          `http://10.200.200.140:5000/users/${uName}`,
+
+          `http://10.200.169.92:5000/users/${uName}`,
+
           {
             headers: {
               "Content-Type": "application/json",
@@ -230,10 +243,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
           <ActivityIndicator size="large" color="#0000ff" />
         ) : !editing ? (
           <View>
-            <Image
-              source={profileImages[profile]}
-              style={profileStyles.profileIcon}
-            />
+            <Image source={profileImages[profile]} style={styles.profileIcon} />
             <View style={styles.pageContentContainer}>
               <Text>
                 Name: {firstName} {lastName}
@@ -324,27 +334,5 @@ const profileStyles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     margin: 10,
-  },
-});
-
-const navStyles = StyleSheet.create({
-  navContainer: {
-    borderRadius: 20,
-    backgroundColor: "white",
-    flexDirection: "row",
-    height: 70,
-    justifyContent: "center",
-    width: "90%",
-    alignSelf: "center",
-    margin: 20,
-    padding: 10,
-  },
-  navIcon: {
-    height: 30,
-    width: 30,
-  },
-  navButton: {
-    marginLeft: 20,
-    marginRight: 20,
   },
 });

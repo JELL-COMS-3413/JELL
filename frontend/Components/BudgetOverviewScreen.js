@@ -32,7 +32,9 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-        `http://10.200.200.140:5000/budget/${budgetItemId}`,
+
+        `http://10.200.169.92:5000/budget/${budgetItemId}`,
+ main
         {
           method: "DELETE",
           headers: {
@@ -65,7 +67,9 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
   const addBudgetItem = async (newBudgetItem) => {
     try {
       const token = await AsyncStorage.getItem("token");
-      const response = await fetch("http://10.200.200.140:5000/budget/", {
+
+      const response = await fetch("http://10.200.169.92:5000/budget/", {
+
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -95,7 +99,8 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-        `http://10.200.200.140:5000/budget/${updatedItem._id}`,
+
+        `http://10.200.169.92:5000/budget/${updatedItem._id}`,
         {
           method: "PUT",
           headers: {
@@ -133,7 +138,9 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
       setLoading(true);
       try {
         const token = await AsyncStorage.getItem("token");
-        const response = await fetch("http://10.200.200.140:5000/budget/", {
+
+        const response = await fetch("http://10.200.169.92:5000/budget/", {
+
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -178,49 +185,51 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
         <Text style={styles.headerText}>OVERVIEW </Text>
         <Text style={styles.headerText}>GOALS</Text>
       </View>
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : data.length ? (
-        <View style={styles.greenPageSection}>
-          <View style={styles.itemList}>
-            <FlatList
-              data={data}
-              keyExtractor={(budgetItem) => budgetItem._id.toString()}
-              renderItem={({ item }) => (
-                <View style={styles.item}>
-                  <Text style={styles.title}>{item.title}</Text>
-                  <Text style={styles.value}>
-                    {`$ ${item.value}` || "$0.00"}
-                  </Text>
-                  <View style={styles.itemActions}>
-                    <TouchableOpacity onPress={() => handleEditPress(item)}>
-                      <Text style={styles.actionText}>Edit</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => handleDeletePress(item._id)}
-                    >
-                      <Text style={styles.actionText}>Delete</Text>
-                    </TouchableOpacity>
+      <View style={styles.greenPageSection}>
+        {loading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : data.length ? (
+          <View>
+            <View style={styles.itemList}>
+              <FlatList
+                data={data}
+                keyExtractor={(budgetItem) => budgetItem._id.toString()}
+                renderItem={({ item }) => (
+                  <View style={styles.item}>
+                    <Text style={styles.title}>{item.title}</Text>
+                    <Text style={styles.value}>
+                      {`$ ${item.value}` || "$0.00"}
+                    </Text>
+                    <View style={styles.itemActions}>
+                      <TouchableOpacity onPress={() => handleEditPress(item)}>
+                        <Text style={styles.actionText}>Edit</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => handleDeletePress(item._id)}
+                      >
+                        <Text style={styles.actionText}>Delete</Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                </View>
-              )}
+                )}
+              />
+            </View>
+            <AddBudgetItemModal onAddItem={addBudgetItem} />
+            <EditBudgetItemModal
+              item={selectedItem}
+              isVisible={isEditModalVisible}
+              onClose={() => setIsEditModalVisible(false)}
+              onSave={saveEditedItem}
             />
           </View>
-          <AddBudgetItemModal onAddItem={addBudgetItem} />
-          <EditBudgetItemModal
-            item={selectedItem}
-            isVisible={isEditModalVisible}
-            onClose={() => setIsEditModalVisible(false)}
-            onSave={saveEditedItem}
-          />
-        </View>
-      ) : (
-        <View>
-          <Text>No budget items, press '+' to add items</Text>
-          <AddBudgetItemModal onAddItem={addBudgetItem} />
-        </View>
-      )}
-      <TabNavigation navigation={navigation} />
+        ) : (
+          <View>
+            <Text>No budget items, press '+' to add items</Text>
+            <AddBudgetItemModal onAddItem={addBudgetItem} />
+          </View>
+        )}
+        <TabNavigation navigation={navigation} />
+      </View>
     </SafeAreaView>
   );
 }

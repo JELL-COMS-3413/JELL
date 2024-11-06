@@ -9,13 +9,16 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
+
 import loadFonts from './styles/fonts'; 
+
+=======
+import { profileImages } from "./ProfileScreen";
 
 
 export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   const [username, setUsername] = useState("");
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-  
+  const [profile, setProfile] = useState("default");
   const handleLogout = async () => {
     await AsyncStorage.removeItem("token");
     setIsLoggedIn(false);
@@ -45,7 +48,37 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
         console.log(username);
       }
     };
+    const fetchProfile = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        const response = await fetch("http://10.200.169.92:5000/profile", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          if (response.status === 404) {
+            await createDefaultProfile();
+          } else {
+            console.error("Server Error:", errorResponse);
+            throw new Error(errorResponse.message || "Failed to fetch profile");
+          }
+        } else {
+          const loadedProfile = await response.json();
+          console.log("loadedProfile: ", loadedProfile);
+          setProfile(loadedProfile.profile);
+          console.log("profile: ", profile);
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        alert(error.message);
+      }
+    };
     getUsername();
+    fetchProfile();
   }, []);
 
   useEffect(() => {
@@ -56,6 +89,8 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
 
   return (
     <SafeAreaView style={styles.welcomeBackground}>
+      <Image source={profileImages[profile]} style={styles.profileIcon} />
+
       <Text style={styles.headerText}>Welcome to JELL, {username}!</Text>
       <View style={styles.pageContentContainer}>
         <View style={welcomeStyles.instruction}>

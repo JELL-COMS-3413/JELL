@@ -9,7 +9,7 @@ import LoginScreen from "./Components/LoginScreen";
 import WelcomeScreen from "./Components/WelcomeScreen";
 import ProfileScreen from "./Components/ProfileScreen";
 import BudgetOverviewScreen from "./Components/BudgetOverviewScreen";
-import LoanCalculationScreen from "./Components/LoanCalculationScreen";
+import CalculationScreen from "./Components/CalculationScreen";
 
 const Stack = createNativeStackNavigator();
 export default function App() {

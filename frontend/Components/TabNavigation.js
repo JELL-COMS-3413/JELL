@@ -14,7 +14,7 @@ export default function TabNavigation({ navigation }) {
     navigation.navigate("BudgetOverviewScreen");
   };
   const navigateToCalculationScreen = () => {
-    navigation.navigate("LoanCalculationScreen");
+    navigation.navigate("CalculationScreen");
   };
   return (
     <View style={navStyles.navContainer}>
