@@ -10,13 +10,6 @@ import {
 } from "react-native";
 import AddBudgetItemModal from "./AddBudgetItemModal";
 import EditBudgetItemModal from "./EditBudgetItemModal";
-<<<<<<< Updated upstream
-
-=======
-import TabNavigation from "./TabNavigation";
-import BudgetPieChart from "./PieChart";
-import PropTypes from "prop-types";
->>>>>>> Stashed changes
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
 import defaultProfileIcon from "../assets/defaultProfileIcon.png";
