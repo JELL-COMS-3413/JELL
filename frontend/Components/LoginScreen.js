@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
+import { ipAddress } from "./styles/styles";
 
 export default function LoginScreen({ navigation, setIsLoggedIn }) {
   const [email, setEmail] = useState("");
@@ -37,8 +38,8 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
     }
 
     const url = isLogin
-      ? "http://10.200.136.177:5000/users/login"
-      : "http://10.200.136.177:5000/users/register";
+      ? `http://${ipAddress}:5000/users/login`
+      : `http://${ipAddress}:5000/users/register/`;
 
     const body = isLogin
       ? { username: email, password }
