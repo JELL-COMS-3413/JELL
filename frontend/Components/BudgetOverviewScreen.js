@@ -68,11 +68,7 @@ export default function BudgetOverviewScreen({ navigation }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-<<<<<<< Updated upstream
-        `http://192.168.1.101:5000/budget/${budgetItemId}`,
-=======
         `http://10.200.37.109:5000/budget/${budgetItemId}`,
->>>>>>> Stashed changes
         {
           method: "DELETE",
           headers: {
