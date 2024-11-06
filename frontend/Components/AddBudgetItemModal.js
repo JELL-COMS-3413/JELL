@@ -44,7 +44,7 @@ export default function AddBudgetItemModal({ onAddItem }) {
             />
             <TextInput
               style={styles.input}
-              placeholder="Enter value to allocate to budget item"
+              placeholder="Enter amount to allocate to budget item"
               value={value}
               onChangeText={(text) => setValue(text)}
             />

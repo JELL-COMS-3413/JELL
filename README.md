@@ -1,4 +1,5 @@
 # JELL
-Evelin
+Lisset Luna
+Laura Paul
 Janniebeth Melendez
-Lisset
+Evelin Cerros

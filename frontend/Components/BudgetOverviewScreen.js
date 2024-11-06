@@ -10,9 +10,11 @@ import {
 } from "react-native";
 import AddBudgetItemModal from "./AddBudgetItemModal";
 import EditBudgetItemModal from "./EditBudgetItemModal";
+
+import TabNavigation from "./TabNavigation";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
-import defaultProfileIcon from "../assets/defaultProfileIcon.png";
 
 export default function BudgetOverviewScreen({ navigation }) {
   const [data, setData] = useState([]);
@@ -68,7 +70,7 @@ export default function BudgetOverviewScreen({ navigation }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-        `http://10.200.37.109:5000/budget/${budgetItemId}`,
+        `http://10.200.169.92:5000/budget/${budgetItemId}`,
         {
           method: "DELETE",
           headers: {
@@ -88,16 +90,17 @@ export default function BudgetOverviewScreen({ navigation }) {
       console.error("Error deleting item:", error);
       alert(error.message);
     }
-  }, []);
+  };
 
-  const navigateToProfileScreen = useCallback(() => {
+  const navigateToProfileScreen = () => {
     navigation.navigate("ProfileScreen");
   }, [navigation]);
 
   const addBudgetItem = useCallback(async (newBudgetItem) => {
     try {
       const token = await AsyncStorage.getItem("token");
-      const response = await fetch("http://10.200.37.109:5000/budget/", {
+      const response = await fetch("http://10.200.169.92:5000/budget/", {
+
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -125,7 +128,7 @@ export default function BudgetOverviewScreen({ navigation }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-        `http://10.200.37.109:5000/budget/${updatedItem._id}`,
+        `http://10.200.169.92:5000/budget/${updatedItem._id}`,
         {
           method: "PUT",
           headers: {
@@ -149,13 +152,49 @@ export default function BudgetOverviewScreen({ navigation }) {
       console.error("Error updating item:", error);
       alert(error.message);
     }
+  };
+
+  // Fetch items from the backend when the component mounts
+  useEffect(() => {
+    const fetchItems = async () => {
+      setLoading(true);
+      try {
+        const token = await AsyncStorage.getItem("token");
+
+        const response = await fetch("http://10.200.169.92:5000/budget/", {
+
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          console.error("Server Error:", errorResponse);
+          throw new Error(
+            errorResponse.message || "Failed to fetch budget items"
+          );
+        }
+
+        const budgetItems = await response.json();
+        setData(budgetItems);
+      } catch (error) {
+        console.error("Error fetching budget items:", error);
+        alert(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchItems();
   }, []);
 
   return (
     <SafeAreaView style={styles.background}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={navigateToProfileScreen}>
-          <Image style={styles.profileIcon} source={defaultProfileIcon} />
+          <Image style={styles.profileIcon} source={require("../assets/defaultProfileIcon.png")} />
         </TouchableOpacity>
       </View>
       <View style={styles.header}>
@@ -187,7 +226,7 @@ export default function BudgetOverviewScreen({ navigation }) {
                   <View style={styles.item}>
                     <Text style={styles.title}>{item.title}</Text>
                     <Text style={styles.value}>
-                      {`$ ${item.value.toFixed(2)}`}
+                      {`$ ${item.value.toFixed(2)}` || "$0.00" }
                     </Text>
                     <View style={styles.itemActions}>
                       <TouchableOpacity onPress={() => handleEditPress(item)}>
@@ -213,13 +252,8 @@ export default function BudgetOverviewScreen({ navigation }) {
           </View>
         </>
       )}
-      <Pressable title="Logout" onPress={handleLogout} />
+        <TabNavigation navigation={navigation} />
     </SafeAreaView>
   );
 }
 
-BudgetOverviewScreen.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
-};

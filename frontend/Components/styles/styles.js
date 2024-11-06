@@ -17,10 +17,10 @@ export default StyleSheet.create({
     padding: 10,
   },
   headerText: {
-    fontSize: 27,
-    marginBottom: 20,
+    fontSize: 35,
     textAlign: "center",
-    fontFamily: 'monospace',
+    fontFamily: "coolveticarg",
+    color: "#A39E48",
   },
   buttonContainer: {
     marginVertical: 10,
@@ -31,6 +31,9 @@ export default StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "center",
     borderRadius: 20,
+    width: "80%",
+    alignSelf: "center",
+    marginTop: 10,
   },
   item: {
     flexDirection: "row",
@@ -62,6 +65,7 @@ export default StyleSheet.create({
   },
   addButtonText: {
     fontSize: 24,
+    fontFamily: "LouisGeorgeCafe",
     textAlign: "center",
   },
   modalOverlay: {
@@ -81,6 +85,7 @@ export default StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
+    fontFamily: "LouisGeorgeCafe",
   },
   input: {
     height: 40,
@@ -89,12 +94,19 @@ export default StyleSheet.create({
     padding: 8,
     marginVertical: 10,
   },
+  profileIcon: {
+    height: 200,
+    width: 200,
+    borderWidth: 2,
+    borderRadius: 20,
+    alignSelf: "center",
+    margin: 20,
+  },
   addButtonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
   },
   button: {
-    flex: 1,
     padding: 10,
     marginHorizontal: 5,
     alignItems: "center",
@@ -109,11 +121,7 @@ export default StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontSize: 16,
-  },
-  profileIcon: {
-    height: 40,
-    width: 40,
-    alignSelf: 'center',    
+    fontFamily: "LouisGeorgeCafe",
   },
   background: {
     backgroundColor: "#E7C6CD",
@@ -121,25 +129,41 @@ export default StyleSheet.create({
     justifyContent: "center",
     padding: 16,
   },
-  pageContentContainer: {
-    borderRadius: 20,
+  greenPageSection: {
     backgroundColor: "#C1BC6B",
     width: "100%",
+    height: "60%",
+    justifyContent: "center",
   },
-  welcomeScreenBackground: {
-    backgroundColor: "#C1BC6B",
+  pageContentContainer: {
+    borderRadius: 20,
+    padding: 20,
+    backgroundColor: "white",
+    width: "80%",
+    alignSelf: "center",
+    margin: 20,
+  },
+  welcomeButton: {
+    alignItems: "center",
+    backgroundColor: "#E7C6CD",
+    padding: 5,
+    width: "40%",
+    alignSelf: "center",
+    marginBottom: 5,
+    borderRadius: 20,
+
+  },
+  welcomeBackground: {
+    backgroundColor: "#DEDBAE",
     flex: 1,
     justifyContent: "center",
   },
-  budgetButton: {
-    alignItems: "center",
-    backgroundColor: '#E7C6CD',
-    padding: 5,
-    width: '40%',
-    alignSelf: 'center',
-    marginBottom: 5,
-    borderRadius: 20,
-    
+  text: {
+    fontFamily: "LouisGeorgeCafe",
   },
+  welcomefont: {
+    fontFamily: "LouisGeorgeCafe",
+    fontSize: 16,
+  },
+  
 });
-
