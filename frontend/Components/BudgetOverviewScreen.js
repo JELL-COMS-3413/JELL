@@ -32,7 +32,9 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
+
         `http://10.200.169.92:5000/budget/${budgetItemId}`,
+ main
         {
           method: "DELETE",
           headers: {
@@ -65,7 +67,9 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
   const addBudgetItem = async (newBudgetItem) => {
     try {
       const token = await AsyncStorage.getItem("token");
+
       const response = await fetch("http://10.200.169.92:5000/budget/", {
+
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -95,6 +99,7 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
+
         `http://10.200.169.92:5000/budget/${updatedItem._id}`,
         {
           method: "PUT",
@@ -133,7 +138,9 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
       setLoading(true);
       try {
         const token = await AsyncStorage.getItem("token");
+
         const response = await fetch("http://10.200.169.92:5000/budget/", {
+
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
