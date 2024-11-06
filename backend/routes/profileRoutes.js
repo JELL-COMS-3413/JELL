@@ -26,7 +26,6 @@ router.get("/", authMiddleware, async (req, res) => {
     if (profile == null) {
       return res.status(404).json({ error: "profile not found" });
     }
-    console.log("profile", profile.profile);
     res.json({ profile: profile.profile });
   } catch (error) {
     console.error("Error retrieving items:", error);

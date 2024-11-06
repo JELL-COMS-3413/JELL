@@ -9,11 +9,17 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
+
+import loadFonts from "./styles/fonts";
+import { ipAddress } from "./styles/styles";
+
 import { profileImages } from "./ProfileScreen";
+
 
 export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   const [username, setUsername] = useState("");
   const [profile, setProfile] = useState("default");
+  const [fontsLoaded, setFontsLoaded] = useState(true);
   const handleLogout = async () => {
     await AsyncStorage.removeItem("token");
     setIsLoggedIn(false);
@@ -46,7 +52,9 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
     const fetchProfile = async () => {
       try {
         const token = await AsyncStorage.getItem("token");
-        const response = await fetch("http://10.200.136.177:5000/profile", {
+
+        const response = await fetch(`http://${ipAddress}:5000/profile`, {
+
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -77,11 +85,11 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   }, []);
 
   useEffect(() => {
-    Font.loadAsync({
-      Retrograde: require("../assets/fonts/Retrograde.ttf"),
-    }).then(() => setFontsLoaded(true));
+    loadFonts().then(() => setFontsLoaded(true));
   }, []);
-  if (!fontsLoaded) return null;
+  //if (!fontsLoaded) return null; 
+  //Removed for now, but might need later.
+
 
   return (
     <SafeAreaView style={styles.welcomeBackground}>
@@ -100,21 +108,21 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
           onPress={navigateToProfileScreen}
           style={styles.welcomeButton}
         >
-          <Text>Set Up Your Profile</Text>
+          <Text style={styles.text}> Set Up Your Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity
           title="Budget"
           onPress={navigateToBudgetOverview}
           style={styles.welcomeButton}
         >
-          <Text>Make Your Budget</Text>
+          <Text style={styles.text}>Make Your Budget</Text>
         </TouchableOpacity>
         <TouchableOpacity
           title="Logout"
           onPress={handleLogout}
           style={styles.welcomeButton}
         >
-          <Text>Logout</Text>
+          <Text style={styles.text}>Logout</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
