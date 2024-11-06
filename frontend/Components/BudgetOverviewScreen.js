@@ -94,20 +94,7 @@ export default function BudgetOverviewScreen({ navigation }) {
     }
   }, []);
 
-<<<<<<< Updated upstream
-  const handleLogout = async () => {
-    await AsyncStorage.removeItem("token");
-    setIsLoggedIn(false);
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Login" }],
-    });
-  };
-
-  const navigateToProfileScreen = () => {
-=======
   const navigateToProfileScreen = useCallback(() => {
->>>>>>> Stashed changes
     navigation.navigate("ProfileScreen");
   }, [navigation]);
 
