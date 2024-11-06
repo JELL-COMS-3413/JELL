@@ -54,3 +54,4 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
   );
 }
 //Everything before this is the base components!!!! (DO NOT DELETE)
+

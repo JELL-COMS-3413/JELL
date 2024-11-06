@@ -11,8 +11,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
 
 import loadFonts from './styles/fonts'; 
-
-=======
 import { profileImages } from "./ProfileScreen";
 
 
@@ -84,8 +82,8 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   useEffect(() => {
     loadFonts().then(() => setFontsLoaded(true));
   }, []);
-  if (!fontsLoaded) return null; 
-
+  //if (!fontsLoaded) return null; 
+  //Removed for now, but might need later.
 
   return (
     <SafeAreaView style={styles.welcomeBackground}>

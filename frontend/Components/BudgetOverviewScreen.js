@@ -34,7 +34,6 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
       const response = await fetch(
 
         `http://10.200.169.92:5000/budget/${budgetItemId}`,
- main
         {
           method: "DELETE",
           headers: {

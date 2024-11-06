@@ -63,11 +63,11 @@ export default function App() {
             </Stack.Screen>
 
             <Stack.Screen
-              name="LoanCalculationScreen"
+              name="CalculationScreen"
               options={{ headerShown: false }}
             >
               {(props) => (
-                <LoanCalculationScreen
+                <CalculationScreen
                   {...props}
                   setIsLoggedIn={setIsLoggedIn}
                 />
