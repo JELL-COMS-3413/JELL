@@ -30,8 +30,13 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
     }
 
     const url = isLogin
+<<<<<<< Updated upstream
       ? "http://192.168.1.101:5000/users/login"
       : "http://192.168.1.101:5000/users/register";
+=======
+      ? "http://10.200.37.109:5000/users/login"
+      : "http://10.200.37.109:5000/users/register";
+>>>>>>> Stashed changes
 
     const body = isLogin
       ? { username: email, password }

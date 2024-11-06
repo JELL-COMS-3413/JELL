@@ -6,6 +6,19 @@ export default StyleSheet.create({
     justifyContent: "center",
     padding: 16,
   },
+<<<<<<< Updated upstream
+=======
+  header: {
+    marginTop: 50,
+    marginBottom: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    alignSelf: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: 10,
+  },
+>>>>>>> Stashed changes
   headerText: {
     fontSize: 27,
     marginBottom: 20,

@@ -3,17 +3,17 @@ import { Modal, Text, TextInput, View, TouchableOpacity } from "react-native";
 import styles from "./styles/styles";
 
 export default function EditBudgetItemModal({
-  item,
+  item = {}, 
   isVisible,
   onClose,
   onSave,
 }) {
-  const [title, setTitle] = useState(item.title);
-  const [value, setValue] = useState(item.value);
+  const [title, setTitle] = useState(item?.title || ""); 
+  const [value, setValue] = useState(item?.value || "");
 
   useEffect(() => {
-    setTitle(item.title);
-    setValue(item.value);
+    setTitle(item?.title || ""); 
+    setValue(item?.value || "");
   }, [item]);
 
   const handleSave = () => {
