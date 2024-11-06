@@ -48,7 +48,7 @@ export default function BudgetPieChart({ data }) {
   };
 
   return (
-    <View style={{ alignItems: "center", marginVertical: 20 }}>
+    <View style={{alignItems: "center", marginVertical: 20 }}>
       <PieChart style={{ height: 200, width: 200 }} data={pieData}>
         <Labels />
       </PieChart>
