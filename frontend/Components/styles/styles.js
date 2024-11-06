@@ -6,8 +6,6 @@ export default StyleSheet.create({
     justifyContent: "center",
     padding: 16,
   },
-<<<<<<< Updated upstream
-=======
   header: {
     marginTop: 50,
     marginBottom: 20,
@@ -18,7 +16,6 @@ export default StyleSheet.create({
     justifyContent: "center",
     padding: 10,
   },
->>>>>>> Stashed changes
   headerText: {
     fontSize: 27,
     marginBottom: 20,

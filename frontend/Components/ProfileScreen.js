@@ -16,8 +16,6 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
     navigation.navigate("WelcomeScreen");
   };
 
-<<<<<<< Updated upstream
-=======
   const handleClickEdit = () => {
     setEditing(true);
   };
@@ -185,7 +183,6 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
     fetchUserData();
   }, []);
 
->>>>>>> Stashed changes
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.headerText}>Profile</Text>

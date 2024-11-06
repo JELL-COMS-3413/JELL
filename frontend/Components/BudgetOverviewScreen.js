@@ -97,11 +97,7 @@ export default function BudgetOverviewScreen({ navigation }) {
   const addBudgetItem = useCallback(async (newBudgetItem) => {
     try {
       const token = await AsyncStorage.getItem("token");
-<<<<<<< Updated upstream
-      const response = await fetch("http://192.168.1.101:5000/budget/", {
-=======
       const response = await fetch("http://10.200.37.109:5000/budget/", {
->>>>>>> Stashed changes
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -129,11 +125,7 @@ export default function BudgetOverviewScreen({ navigation }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-<<<<<<< Updated upstream
-        `http://192.168.1.101:5000/budget/${updatedItem._id}`,
-=======
         `http://10.200.37.109:5000/budget/${updatedItem._id}`,
->>>>>>> Stashed changes
         {
           method: "PUT",
           headers: {
@@ -157,84 +149,11 @@ export default function BudgetOverviewScreen({ navigation }) {
       console.error("Error updating item:", error);
       alert(error.message);
     }
-<<<<<<< Updated upstream
-  };
-
-  // Fetch items from the backend when the component mounts
-  useEffect(() => {
-    const fetchItems = async () => {
-      setLoading(true);
-      try {
-        const token = await AsyncStorage.getItem("token");
-        const response = await fetch("http://192.168.1.101:5000/budget/", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          const errorResponse = await response.json();
-          console.error("Server Error:", errorResponse);
-          throw new Error(
-            errorResponse.message || "Failed to fetch budget items"
-          );
-        }
-
-        const budgetItems = await response.json();
-        setData(budgetItems);
-      } catch (error) {
-        console.error("Error fetching budget items:", error);
-        alert(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchItems();
-=======
->>>>>>> Stashed changes
   }, []);
 
   return (
     <SafeAreaView style={styles.background}>
       <View style={styles.buttonContainer}>
-<<<<<<< Updated upstream
-        <TouchableOpacity
-          title="Your Profile"
-          onPress={navigateToProfileScreen}
-        >
-          <Image
-            style={styles.profileIcon}
-            source={require("../assets/profileIcon.png")}
-          />
-        </TouchableOpacity>
-      </View>
-      <Text style={styles.headerText}>Budget Overview</Text>
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : data.length ? (
-        <View style={styles.pageContentContainer}>
-          <View style={styles.itemList}>
-            <FlatList
-              data={data}
-              keyExtractor={(budgetItem) => budgetItem._id.toString()}
-              renderItem={({ item }) => (
-                <View style={styles.item}>
-                  <Text style={styles.title}>{item.title}</Text>
-                  <Text style={styles.value}>
-                    {`$ ${item.value}` || "$0.00"}
-                  </Text>
-                  <View style={styles.itemActions}>
-                    <TouchableOpacity onPress={() => handleEditPress(item)}>
-                      <Text style={styles.actionText}>Edit</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => handleDeletePress(item._id)}
-                    >
-                      <Text style={styles.actionText}>Delete</Text>
-                    </TouchableOpacity>
-=======
         <TouchableOpacity onPress={navigateToProfileScreen}>
           <Image style={styles.profileIcon} source={defaultProfileIcon} />
         </TouchableOpacity>
@@ -280,7 +199,6 @@ export default function BudgetOverviewScreen({ navigation }) {
                         <Text style={styles.actionText}>Delete</Text>
                       </TouchableOpacity>
                     </View>
->>>>>>> Stashed changes
                   </View>
                 )}
               />
