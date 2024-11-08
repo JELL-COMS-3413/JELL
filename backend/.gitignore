@@ -18,3 +18,5 @@
 */.next/
 */.nuxt/
 /.vscode/
+/node_modules/
+/package-lock.json
