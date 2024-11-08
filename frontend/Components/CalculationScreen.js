@@ -28,10 +28,6 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
     navigation.navigate("ProfileScreen");
   };
 
-  const navigateToBudgetOverview = () => {
-    navigation.navigate("BudgetOverviewScreen");
-  };
-
   useEffect(() => {
     const getUsername = async () => {
       try {
