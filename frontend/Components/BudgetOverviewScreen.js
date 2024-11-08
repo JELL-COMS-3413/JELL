@@ -12,7 +12,7 @@ import AddBudgetItemModal from "./AddBudgetItemModal";
 import EditBudgetItemModal from "./EditBudgetItemModal";
 
 import TabNavigation from "./TabNavigation";
-
+import BudgetPieChart from "./PieChart";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { profileImages } from "./ProfileScreen";
@@ -32,7 +32,7 @@ export default function BudgetOverviewScreen({ navigation }) {
     setError(null);
     try {
       const token = await AsyncStorage.getItem("token");
-      const response = await fetch("http://10.200.37.109:5000/budget/", {
+      const response = await fetch(`http://${ipAddress}:5000/budget/`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -94,11 +94,11 @@ export default function BudgetOverviewScreen({ navigation }) {
       console.error("Error deleting item:", error);
       alert(error.message);
     }
-  };
+  });
 
   const navigateToProfileScreen = () => {
     navigation.navigate("ProfileScreen");
-  }, [navigation]);
+  };
 
   const addBudgetItem = useCallback(async (newBudgetItem) => {
     try {
@@ -155,7 +155,7 @@ export default function BudgetOverviewScreen({ navigation }) {
       console.error("Error updating item:", error);
       alert(error.message);
     }
-  };
+  });
 
   // Fetch items from the backend when the component mounts
   useEffect(() => {
@@ -262,7 +262,7 @@ export default function BudgetOverviewScreen({ navigation }) {
                   <View style={styles.item}>
                     <Text style={styles.title}>{item.title}</Text>
                     <Text style={styles.value}>
-                      {`$ ${item.value.toFixed(2)}` || "$0.00" }
+                      {`$ ${parseFloat(item.value).toFixed(2)}` || "$0.00" }
                     </Text>
                     <View style={styles.itemActions}>
                       <TouchableOpacity onPress={() => handleEditPress(item)}>
@@ -285,10 +285,10 @@ export default function BudgetOverviewScreen({ navigation }) {
               onClose={() => setIsEditModalVisible(false)}
               onSave={saveEditedItem}
             />
+            <TabNavigation navigation={navigation} />
           </View>
         </>
       )}
-        <TabNavigation navigation={navigation} />
     </SafeAreaView>
   );
 }
