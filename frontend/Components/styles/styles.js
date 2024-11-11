@@ -175,4 +175,4 @@ export default StyleSheet.create({
   },
 });
 
-export const ipAddress = "10.200.180.57";
+export const ipAddress = "10.200.40.221";
