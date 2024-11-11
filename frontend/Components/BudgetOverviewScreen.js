@@ -262,7 +262,7 @@ export default function BudgetOverviewScreen({ navigation }) {
                   <View style={styles.item}>
                     <Text style={styles.title}>{item.title}</Text>
                     <Text style={styles.value}>
-                      {`$ ${parseFloat(item.value).toFixed(2)}` || "$0.00" }
+                      {`$ ${parseFloat(item.value).toFixed(2)}` || "$0.00"}
                     </Text>
                     <View style={styles.itemActions}>
                       <TouchableOpacity onPress={() => handleEditPress(item)}>
@@ -292,4 +292,3 @@ export default function BudgetOverviewScreen({ navigation }) {
     </SafeAreaView>
   );
 }
-

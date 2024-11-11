@@ -4,43 +4,54 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
   StyleSheet,
-  FlatList,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
+import { ipAddress } from "./styles/styles";
 import TabNavigation from "./TabNavigation";
+import { profileImages } from "./ProfileScreen";
 
 export default function CalculationScreen({ navigation, setIsLoggedIn }) {
-  const [username, setUsername] = useState("");
+  const [profile, setProfile] = useState("default");
   const [isLoanCalculator, setIsLoanCalculator] = useState(true);
-
-  const handleLogout = async () => {
-    await AsyncStorage.removeItem("token");
-    setIsLoggedIn(false);
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Login" }],
-    });
-  };
 
   const navigateToProfileScreen = () => {
     navigation.navigate("ProfileScreen");
   };
 
   useEffect(() => {
-    const getUsername = async () => {
+    const fetchProfile = async () => {
       try {
-        const user = await AsyncStorage.getItem("username");
-        setUsername(user);
+        const token = await AsyncStorage.getItem("token");
+        const response = await fetch(`http://${ipAddress}:5000/profile/`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          if (response.status === 404) {
+            await createDefaultProfile();
+          } else {
+            console.error("Server Error:", errorResponse);
+            throw new Error(errorResponse.message || "Failed to fetch profile");
+          }
+        } else {
+          const loadedProfile = await response.json();
+          console.log("loadedProfile: ", loadedProfile);
+          setProfile(loadedProfile.profile);
+          console.log("profile: ", profile);
+        }
       } catch (error) {
-        console.error("Error getting username:", error);
+        console.error("Error fetching profile:", error);
         alert(error.message);
-      } finally {
-        console.log(username);
       }
     };
-    getUsername();
+    fetchProfile();
   }, []);
 
   const toggleScreen = () => {
@@ -49,9 +60,16 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
 
   return (
     <SafeAreaView style={styles.welcomeBackground}>
-      <Text style={styles.headerText}>{isLoanCalculator ? "Loan Calculations" : "Savings Calculations"}</Text>
+      <TouchableOpacity>
+        <Image source={profileImages[profile]} style={styles.profileIcon} />
+      </TouchableOpacity>
+      <Text style={styles.headerText}>
+        {isLoanCalculator ? "Loan Calculations" : "Savings Calculations"}
+      </Text>
       <TouchableOpacity style={styles.toggleButton} onPress={toggleScreen}>
-        <Text style={styles.buttonText}>{isLoanCalculator ? "Calculate Savings" : "Calculate Loans"}</Text>
+        <Text style={styles.buttonText}>
+          {isLoanCalculator ? "Calculate Savings" : "Calculate Loans"}
+        </Text>
       </TouchableOpacity>
       {isLoanCalculator ? (
         <View>
@@ -62,13 +80,10 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
           <Text>This will be the screen for Savings Calculator.</Text>
         </View>
       )}
-      
-
       <TabNavigation navigation={navigation} />
     </SafeAreaView>
   );
 }
-
 const additionalStyles = StyleSheet.create({
   toggleButton: {
     borderRadius: 20,
