@@ -11,6 +11,26 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
 import TabNavigation from "./TabNavigation";
 
+const loanCalc = [
+  {id: '1', title: 'Amortized Loan'},
+  {id: '2', title: 'Deferred Payment Loan'},
+  {id: '3', title: 'Bond'},
+  {id: '4', title: 'Mortgage'},
+  {id: '5', title: 'Auto Loan'},
+  {id: '6', title: 'Student Loan'},
+  {id: '7', title: 'Mortgage Payoff'},
+];
+
+const saveCalc = [
+  {id: '1', title: 'Savings'},
+  {id: '2', title: 'Simple Interest'},
+  {id: '3', title: 'Compound Interest'},
+  {id: '4', title: 'Certificate of Deposit'},
+  {id: '5', title: 'IRAs'},
+  {id: '6', title: '401K'},
+  {id: '7', title: 'Social Security'},
+];
+
 export default function CalculationScreen({ navigation, setIsLoggedIn }) {
   const [username, setUsername] = useState("");
   const [isLoanCalculator, setIsLoanCalculator] = useState(true);
@@ -47,6 +67,12 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
     setIsLoanCalculator(!isLoanCalculator);
   };
 
+  const renderItem = ({ item }) => ( 
+  <View style={styles.item}> 
+    <Text style={styles.title}>{item.title}</Text> 
+  </View> 
+  );
+
   return (
     <SafeAreaView style={styles.welcomeBackground}>
       <Text style={styles.headerText}>{isLoanCalculator ? "Loan Calculations" : "Savings Calculations"}</Text>
@@ -54,13 +80,15 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
         <Text style={styles.buttonText}>{isLoanCalculator ? "Calculate Savings" : "Calculate Loans"}</Text>
       </TouchableOpacity>
       {isLoanCalculator ? (
-        <View>
-          <Text>This will be the screen for Loan calculators.</Text>
-        </View>
+          <FlatList data={loanCalc} 
+          renderItem={renderItem} 
+          keyExtractor={item => item.id} 
+          />
       ) : (
-        <View>
-          <Text>This will be the screen for Savings Calculator.</Text>
-        </View>
+          <FlatList data={saveCalc} 
+          renderItem={renderItem} 
+          keyExtractor={item => item.id} 
+          />        
       )}
       
 
@@ -82,6 +110,15 @@ const additionalStyles = StyleSheet.create({
   buttonText: {
     color: "black",
     fontWeight: "bold",
+  },
+  item: { 
+    backgroundColor: '#f7f7e4', 
+    padding: 10, 
+    marginVertical: 6, 
+    marginHorizontal: 10, 
+  }, 
+  title: { 
+    fontSize: 29,
   },
 });
 
