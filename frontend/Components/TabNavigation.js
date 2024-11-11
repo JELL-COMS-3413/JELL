@@ -15,12 +15,14 @@ export default function TabNavigation({ navigation }) {
   };
   const navigateToCalculationScreen = () => {
     navigation.navigate("CalculationScreen");
-
   };
   const navigateToInputExpensesScreen = () => {
     navigation.navigate("InputExpensesScreen");
-
   };
+  const navigateToSettingScreen = () => {
+    navigation.navigate("SettingScreen");
+  };
+
   return (
     <View style={navStyles.navContainer}>
       <TouchableOpacity
@@ -41,8 +43,9 @@ export default function TabNavigation({ navigation }) {
       >
         <Image source={require("../assets/addIcon.png")}></Image>
       </TouchableOpacity>
+
       <TouchableOpacity
-        onPress={navigateToHomeScreen}
+        onPress={navigateToSettingScreen}
         style={navStyles.navButton}
       >
         <Image source={require("../assets/settingsIcon.png")}></Image>

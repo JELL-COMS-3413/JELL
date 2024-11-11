@@ -11,6 +11,7 @@ import ProfileScreen from "./Components/ProfileScreen";
 import BudgetOverviewScreen from "./Components/BudgetOverviewScreen";
 import CalculationScreen from "./Components/CalculationScreen";
 import InputExpensesScreen from "./Components/InputExpensesScreen";
+import SettingScreen from "./Components/SettingScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -78,6 +79,15 @@ export default function App() {
             >
               {(props) => (
                 <InputExpensesScreen {...props} setIsLoggedIn={setIsLoggedIn} />
+
+              )}
+            </Stack.Screen>
+            <Stack.Screen
+              name="SettingScreen"
+              options={{ headerShown: false }}
+            >
+              {(props) => (
+                <SettingScreen {...props} setIsLoggedIn={setIsLoggedIn} />
 
               )}
             </Stack.Screen>
