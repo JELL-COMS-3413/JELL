@@ -6,19 +6,22 @@ import { Text as SvgText } from "react-native-svg";
 
 // Helper function to calculate percentage
 const calculatePercentage = (value, total) => {
-  return ((value / total) * 100).toFixed(1);
+  return ((parseFloat(value) / total) * 100).toFixed(1);
 };
 
 export default function BudgetPieChart({ data }) {
   const colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
 
   // Calculate the total value for percentage calculation
-  const totalValue = data.reduce((acc, item) => acc + item.value, 0);
+  const totalValue = data.reduce(
+    (acc, item) => acc + parseFloat(item.value),
+    0
+  );
 
   const pieData = data
     .map((item, index) => ({
       key: item._id,
-      value: item.value,
+      value: parseFloat(item.value),
       svg: { fill: colors[index % colors.length] },
       arc: { outerRadius: "100%", cornerRadius: 10 },
       label: item.title,
@@ -48,7 +51,7 @@ export default function BudgetPieChart({ data }) {
   };
 
   return (
-    <View style={{alignItems: "center", marginVertical: 20 }}>
+    <View style={{ alignItems: "center", marginVertical: 20 }}>
       <PieChart style={{ height: 200, width: 200 }} data={pieData}>
         <Labels />
       </PieChart>

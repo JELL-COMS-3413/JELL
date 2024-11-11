@@ -8,6 +8,7 @@ export default StyleSheet.create({
   },
   header: {
     marginTop: 50,
+    marginTop: 50,
     marginBottom: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -151,7 +152,6 @@ export default StyleSheet.create({
     alignSelf: "center",
     marginBottom: 5,
     borderRadius: 20,
-
   },
   welcomeBackground: {
     backgroundColor: "#DEDBAE",
