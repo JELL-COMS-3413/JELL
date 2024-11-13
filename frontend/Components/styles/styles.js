@@ -166,8 +166,6 @@ export default StyleSheet.create({
   },
   
 });
-<<<<<<< Updated upstream
-=======
 
 export const ipAddress = "10.200.200.140";
->>>>>>> Stashed changes
+

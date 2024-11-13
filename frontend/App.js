@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Import your screens
@@ -10,12 +9,9 @@ import WelcomeScreen from "./Components/WelcomeScreen";
 import ProfileScreen from "./Components/ProfileScreen";
 import BudgetOverviewScreen from "./Components/BudgetOverviewScreen";
 import CalculationScreen from "./Components/CalculationScreen";
-<<<<<<< Updated upstream
-=======
-import InputExpensesScreen from "./Components/InputExpensesScreen";
 import GoalsScreen from "./Components/GoalsScreen";
-
->>>>>>> Stashed changes
+import InputExpensesScreen from "./Components/InputExpensesScreen";
+import SettingScreen from "./Components/SettingScreen";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -69,14 +65,29 @@ export default function App() {
             </Stack.Screen>
 
             <Stack.Screen
-              name="LoanCalculationScreen"
+              name="CalculationScreen"
               options={{ headerShown: false }}
             >
               {(props) => (
-                <LoanCalculationScreen
-                  {...props}
-                  setIsLoggedIn={setIsLoggedIn}
-                />
+                <CalculationScreen {...props} setIsLoggedIn={setIsLoggedIn} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen
+              name="InputExpensesScreen"
+              options={{ headerShown: false }}
+            >
+              {(props) => (
+                <InputExpensesScreen {...props} setIsLoggedIn={setIsLoggedIn} />
+
+              )}
+            </Stack.Screen>
+            <Stack.Screen
+              name="SettingScreen"
+              options={{ headerShown: false }}
+            >
+              {(props) => (
+                <SettingScreen {...props} setIsLoggedIn={setIsLoggedIn} />
+
               )}
             </Stack.Screen>
             <Stack.Screen
