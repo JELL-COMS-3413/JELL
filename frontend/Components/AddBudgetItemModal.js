@@ -25,7 +25,7 @@ export default function AddBudgetItemModal({ onAddItem }) {
         style={styles.addButton}
         onPress={() => setModalVisible(true)}
       >
-        <Text style={styles.addButtonText}> + </Text>
+        <Text style={styles.addButtonText}> Add Item </Text>
       </TouchableOpacity>
       <Modal
         visible={modalVisible}
