@@ -98,7 +98,7 @@ export default function BudgetOverviewScreen({ navigation }) {
 
   const navigateToProfileScreen = (() => {
     navigation.navigate("ProfileScreen");
-  };
+  });
 
   const addBudgetItem = useCallback(async (newBudgetItem) => {
     try {

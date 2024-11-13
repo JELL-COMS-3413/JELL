@@ -21,6 +21,7 @@ export default function GoalsScreen({ navigation }) {
   const [current, setCurrent] = useState([]);
   const [error, setError] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [data, setData] = useState([]);
   
   const fetchItems = useCallback(async () => {
     setLoading(true);
