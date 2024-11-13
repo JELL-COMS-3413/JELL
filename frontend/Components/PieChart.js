@@ -1,9 +1,12 @@
+
 import React, { useEffect } from "react";
+
 import PropTypes from "prop-types";
 import { View, Text } from "react-native";
 import { PieChart } from "react-native-svg-charts";
 import { Text as SvgText } from "react-native-svg";
 import loadFonts from "./styles/fonts";
+
 // Helper function to calculate percentage
 const calculatePercentage = (value, total) => {
   return ((parseFloat(value) / total) * 100).toFixed(1);
@@ -15,6 +18,7 @@ export default function BudgetPieChart({ data }) {
   useEffect(() => {
     loadFonts().then(() => setFontsLoaded(true));
   }, []);
+  
   // Calculate the total value for percentage calculation
   const totalValue = data.reduce(
     (acc, item) => acc + parseFloat(item.value),

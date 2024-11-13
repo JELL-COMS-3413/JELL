@@ -10,9 +10,9 @@ import WelcomeScreen from "./Components/WelcomeScreen";
 import ProfileScreen from "./Components/ProfileScreen";
 import BudgetOverviewScreen from "./Components/BudgetOverviewScreen";
 import CalculationScreen from "./Components/CalculationScreen";
+import GoalsScreen from "./Components/GoalsScreen";
 import InputExpensesScreen from "./Components/InputExpensesScreen";
 import SettingScreen from "./Components/SettingScreen";
-
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -91,6 +91,18 @@ export default function App() {
 
               )}
             </Stack.Screen>
+            <Stack.Screen
+              name="GoalsScreen"
+              options={{ headerShown: false }}
+            >
+              {(props) => (
+                <GoalsScreen
+                  {...props}
+                  setIsLoggedIn={setIsLoggedIn}
+                />
+              )}
+            </Stack.Screen>
+
           </>
         ) : (
           // Not logged in, show the Login screen

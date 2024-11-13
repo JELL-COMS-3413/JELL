@@ -10,15 +10,14 @@ import {
 } from "react-native";
 import AddBudgetItemModal from "./AddBudgetItemModal";
 import EditBudgetItemModal from "./EditBudgetItemModal";
-
-import TabNavigation from "./TabNavigation";
-import BudgetPieChart from "./PieChart";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-import loadFonts from "./styles/fonts";
 import { profileImages } from "./ProfileScreen";
+import BudgetPieChart from "./PieChart";
+import TabNavigation from "./TabNavigation";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import loadFonts from "./styles/fonts";
 import styles from "./styles/styles";
 import { ipAddress } from "./styles/styles";
+
 
 export default function BudgetOverviewScreen({ navigation }) {
   const [data, setData] = useState([]);
@@ -97,7 +96,7 @@ export default function BudgetOverviewScreen({ navigation }) {
     }
   });
 
-  const navigateToProfileScreen = () => {
+  const navigateToProfileScreen = (() => {
     navigation.navigate("ProfileScreen");
   };
 
@@ -228,6 +227,11 @@ export default function BudgetOverviewScreen({ navigation }) {
     loadFonts().then(() => setFontsLoaded(true));
   }, []);
 
+  const navigateToGoalsScreen = () => {
+    navigation.navigate("GoalsScreen");
+  };
+
+
   return (
     <SafeAreaView style={styles.background}>
       {loading ? (
@@ -276,7 +280,7 @@ export default function BudgetOverviewScreen({ navigation }) {
               <Text style={styles.headerText}>OVERVIEW</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={{ marginLeft: 30, borderRadius: 20, padding: 10 }}
+              style={{ marginLeft: 30, borderRadius: 20, padding: 10 }} onPress={navigateToGoalsScreen}
             >
               <Text style={styles.headerText}>GOALS</Text>
             </TouchableOpacity>
