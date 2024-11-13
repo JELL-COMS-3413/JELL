@@ -7,21 +7,18 @@ export default StyleSheet.create({
     padding: 16,
   },
   header: {
-    marginTop: 50,
-    marginTop: 50,
-    marginBottom: 20,
+    marginTop: 10,
     backgroundColor: "white",
     borderRadius: 20,
     alignSelf: "center",
     flexDirection: "row",
-    justifyContent: "center",
-    padding: 10,
+    justifyContent: "space-between",
+    padding: 2,
   },
   headerText: {
-    fontSize: 35,
+    fontSize: 20,
     textAlign: "center",
     fontFamily: "coolveticarg",
-    color: "#A39E48",
   },
   buttonContainer: {
     marginVertical: 10,
@@ -36,13 +33,14 @@ export default StyleSheet.create({
     alignSelf: "center",
     marginTop: 10,
   },
-  item: {
+  listItem: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     padding: 10,
     borderBottomWidth: 1,
     borderColor: "#ccc",
+    backgroundColor: "white",
   },
   itemContent: {
     flex: 1,
@@ -57,15 +55,16 @@ export default StyleSheet.create({
     marginHorizontal: 5,
   },
   addButton: {
-    width: 60,
-    padding: 10,
-    backgroundColor: "#0fff12",
-    borderRadius: 50,
-    alignSelf: "center",
-    margin: 14,
+    padding: 5,
+    backgroundColor: "#ccc",
+    borderRadius: 20,
+    alignSelf: "flex-end",
+    margin: 5,
+    width: 80,
+    marginRight: 10,
   },
   addButtonText: {
-    fontSize: 24,
+    fontSize: 16,
     fontFamily: "LouisGeorgeCafe",
     textAlign: "center",
   },
@@ -138,7 +137,7 @@ export default StyleSheet.create({
   },
   pageContentContainer: {
     borderRadius: 20,
-    padding: 20,
+    padding: 10,
     backgroundColor: "white",
     width: "80%",
     alignSelf: "center",
@@ -172,6 +171,22 @@ export default StyleSheet.create({
     borderRadius: 20,
     alignSelf: "center",
     margin: 20,
+  },
+  budgetItem: {
+    fontSize: 16,
+    fontFamily: "coolveticarg",
+    textTransform: "uppercase",
+    flex: 1,
+  },
+  value: {
+    fontSize: 16,
+    fontFamily: "coolveticarg",
+    textAlign: "left",
+    width: 200,
+  },
+  budgetCategories: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });
 

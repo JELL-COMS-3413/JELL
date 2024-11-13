@@ -15,6 +15,7 @@ import TabNavigation from "./TabNavigation";
 import BudgetPieChart from "./PieChart";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import loadFonts from "./styles/fonts";
 import { profileImages } from "./ProfileScreen";
 import styles from "./styles/styles";
 import { ipAddress } from "./styles/styles";
@@ -223,44 +224,71 @@ export default function BudgetOverviewScreen({ navigation }) {
     fetchItems();
   }, []);
 
+  useEffect(() => {
+    loadFonts().then(() => setFontsLoaded(true));
+  }, []);
+
   return (
     <SafeAreaView style={styles.background}>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          title="Your Profile"
-          onPress={navigateToProfileScreen}
-        >
-          <Image source={profileImages[profile]} style={styles.profileIcon} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.headerButton}>
-          <Text style={styles.headerButtonText}>OVERVIEW</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.headerButton}>
-          <Text style={styles.headerButtonText}>GOALS</Text>
-        </TouchableOpacity>
-      </View>
-
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : error ? (
         <Text style={styles.errorText}>{error}</Text>
       ) : (
         <>
-          {data.length > 0 ? (
-            <BudgetPieChart data={data} />
-          ) : (
-            <Text>No budget data to display</Text>
-          )}
-          <View style={styles.greenPageSection}>
-            <View style={styles.itemList}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignSelf: "center",
+              marginRight: 90,
+            }}
+          >
+            <TouchableOpacity
+              title="Your Profile"
+              onPress={navigateToProfileScreen}
+              style={{ alignSelf: "flex-start" }}
+            >
+              <Image
+                source={profileImages[profile]}
+                style={styles.profileIcon}
+              />
+            </TouchableOpacity>
+            {data.length > 0 ? (
+              <BudgetPieChart data={data} />
+            ) : (
+              <Text>No budget data to display</Text>
+            )}
+          </View>
+          <View
+            style={[
+              styles.header,
+              { marginBottom: -20, position: "relative", zIndex: 10 },
+            ]}
+          >
+            <TouchableOpacity
+              style={{
+                marginRight: 30,
+                backgroundColor: "#ccc",
+                borderRadius: 20,
+                padding: 10,
+              }}
+            >
+              <Text style={styles.headerText}>OVERVIEW</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ marginLeft: 30, borderRadius: 20, padding: 10 }}
+            >
+              <Text style={styles.headerText}>GOALS</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={[styles.greenPageSection, { position: "relative" }]}>
+            <View style={styles.pageContentContainer}>
               <FlatList
                 data={data}
                 keyExtractor={(budgetItem) => budgetItem._id.toString()}
                 renderItem={({ item }) => (
-                  <View style={styles.item}>
-                    <Text style={styles.title}>{item.title}</Text>
+                  <View style={styles.listItem}>
+                    <Text style={styles.budgetItem}>{item.title}</Text>
                     <Text style={styles.value}>
                       {`$ ${parseFloat(item.value).toFixed(2)}` || "$0.00"}
                     </Text>
@@ -277,8 +305,8 @@ export default function BudgetOverviewScreen({ navigation }) {
                   </View>
                 )}
               />
+              <AddBudgetItemModal onAddItem={addBudgetItem} />
             </View>
-            <AddBudgetItemModal onAddItem={addBudgetItem} />
             <EditBudgetItemModal
               item={selectedItem}
               isVisible={isEditModalVisible}
