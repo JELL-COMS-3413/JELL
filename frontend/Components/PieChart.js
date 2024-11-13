@@ -1,5 +1,4 @@
-
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
 import { View, Text } from "react-native";
@@ -14,11 +13,12 @@ const calculatePercentage = (value, total) => {
 
 export default function BudgetPieChart({ data }) {
   const colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
     loadFonts().then(() => setFontsLoaded(true));
   }, []);
-  
+
   // Calculate the total value for percentage calculation
   const totalValue = data.reduce(
     (acc, item) => acc + parseFloat(item.value),
