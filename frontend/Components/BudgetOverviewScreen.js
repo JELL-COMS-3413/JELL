@@ -13,9 +13,16 @@ import {
 import AddBudgetItemModal from "./AddBudgetItemModal";
 import EditBudgetItemModal from "./EditBudgetItemModal";
 import TabNavigation from "./TabNavigation";
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
+<<<<<<< Updated upstream
 import styles from "./styles/styles";
+=======
+import { profileImages } from "./ProfileScreen";
+import styles from "./styles/styles";
+import { ipAddress } from "./styles/styles";
+import BudgetPieChart from "./PieChart";
+import GoalsScreen from "./GoalsScreen";
+>>>>>>> Stashed changes
 
 export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
   const [data, setData] = useState([]);
@@ -23,7 +30,49 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
   const [selectedItem, setSelectedItem] = useState([]);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
+<<<<<<< Updated upstream
   const handleEditPress = (budgetItem) => {
+=======
+  const fetchItems = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const response = await fetch(`http://${ipAddress}:5000/budget/`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(
+          errorResponse.message || "Failed to fetch budget items"
+        );
+      }
+
+      const budgetItems = await response.json();
+      // Ensure 'value' fields are numbers
+      const formattedItems = budgetItems.map((item) => ({
+        ...item,
+        value: Number(item.value) || 0,
+      }));
+      setData(formattedItems);
+    } catch (error) {
+      console.error("Error fetching budget items:", error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchItems();
+  }, [fetchItems]);
+
+  const handleEditPress = useCallback((budgetItem) => {
+>>>>>>> Stashed changes
     setSelectedItem(budgetItem);
     setIsEditModalVisible(true);
   };
@@ -57,9 +106,9 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
       console.error("Error deleting item:", error);
       alert(error.message);
     }
-  };
+  });
 
-  const navigateToProfileScreen = () => {
+  const navigateToProfileScreen = (() => {
     navigation.navigate("ProfileScreen");
   };
 
@@ -130,7 +179,7 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
       console.error("Error updating item:", error);
       alert(error.message);
     }
-  };
+  });
 
   // Fetch items from the backend when the component mounts
   useEffect(() => {
@@ -168,6 +217,10 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
     fetchItems();
   }, []);
 
+  const navigateToGoalsScreen = () => {
+    navigation.navigate("GoalsScreen");
+  };
+
   return (
     <SafeAreaView style={styles.background}>
       <View style={styles.buttonContainer}>
@@ -182,8 +235,22 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
         </TouchableOpacity>
       </View>
       <View style={styles.header}>
+<<<<<<< Updated upstream
         <Text style={styles.headerText}>OVERVIEW </Text>
         <Text style={styles.headerText}>GOALS</Text>
+=======
+        <TouchableOpacity style={styles.headerButton}>
+          <Text style={styles.headerButtonText}>OVERVIEW</Text>
+        </TouchableOpacity>
+   
+        <TouchableOpacity
+        title="Goals"
+        onPress={navigateToGoalsScreen}
+        style={styles.headerButton}
+        >
+          <Text style={styles.headerButtonText}>GOALS</Text>
+        </TouchableOpacity>
+>>>>>>> Stashed changes
       </View>
       <View style={styles.greenPageSection}>
         {loading ? (
@@ -198,7 +265,11 @@ export default function BudgetOverviewScreen({ navigation, setIsLoggedIn }) {
                   <View style={styles.item}>
                     <Text style={styles.title}>{item.title}</Text>
                     <Text style={styles.value}>
+<<<<<<< Updated upstream
                       {`$ ${item.value}` || "$0.00"}
+=======
+                      {`$ ${parseFloat(item.value).toFixed(2)}` || "$0.00" }
+>>>>>>> Stashed changes
                     </Text>
                     <View style={styles.itemActions}>
                       <TouchableOpacity onPress={() => handleEditPress(item)}>
