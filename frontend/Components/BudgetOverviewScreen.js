@@ -16,7 +16,7 @@ import TabNavigation from "./TabNavigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import loadFonts from "./styles/fonts";
 import styles from "./styles/styles";
-import { ipAddress } from "./styles/styles";
+import { ipAddress } from "./ip";
 
 export default function BudgetOverviewScreen({ navigation }) {
   const [data, setData] = useState([]);

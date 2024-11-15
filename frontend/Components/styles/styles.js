@@ -100,7 +100,7 @@ export default StyleSheet.create({
     width: 50,
     borderWidth: 2,
     borderRadius: 20,
-    alignSelf: "left",
+    alignSelf: "flex-start",
     margin: 20,
   },
   addButtonContainer: {
@@ -177,7 +177,7 @@ export default StyleSheet.create({
     fontSize: 16,
     fontFamily: "coolveticarg",
     textTransform: "uppercase",
-    flex: 1,
+    width: 200,
   },
   value: {
     fontSize: 16,
@@ -190,5 +190,3 @@ export default StyleSheet.create({
     justifyContent: "space-between",
   },
 });
-
-export const ipAddress = "10.200.40.221";

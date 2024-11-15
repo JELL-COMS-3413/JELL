@@ -11,7 +11,7 @@ import {
 import { Dropdown } from "react-native-element-dropdown";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
-import { ipAddress } from "./styles/styles";
+import { ipAddress } from "./ip";
 import { profileImages } from "./ProfileScreen";
 import loadFonts from "./styles/fonts";
 import TabNavigation from "./TabNavigation";
@@ -135,7 +135,7 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
             style={{
               flexDirection: "row",
               alignSelf: "center",
-              justifyContent: "space-evenly",
+              justifyContent: "space-between",
             }}
           >
             <View

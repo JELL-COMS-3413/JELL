@@ -11,10 +11,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
 
 import loadFonts from "./styles/fonts";
-import { ipAddress } from "./styles/styles";
+import { ipAddress } from "./ip";
 
 import { profileImages } from "./ProfileScreen";
-
 
 export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   const [username, setUsername] = useState("");
@@ -54,7 +53,6 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
         const token = await AsyncStorage.getItem("token");
 
         const response = await fetch(`http://${ipAddress}:5000/profile`, {
-
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -87,9 +85,8 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   useEffect(() => {
     loadFonts().then(() => setFontsLoaded(true));
   }, []);
-  //if (!fontsLoaded) return null; 
+  //if (!fontsLoaded) return null;
   //Removed for now, but might need later.
-
 
   return (
     <SafeAreaView style={styles.welcomeBackground}>
