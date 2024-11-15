@@ -9,17 +9,15 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
-
 import loadFonts from "./styles/fonts";
 import { ipAddress } from "./styles/styles";
-
 import { profileImages } from "./ProfileScreen";
-
 
 export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   const [username, setUsername] = useState("");
   const [profile, setProfile] = useState("default");
-  const [fontsLoaded, setFontsLoaded] = useState(true);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
   const handleLogout = async () => {
     await AsyncStorage.removeItem("token");
     setIsLoggedIn(false);
@@ -41,20 +39,17 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
     const getUsername = async () => {
       try {
         const user = await AsyncStorage.getItem("username");
-        setUsername(user);
+        setUsername(user || "User"); // Set a default username if none exists
       } catch (error) {
         console.error("Error getting username:", error);
         alert(error.message);
-      } finally {
-        console.log(username);
       }
     };
+
     const fetchProfile = async () => {
       try {
         const token = await AsyncStorage.getItem("token");
-
         const response = await fetch(`http://${ipAddress}:5000/profile`, {
-
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -64,22 +59,21 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
         if (!response.ok) {
           const errorResponse = await response.json();
           if (response.status === 404) {
-            await createDefaultProfile();
+            await createDefaultProfile(); // Ensure createDefaultProfile is defined
           } else {
             console.error("Server Error:", errorResponse);
             throw new Error(errorResponse.message || "Failed to fetch profile");
           }
         } else {
           const loadedProfile = await response.json();
-          console.log("loadedProfile: ", loadedProfile);
           setProfile(loadedProfile.profile);
-          console.log("profile: ", profile);
         }
       } catch (error) {
         console.error("Error fetching profile:", error);
         alert(error.message);
       }
     };
+
     getUsername();
     fetchProfile();
   }, []);
@@ -87,14 +81,15 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   useEffect(() => {
     loadFonts().then(() => setFontsLoaded(true));
   }, []);
-  //if (!fontsLoaded) return null; 
-  //Removed for now, but might need later.
 
+  if (!fontsLoaded) return null; // Prevent rendering until fonts are loaded
 
   return (
     <SafeAreaView style={styles.welcomeBackground}>
-      <Image source={profileImages[profile]} style={styles.profileIcon} />
-
+      <Image
+        source={profileImages[profile] || profileImages["default"]}
+        style={styles.profileIcon}
+      />
       <Text style={styles.headerText}>Welcome to JELL, {username}!</Text>
       <View style={styles.pageContentContainer}>
         <View style={welcomeStyles.instruction}>
@@ -108,7 +103,7 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
           onPress={navigateToProfileScreen}
           style={styles.welcomeButton}
         >
-          <Text style={styles.text}> Set Up Your Profile</Text>
+          <Text style={styles.text}>Set Up Your Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity
           title="Budget"
