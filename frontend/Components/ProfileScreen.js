@@ -14,7 +14,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TabNavigation from "./TabNavigation";
 import styles from "./styles/styles";
-import { ipAddress } from "./styles/styles";
+import { ipAddress } from "./ip";
 import loadFonts from "./styles/fonts";
 
 export const profileImages = {
@@ -126,7 +126,6 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(`http://${ipAddress}:5000/profile`, {
-
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -156,7 +155,6 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
       try {
         const token = await AsyncStorage.getItem("token");
         const response = await fetch(`http://${ipAddress}:5000/profile`, {
-
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

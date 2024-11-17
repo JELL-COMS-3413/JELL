@@ -7,6 +7,7 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
+import homeIcon from "../assets/homeIcon.png";
 import styles from "./styles/styles";
 
 export default function TabNavigation({ navigation }) {
@@ -29,7 +30,7 @@ export default function TabNavigation({ navigation }) {
         onPress={navigateToHomeScreen}
         style={navStyles.navButton}
       >
-        <Image source={require("../assets/homeIcon.png")}></Image>
+        <Image source={homeIcon}></Image>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={navigateToCalculationScreen}
@@ -67,8 +68,8 @@ const navStyles = StyleSheet.create({
     padding: 10,
   },
   navIcon: {
-    height: 30,
-    width: 30,
+    height: 50,
+    width: 50,
   },
   navButton: {
     marginLeft: 20,
