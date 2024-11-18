@@ -23,16 +23,13 @@ export default function GoalsScreen({ navigation }) {
   const [current, setCurrent] = useState([]);
   const [error, setError] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
-<<<<<<< Updated upstream
-=======
   const [data, setData] = useState([]);
   const [profile, setProfile] = useState([]);
   const [fontsLoaded, setFontsLoaded] = useState(true); 
   const [isEditModalVisible, setisEditModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
 
->>>>>>> Stashed changes
-  
   const fetchItems = useCallback(async () => {
     setLoading(true);
     setError(null);
