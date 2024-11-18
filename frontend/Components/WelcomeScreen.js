@@ -11,7 +11,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
 import loadFonts from "./styles/fonts";
 import { ipAddress } from "./ip";
-
 import { profileImages } from "./ProfileScreen";
 
 export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
