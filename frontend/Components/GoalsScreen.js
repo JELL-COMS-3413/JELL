@@ -12,7 +12,7 @@ import TabNavigation from "./TabNavigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { profileImages } from "./ProfileScreen";
 import styles from "./styles/styles";
-import { ipAddress } from "./styles/styles";
+import { ipAddress } from "./ip";
 import AddBudgetItemModal from "./AddBudgetItemModal";
 
 export default function GoalsScreen({ navigation }) {

@@ -22,6 +22,7 @@ export default function BudgetPieChart({ data }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedSegment, setSelectedSegment] = useState(null);
   const colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
     loadFonts().then(() => setFontsLoaded(true));
