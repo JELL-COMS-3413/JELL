@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
-
 import PropTypes from "prop-types";
-import { View, Text } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  Modal,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { PieChart } from "react-native-svg-charts";
-import { Text as SvgText } from "react-native-svg";
+import { G, Text as SvgText } from "react-native-svg";
 import loadFonts from "./styles/fonts";
 
 // Helper function to calculate percentage
@@ -12,6 +18,9 @@ const calculatePercentage = (value, total) => {
 };
 
 export default function BudgetPieChart({ data }) {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedSegment, setSelectedSegment] = useState(null);
   const colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
@@ -50,12 +59,17 @@ export default function BudgetPieChart({ data }) {
           fontSize={14}
           stroke="black"
           strokeWidth={0.2}
-          fontFamily={"LouisGeorgeCafe"}
+          fontFamily="LouisGeorgeCafe"
         >
-          {`${data.label} (${data.percentage}%)`}{" "}
+          {`${data.percentage}%`}
         </SvgText>
       );
     });
+  };
+
+  const handleSegmentPress = (segment) => {
+    setSelectedSegment(segment);
+    setModalVisible(true);
   };
 
   return (
@@ -69,10 +83,34 @@ export default function BudgetPieChart({ data }) {
           alignSelf: "center",
           marginTop: 10,
         }}
-        data={pieData}
+        data={pieData.map((segment) => ({
+          ...segment,
+          svg: {
+            ...segment.svg,
+            onPress: () => handleSegmentPress(segment),
+          },
+        }))}
       >
         <Labels />
       </PieChart>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContent}>
+            {selectedSegment ? (
+              <Text>{`${selectedSegment.label}: ${selectedSegment.value}`}</Text>
+            ) : (
+              <Text>No data selected</Text>
+            )}
+            <Button title="Close" onPress={() => setModalVisible(false)} />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -82,6 +120,29 @@ BudgetPieChart.propTypes = {
     PropTypes.shape({
       value: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
+      _id: PropTypes.string.isRequired,
     })
   ).isRequired,
 };
+
+const styles = StyleSheet.create({
+  modalBackground: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modalContent: {
+    width: 300,
+    padding: 20,
+    backgroundColor: "white",
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 10,
+  },
+});
