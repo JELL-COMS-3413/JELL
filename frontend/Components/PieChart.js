@@ -21,6 +21,7 @@ export default function BudgetPieChart({ data }) {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedSegment, setSelectedSegment] = useState(null);
+  const [selectedSegmentId, setSelectedSegmentId] = useState(null);
   const colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
@@ -39,7 +40,10 @@ export default function BudgetPieChart({ data }) {
       key: item._id,
       value: parseFloat(item.value),
       svg: { fill: colors[index % colors.length] },
-      arc: { outerRadius: "100%", cornerRadius: 10 },
+      arc: {
+        outerRadius: selectedSegmentId === item._id ? "110%" : "100%", // highlights the part
+        cornerRadius: 10,
+      },
       label: item.title,
       percentage: calculatePercentage(item.value, totalValue),
     }))
@@ -69,9 +73,15 @@ export default function BudgetPieChart({ data }) {
 
   const handleSegmentPress = (segment) => {
     setSelectedSegment(segment);
+    setSelectedSegmentId(segment.key);
     setModalVisible(true);
   };
-
+  /*//reset back to size after the textbox is closed
+  const handleCloseModal = () => {
+    setModalVisible(false);
+    setSelectedSegmentId(null);
+  };
+*/
   return (
     <View style={{ alignItems: "center" }}>
       <PieChart
