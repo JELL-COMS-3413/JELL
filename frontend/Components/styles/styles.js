@@ -101,7 +101,10 @@ export default StyleSheet.create({
     borderWidth: 2,
     borderRadius: 20,
     alignSelf: "flex-start",
-    margin: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 20,
+    marginBottom: 5,
   },
   addButtonContainer: {
     flexDirection: "row",
@@ -133,7 +136,8 @@ export default StyleSheet.create({
   greenPageSection: {
     backgroundColor: "#C1BC6B",
     width: "100%",
-    height: "60%",
+    paddingTop: 10,
+    paddingBottom: 10,
     justifyContent: "center",
   },
   pageContentContainer: {
@@ -192,4 +196,3 @@ export default StyleSheet.create({
 });
 
 export const ipAddress = "10.200.169.92";
-

@@ -9,6 +9,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
 import { ipAddress } from "./ip";
@@ -19,6 +20,11 @@ import TabNavigation from "./TabNavigation";
 export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
   // profile icon
   const [profile, setProfile] = useState("default");
+  // for date selection
+  const [date, setDate] = useState(new Date());
+  const [showDate, setShowDate] = useState(false);
+  // for title/description of spending
+  const [title, setTitle] = useState("");
   // amount spent
   const [amount, setAmount] = useState(0);
   // categories of budget spending
@@ -27,8 +33,12 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
   const [category, setCategory] = useState("");
   // font
   const [fontsLoaded, setFontsLoaded] = useState(false);
-
+  // for loading dropdown categories menu
   const [loading, setLoading] = useState(true);
+
+  const showDatePicker = () => {
+    setShowDate(true);
+  };
 
   // navigation on click of profile icon
   const navigateToProfileScreen = () => {
@@ -37,6 +47,13 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
 
   // open camera to scan receipt
   const openCamera = () => {};
+
+  // date selection function
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === "ios"); // Hide on iOS after selection
+    setDate(currentDate);
+  };
 
   // load profile image
   useEffect(() => {
@@ -116,21 +133,63 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
 
   return (
     <SafeAreaView style={styles.background}>
-      <TouchableOpacity onPress={navigateToProfileScreen}>
-        <Image source={profileImages[profile]} style={styles.profileIcon} />
-      </TouchableOpacity>
-      <View
-        style={[
-          styles.header,
-          { marginBottom: -20, position: "relative", zIndex: 10 },
-        ]}
-      >
-        <Text style={[styles.headerText, { padding: 10 }]}>
+      <View style={{ flexDirection: "row", alignSelf: "center" }}>
+        <TouchableOpacity
+          onPress={navigateToProfileScreen}
+          style={{ alignSelf: "flex-start" }}
+        >
+          <Image source={profileImages[profile]} style={styles.profileIcon} />
+        </TouchableOpacity>
+        <Text
+          style={[
+            styles.headerText,
+            { alignSelf: "center", marginRight: 30, marginTop: 20 },
+          ]}
+        >
           Input Money Spent
         </Text>
       </View>
       <View style={styles.greenPageSection}>
-        <View style={[styles.pageContentContainer, { marginTop: 100 }]}>
+        <View style={[styles.pageContentContainer, { marginTop: 10 }]}>
+          <View
+            style={{
+              backgroundColor: "#ccc",
+              margin: 5,
+              borderRadius: 20,
+              padding: 10,
+              flex: 1,
+            }}
+          >
+            <TouchableOpacity onPress={showDatePicker}>
+              <Text style={{ fontFamily: "coolveticarg", fontSize: 16 }}>
+                Select Date
+              </Text>
+            </TouchableOpacity>
+            {showDate && (
+              <DateTimePicker
+                value={date}
+                mode="date"
+                display="default"
+                onChange={onChange}
+              />
+            )}
+          </View>
+          <View>
+            <TextInput
+              placeholder="Enter title of spending"
+              style={{
+                fontFamily: "coolveticarg",
+                fontSize: 16,
+                backgroundColor: "#ccc",
+                margin: 5,
+                borderRadius: 20,
+                padding: 10,
+                flex: 1,
+              }}
+              value={title}
+              onChangeText={(text) => setTitle(text)}
+            />
+          </View>
           <View
             style={{
               flexDirection: "row",
@@ -143,7 +202,7 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
                 flexDirection: "column",
                 borderRadius: 20,
                 backgroundColor: "#ccc",
-                padding: 10,
+                padding: 8,
                 margin: 10,
               }}
             >
@@ -151,7 +210,7 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
                 style={{
                   fontFamily: "coolveticarg",
                   paddingRight: 10,
-                  fontSize: 20,
+                  fontSize: 16,
                   paddingBottom: 20,
                 }}
               >
@@ -169,7 +228,7 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
                 flexDirection: "column",
                 borderRadius: 20,
                 backgroundColor: "#ccc",
-                padding: 10,
+                padding: 8,
                 margin: 10,
               }}
             >
@@ -178,7 +237,7 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
                   fontFamily: "coolveticarg",
                   paddingRight: 10,
                   paddingBottom: 20,
-                  fontSize: 20,
+                  fontSize: 16,
                 }}
               >
                 Or Scan Receipt:
@@ -195,9 +254,9 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
             <Text>Dropdown loading</Text>
           ) : (
             <View
-              style={{ backgroundColor: "#ccc", borderRadius: 20, padding: 10 }}
+              style={{ backgroundColor: "#ccc", borderRadius: 20, padding: 8 }}
             >
-              <Text style={{ fontFamily: "coolveticarg", fontSize: 20 }}>
+              <Text style={{ fontFamily: "coolveticarg", fontSize: 16 }}>
                 Select budget category
               </Text>
               <Dropdown
@@ -226,6 +285,19 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
               />
             </View>
           )}
+          <TouchableOpacity
+            style={{
+              borderRadius: 20,
+              alignSelf: "center",
+              backgroundColor: "#C1BC6B",
+              borderWidth: 1,
+              borderColor: "black",
+              padding: 10,
+              marginTop: 10,
+            }}
+          >
+            <Text style={{ fontFamily: "LouisGeorgeCafe" }}>Add Expense</Text>
+          </TouchableOpacity>
         </View>
         <TabNavigation navigation={navigation} />
       </View>
