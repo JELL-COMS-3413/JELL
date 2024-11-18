@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
-import { ipAddress } from "./styles/styles";
+import { ipAddress } from "./ip";
 
 export default function LoginScreen({ navigation, setIsLoggedIn }) {
   const [email, setEmail] = useState("");
