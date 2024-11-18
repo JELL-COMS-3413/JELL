@@ -135,4 +135,5 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
       </View>
     </SafeAreaView>
   );
+
 }

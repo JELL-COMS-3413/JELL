@@ -1,7 +1,3 @@
-<<<<<<< Updated upstream
-/node_modules/
-package-lock.json
-=======
 */node_modules/
 */package-lock.json
 */dist/
@@ -22,5 +18,7 @@ package-lock.json
 */.next/
 */.nuxt/
 /.vscode/
-.env
->>>>>>> Stashed changes
+/node_modules/
+/package-lock.json
+
+
