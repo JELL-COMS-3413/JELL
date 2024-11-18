@@ -26,6 +26,7 @@ export default function BudgetOverviewScreen({ navigation }) {
   const [selectedItem, setSelectedItem] = useState(null);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [profile, setProfile] = useState("default");
+  const [fontsLoaded, setFontsLoaded] = useState(true);
 
   const fetchItems = useCallback(async () => {
     setLoading(true);

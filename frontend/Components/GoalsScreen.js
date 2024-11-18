@@ -13,7 +13,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { profileImages } from "./ProfileScreen";
 import styles from "./styles/styles";
 import { ipAddress } from "./styles/styles";
-import AddBudgetItemModal from "./AddBudgetItemModal";
+import AddGoalItemModal from "./AddGoalItemModal";
+import EditGoalItemModal from "./EditGoalItemModal";
+import loadFonts from "./styles/fonts";
 
 export default function GoalsScreen({ navigation }) {
   const [goal, setGoal] = useState([]);
@@ -21,6 +23,15 @@ export default function GoalsScreen({ navigation }) {
   const [current, setCurrent] = useState([]);
   const [error, setError] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
+<<<<<<< Updated upstream
+=======
+  const [data, setData] = useState([]);
+  const [profile, setProfile] = useState([]);
+  const [fontsLoaded, setFontsLoaded] = useState(true); 
+  const [isEditModalVisible, setisEditModalVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+>>>>>>> Stashed changes
   
   const fetchItems = useCallback(async () => {
     setLoading(true);
@@ -50,7 +61,7 @@ export default function GoalsScreen({ navigation }) {
       console.error("Error fetching goal items:", error);
       setError(error.message);
     } finally {
-      setLoaded(false);
+      setLoading(false);
     }
   }, []);
 
@@ -60,7 +71,7 @@ export default function GoalsScreen({ navigation }) {
 
   const handleEditPress = useCallback((goalItem) => {
     setSelectedItem(goalItem);
-    setIseditModalVisible(true);
+    setisEditModalVisible(true);
   }, []);
 
   const handleDeletePress = useCallback(async (budgetItemId) => {
@@ -146,18 +157,87 @@ export default function GoalsScreen({ navigation }) {
     }
   });
 
+  useEffect(() => {
+    const fetchProfile = async () => {
+      setLoading(true);
+      try {
+        const token = await AsyncStorage.getItem("token");
+        const response = await fetch(`http://${ipAddress}:5000/profile`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          if (response.status === 404) {
+            await createDefaultProfile();
+          } else {
+            console.error("Server Error:", errorResponse);
+            throw new Error(errorResponse.message || "Failed to fetch profile");
+          }
+        } else {
+          const loadedProfile = await response.json();
+          console.log("loadedProfile: ", loadedProfile);
+          setProfile(loadedProfile.profile);
+          console.log("profile: ", profile);
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        alert(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchItems = async () => {
+      setLoading(true);
+      try {
+        const token = await AsyncStorage.getItem("token");
+        const response = await fetch(`http://${ipAddress}:5000/budget/`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          throw new Error(
+            errorResponse.message || "Failed to fetch goal items"
+          );
+        }
+
+      const goalItems = await response.json();
+      setData(goalItems);
+      } catch (error) {
+        console.error("Error fetching goal items:", error);
+        alert(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+    fetchItems();
+  }, []);
+
+    useEffect(() => {
+      loadFonts().then(() => setFontsLoaded(true));
+    }, []);
+
 
 
 return (
     <SafeAreaView style={styles.background}>
       <View style={styles.greenPageSection}>
-        <View style={styles.itemList}>
+        <View style={styles.pageContentContainer}>
         <FlatList
                 data={data}
                 keyExtractor={(goalItem) => goalItem._id.toString()}
                 renderItem={({ item }) => (
-                  <View style={styles.item}>
-                    <Text style={styles.title}>{item.title}</Text>
+                  <View style={styles.listItem}>
+                    <Text style={styles.goalItem}>{item.title}</Text>
                     <Text style={styles.value}>
                       {`$ ${parseFloat(item.value).toFixed(2)}` || "$0.00" }
                     </Text>
@@ -173,9 +253,15 @@ return (
                     </View>
                   </View>
                 )}
-              />
-              
+              /> 
+              <AddGoalItemModal onAddItem={addGoalItem} />
         </View>
+        <EditGoalItemModal
+          item={selectedItem}
+          isVisible={isEditModalVisible}
+          onClose={() => setisEditModalVisible(false)}
+          onSave={saveEditedItem}
+        />
       </View>
        <TabNavigation navigation={navigation} /> 
     </SafeAreaView>
