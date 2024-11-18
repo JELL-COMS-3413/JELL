@@ -1,0 +1,1 @@
+{"ast":null,"code":"export var ipAddress = \"10.200.28.249\";","map":{"version":3,"names":["ipAddress"],"sources":["C:/Users/laura/appDev/JELL/frontend/Components/ip.js"],"sourcesContent":["export const ipAddress = \"10.200.28.249\";\r\n"],"mappings":"AAAA,OAAO,IAAMA,SAAS,GAAG,eAAe","ignoreList":[]},"metadata":{},"sourceType":"module","externalDependencies":[]}
