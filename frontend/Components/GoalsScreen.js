@@ -25,10 +25,9 @@ export default function GoalsScreen({ navigation }) {
   const [selectedItem, setSelectedItem] = useState(null);
   const [data, setData] = useState([]);
   const [profile, setProfile] = useState([]);
-  const [fontsLoaded, setFontsLoaded] = useState(true); 
+  const [fontsLoaded, setFontsLoaded] = useState(true);
   const [isEditModalVisible, setisEditModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
 
   const fetchItems = useCallback(async () => {
     setLoading(true);
@@ -200,8 +199,8 @@ export default function GoalsScreen({ navigation }) {
           );
         }
 
-      const goalItems = await response.json();
-      setData(goalItems);
+        const goalItems = await response.json();
+        setData(goalItems);
       } catch (error) {
         console.error("Error fetching goal items:", error);
         alert(error.message);
@@ -213,38 +212,35 @@ export default function GoalsScreen({ navigation }) {
     fetchItems();
   }, []);
 
-    useEffect(() => {
-      loadFonts().then(() => setFontsLoaded(true));
-    }, []);
+  useEffect(() => {
+    loadFonts().then(() => setFontsLoaded(true));
+  }, []);
 
-return (
+  return (
     <SafeAreaView style={styles.background}>
       <View style={styles.greenPageSection}>
         <View style={styles.pageContentContainer}>
-        <FlatList
-                data={data}
-                keyExtractor={(goalItem) => goalItem._id.toString()}
-                renderItem={({ item }) => (
-                  <View style={styles.listItem}>
-                    <Text style={styles.goalItem}>{item.title}</Text>
-                    <Text style={styles.value}>
-                      {`$ ${parseFloat(item.value).toFixed(2)}` || "$0.00" }
-                    </Text>
-                    <View style={styles.itemActions}>
-                      <TouchableOpacity onPress={() => handleEditPress(item)}>
-                        <Text style={styles.actionText}>Edit</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => handleDeletePress(item._id)}
-                      >
-                        <Text style={styles.actionText}>Delete</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                )}
-              /> 
-              <AddGoalItemModal onAddItem={addGoalItem} />
-
+          <FlatList
+            data={data}
+            keyExtractor={(goalItem) => goalItem._id.toString()}
+            renderItem={({ item }) => (
+              <View style={styles.listItem}>
+                <Text style={styles.goalItem}>{item.title}</Text>
+                <Text style={styles.value}>
+                  {`$ ${parseFloat(item.value).toFixed(2)}` || "$0.00"}
+                </Text>
+                <View style={styles.itemActions}>
+                  <TouchableOpacity onPress={() => handleEditPress(item)}>
+                    <Text style={styles.actionText}>Edit</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => handleDeletePress(item._id)}>
+                    <Text style={styles.actionText}>Delete</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          />
+          <AddGoalItemModal onAddItem={addGoalItem} />
         </View>
         <EditGoalItemModal
           item={selectedItem}
