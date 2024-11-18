@@ -19,6 +19,7 @@ export default StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     fontFamily: "coolveticarg",
+    textTransform: "uppercase",
   },
   buttonContainer: {
     marginVertical: 10,
@@ -99,8 +100,11 @@ export default StyleSheet.create({
     width: 50,
     borderWidth: 2,
     borderRadius: 20,
-    alignSelf: "left",
-    margin: 20,
+    alignSelf: "flex-start",
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 20,
+    marginBottom: 5,
   },
   addButtonContainer: {
     flexDirection: "row",
@@ -132,7 +136,8 @@ export default StyleSheet.create({
   greenPageSection: {
     backgroundColor: "#C1BC6B",
     width: "100%",
-    height: "60%",
+    paddingTop: 10,
+    paddingBottom: 10,
     justifyContent: "center",
   },
   pageContentContainer: {
@@ -176,7 +181,7 @@ export default StyleSheet.create({
     fontSize: 16,
     fontFamily: "coolveticarg",
     textTransform: "uppercase",
-    flex: 1,
+    width: 200,
   },
   value: {
     fontSize: 16,
@@ -189,9 +194,4 @@ export default StyleSheet.create({
     justifyContent: "space-between",
   },
 });
-
-
-export const ipAddress = "10.200.0.165";
-
-
 
