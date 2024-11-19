@@ -134,7 +134,7 @@ export default StyleSheet.create({
     padding: 16,
   },
   greenPageSection: {
-    backgroundColor: "#C1BC6B",
+    backgroundColor: "#98A869",
     width: "100%",
     paddingTop: 10,
     paddingBottom: 10,
@@ -158,7 +158,7 @@ export default StyleSheet.create({
     borderRadius: 20,
   },
   welcomeBackground: {
-    backgroundColor: "#DEDBAE",
+    backgroundColor: "#98A869",
     flex: 1,
     justifyContent: "center",
   },

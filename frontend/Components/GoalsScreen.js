@@ -12,7 +12,7 @@ import TabNavigation from "./TabNavigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { profileImages } from "./ProfileScreen";
 import styles from "./styles/styles";
-import { ipAddress } from "./styles/styles";
+import { ipAddress } from "./ip";
 import AddGoalItemModal from "./AddGoalItemModal";
 import EditGoalItemModal from "./EditGoalItemModal";
 import loadFonts from "./styles/fonts";
@@ -25,17 +25,16 @@ export default function GoalsScreen({ navigation }) {
   const [selectedItem, setSelectedItem] = useState(null);
   const [data, setData] = useState([]);
   const [profile, setProfile] = useState([]);
-  const [fontsLoaded, setFontsLoaded] = useState(true); 
+  const [fontsLoaded, setFontsLoaded] = useState(true);
   const [isEditModalVisible, setisEditModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
 
   const fetchItems = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
       const token = await AsyncStorage.getItem("token");
-      const response = await fetch("http://${ipAddress}:5000/goals/", {
+      const response = await fetch(`http://${ipAddress}:5000/goals/`, {
         headers: {
           "Content-type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -46,8 +45,8 @@ export default function GoalsScreen({ navigation }) {
         throw new Error(errorResponse.message || "Failed to fetch goal items");
       }
 
-      const budgetItems = await response.json();
-      const formattedItems = budgetItems.map((item) => ({
+      const goalItems = await response.json();
+      const formattedItems = goalItems.map((item) => ({
         ...item,
         value: Number(item.value) || 0,
       }));
@@ -69,7 +68,7 @@ export default function GoalsScreen({ navigation }) {
     setisEditModalVisible(true);
   }, []);
 
-  const handleDeletePress = useCallback(async (budgetItemId) => {
+  const handleDeletePress = useCallback(async (goalItemId) => {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
@@ -93,7 +92,7 @@ export default function GoalsScreen({ navigation }) {
     }
   });
 
-  const addGoalItem = useCallback(async (newGaolItem) => {
+  const addGoalItem = useCallback(async (newGoalItem) => {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(`http://${ipAddress}:5000/goals/`, {
@@ -102,7 +101,7 @@ export default function GoalsScreen({ navigation }) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(newGaolItem),
+        body: JSON.stringify(newGoalItem),
       });
 
       if (!response.ok) {
@@ -110,8 +109,8 @@ export default function GoalsScreen({ navigation }) {
         throw new Error(errorResponse.message || "Failed to add item to goal");
       }
 
-      const savedGaolItem = await response.json();
-      setData((prevData) => [savedGaolItem, ...prevData]);
+      const savedGoalItem = await response.json();
+      setData((prevData) => [savedGoalItem, ...prevData]);
     } catch (error) {
       console.error("Error adding item to goal:", error);
       alert(error.message);
@@ -186,7 +185,7 @@ export default function GoalsScreen({ navigation }) {
       setLoading(true);
       try {
         const token = await AsyncStorage.getItem("token");
-        const response = await fetch(`http://${ipAddress}:5000/budget/`, {
+        const response = await fetch(`http://${ipAddress}:5000/goals/`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -200,8 +199,8 @@ export default function GoalsScreen({ navigation }) {
           );
         }
 
-      const goalItems = await response.json();
-      setData(goalItems);
+        const goalItems = await response.json();
+        setData(goalItems);
       } catch (error) {
         console.error("Error fetching goal items:", error);
         alert(error.message);
@@ -213,38 +212,35 @@ export default function GoalsScreen({ navigation }) {
     fetchItems();
   }, []);
 
-    useEffect(() => {
-      loadFonts().then(() => setFontsLoaded(true));
-    }, []);
+  useEffect(() => {
+    loadFonts().then(() => setFontsLoaded(true));
+  }, []);
 
-return (
+  return (
     <SafeAreaView style={styles.background}>
       <View style={styles.greenPageSection}>
         <View style={styles.pageContentContainer}>
-        <FlatList
-                data={data}
-                keyExtractor={(goalItem) => goalItem._id.toString()}
-                renderItem={({ item }) => (
-                  <View style={styles.listItem}>
-                    <Text style={styles.goalItem}>{item.title}</Text>
-                    <Text style={styles.value}>
-                      {`$ ${parseFloat(item.value).toFixed(2)}` || "$0.00" }
-                    </Text>
-                    <View style={styles.itemActions}>
-                      <TouchableOpacity onPress={() => handleEditPress(item)}>
-                        <Text style={styles.actionText}>Edit</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => handleDeletePress(item._id)}
-                      >
-                        <Text style={styles.actionText}>Delete</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                )}
-              /> 
-              <AddGoalItemModal onAddItem={addGoalItem} />
-
+          <FlatList
+            data={data}
+            keyExtractor={(goalItem) => goalItem._id.toString()}
+            renderItem={({ item }) => (
+              <View style={styles.listItem}>
+                <Text style={styles.goalItem}>{item.title}</Text>
+                <Text style={styles.value}>
+                  {`$ ${parseFloat(item.value).toFixed(2)}` || "$0.00"}
+                </Text>
+                <View style={styles.itemActions}>
+                  <TouchableOpacity onPress={() => handleEditPress(item)}>
+                    <Text style={styles.actionText}>Edit</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => handleDeletePress(item._id)}>
+                    <Text style={styles.actionText}>Delete</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          />
+          <AddGoalItemModal onAddItem={addGoalItem} />
         </View>
         <EditGoalItemModal
           item={selectedItem}

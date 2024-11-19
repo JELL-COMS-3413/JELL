@@ -7,7 +7,7 @@ const budgetExpenseSchema = new mongoose.Schema({
   },
   title: {
     type: String,
-    required: false,
+    required: true,
   },
   date: {
     type: Date,
