@@ -51,12 +51,14 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
   // on click add expense
   const handleAddExpense = () => {
     if (title.trim() && category.trim() && amount > 0 && date) {
+      // database function
       addExpense({
         category: category.trim(),
         title: title.trim(),
         date: date,
         value: amount,
       });
+      // resetting values after expense added
       setCategory("");
       setTitle("");
       setDate(new Date());
@@ -243,11 +245,11 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
           >
             <View
               style={{
-                flexDirection: "column",
                 borderRadius: 20,
                 backgroundColor: "#ccc",
                 padding: 8,
-                margin: 10,
+                margin: 5,
+                flex: 1,
               }}
             >
               <Text
@@ -269,11 +271,11 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
             </View>
             <View
               style={{
-                flexDirection: "column",
                 borderRadius: 20,
                 backgroundColor: "#ccc",
                 padding: 8,
-                margin: 10,
+                margin: 5,
+                flex: 1,
               }}
             >
               <Text

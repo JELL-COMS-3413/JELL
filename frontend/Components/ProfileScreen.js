@@ -224,9 +224,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
 
   return (
     <SafeAreaView style={styles.background}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>PROFILE</Text>
-      </View>
+      <Text style={styles.headerText}>PROFILE</Text>
       <View style={styles.greenPageSection}>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
@@ -237,17 +235,33 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
               style={styles.profileHeader}
             />
             <View style={styles.pageContentContainer}>
-              <Text>
-                Name: {firstName} {lastName}
+              <Text style={{ fontFamily: "coolveticarg" }}>Name:</Text>
+              <Text style={{ fontFamily: "LouisGeorgeCafe" }}>
+                {firstName} {lastName}
               </Text>
-              <Text>Username: {username}</Text>
-              <Pressable onPress={handleClickEdit}>
-                <Text>Click to edit</Text>
+              <Text style={{ fontFamily: "coolveticarg" }}>Username:</Text>
+              <Text style={{ fontFamily: "LouisGeorgeCafe" }}>{username}</Text>
+              <Pressable
+                onPress={handleClickEdit}
+                style={{
+                  borderRadius: 20,
+                  borderWidth: 2,
+                  backgroundColor: "#98A869",
+                  alignSelf: "center",
+                  padding: 10,
+                }}
+              >
+                <Text style={{ fontFamily: "LouisGeorgeCafe" }}>
+                  Click to edit
+                </Text>
               </Pressable>
             </View>
 
-            <Pressable onPress={handleLogout} style={profileStyles.logout}>
-              <Text>Logout</Text>
+            <Pressable
+              onPress={handleLogout}
+              style={[profileStyles.logout, { borderWidth: 2 }]}
+            >
+              <Text style={{ fontFamily: "LouisGeorgeCafe" }}>Logout</Text>
             </Pressable>
           </View>
         ) : (
@@ -325,6 +339,6 @@ const profileStyles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     padding: 10,
-    margin: 10,
+    margin: 5,
   },
 });
