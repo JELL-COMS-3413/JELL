@@ -286,7 +286,7 @@ export default function BudgetOverviewScreen({ navigation }) {
             </TouchableOpacity>
           </View>
           <View style={[styles.greenPageSection, { position: "relative" }]}>
-            <View style={styles.pageContentContainer}>
+            <View style={[styles.pageContentContainer, { marginTop: 30 }]}>
               <FlatList
                 data={data}
                 keyExtractor={(budgetItem) => budgetItem._id.toString()}

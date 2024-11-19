@@ -103,7 +103,7 @@ export default StyleSheet.create({
     alignSelf: "flex-start",
     marginLeft: 20,
     marginRight: 20,
-    marginTop: 20,
+    marginTop: 5,
     marginBottom: 5,
   },
   addButtonContainer: {
@@ -146,7 +146,7 @@ export default StyleSheet.create({
     backgroundColor: "white",
     width: "80%",
     alignSelf: "center",
-    margin: 20,
+    marginBottom: 5,
   },
   welcomeButton: {
     alignItems: "center",
