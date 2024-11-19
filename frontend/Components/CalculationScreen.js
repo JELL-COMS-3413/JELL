@@ -7,6 +7,7 @@ import {
   Image,
   StyleSheet,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
@@ -14,6 +15,7 @@ import { ipAddress } from "./ip";
 import loadFonts from "./styles/fonts";
 import TabNavigation from "./TabNavigation";
 import { profileImages } from "./ProfileScreen";
+import StockModal from "./StockModal";
 
 const loanCalc = [
   { id: "1", title: "Amortized Loan" },
@@ -106,6 +108,7 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
           {isLoanCalculator ? "Calculate Savings" : "Calculate Loans"}
         </Text>
       </TouchableOpacity>
+      <StockModal />
       {isLoanCalculator ? (
         <View style={styles.pageContentContainer}>
           <FlatList
