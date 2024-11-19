@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   SafeAreaView,
   Text,
@@ -47,6 +47,50 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
 
   // open camera to scan receipt
   const openCamera = () => {};
+
+  // on click add expense
+  const handleAddExpense = () => {
+    if (title.trim() && category.trim() && amount > 0 && date) {
+      addExpense({
+        category: category.trim(),
+        title: title.trim(),
+        date: date,
+        value: amount,
+      });
+      setCategory("");
+      setTitle("");
+      setDate(new Date());
+      setAmount(0);
+    } else {
+      alert("Please fill out all fields");
+    }
+  };
+
+  const addExpense = useCallback(async (newBudgetExpense) => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const response = await fetch(`http://${ipAddress}:5000/expense/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(newBudgetExpense),
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(
+          errorResponse.message || "Failed to add expense to budget"
+        );
+      }
+
+      const savedBudgetExpense = await response.json();
+    } catch (error) {
+      console.error("Error adding expense to budget:", error);
+      alert(error.message);
+    }
+  }, []);
 
   // date selection function
   const onChange = (event, selectedDate) => {
@@ -279,6 +323,7 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
                   if (item && item.title) {
                     // Ensure item and item.title are defined
                     setCategory(item.title);
+                    console.log(category);
                   }
                 }}
                 dropdownPosition="bottom"
@@ -289,12 +334,13 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
             style={{
               borderRadius: 20,
               alignSelf: "center",
-              backgroundColor: "#C1BC6B",
+              backgroundColor: "#98A869",
               borderWidth: 1,
               borderColor: "black",
               padding: 10,
               marginTop: 10,
             }}
+            onPress={handleAddExpense}
           >
             <Text style={{ fontFamily: "LouisGeorgeCafe" }}>Add Expense</Text>
           </TouchableOpacity>
@@ -303,5 +349,4 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
       </View>
     </SafeAreaView>
   );
-
 }

@@ -152,7 +152,7 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
 
 const loginStyles = StyleSheet.create({
   background: {
-    backgroundColor: "#C1BC6B",
+    backgroundColor: "#98A869",
     flex: 1,
     justifyContent: "center",
     padding: 16,
