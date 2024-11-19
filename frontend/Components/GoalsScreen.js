@@ -16,6 +16,7 @@ import { ipAddress } from "./ip";
 import AddGoalItemModal from "./AddGoalItemModal";
 import EditGoalItemModal from "./EditGoalItemModal";
 import loadFonts from "./styles/fonts";
+import ProgressBar from "./ProgressBar";
 
 export default function GoalsScreen({ navigation }) {
   const [goal, setGoal] = useState([]);
