@@ -15,7 +15,7 @@ export default function AddGoalItemModal({ onAddItem }) {
       setValue("");
       setModalVisible(false);
     } else {
-      alert("Please enter a title and value");
+      alert("Please enter a title and amount");
     }
   };
 
