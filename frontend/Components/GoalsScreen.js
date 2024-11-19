@@ -240,7 +240,9 @@ export default function GoalsScreen({ navigation }) {
                 </View>
               </View>
             )}
+            
           />
+          <ProgressBar progress={(item.currentValue / item.value) * 100 || 0} />
           <AddGoalItemModal onAddItem={addGoalItem} />
         </View>
         <EditGoalItemModal

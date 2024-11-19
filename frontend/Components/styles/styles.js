@@ -193,4 +193,15 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  progressBarContainer: {
+    height: 10,
+    backgroundColor: "#e0e0df",
+    borderRadius: 5,
+    overflow: "hidden",
+    marginVertical: 5,
+  },
+  progressBar: {
+    height: "100%",
+    backgroundColor: "#4caf50", 
+  },
 });
