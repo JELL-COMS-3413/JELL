@@ -111,16 +111,23 @@ export default StyleSheet.create({
     justifyContent: "space-around",
   },
   button: {
-    padding: 10,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
     marginHorizontal: 5,
     alignItems: "center",
     borderRadius: 20,
+    flex: 1,
+    maxWidth: 150,
   },
   successButton: {
-    backgroundColor: "#0fff12",
+    backgroundColor: "#B3C17A",
+    borderColor:"#98A869",
+    borderWidth: 2,
   },
   cancelButton: {
-    backgroundColor: "#ff5c5c",
+    backgroundColor: "#ff8c8c",
+    borderColor: "#ff5c5c",
+    borderWidth: 2,
   },
   buttonText: {
     color: "#fff",
@@ -194,14 +201,19 @@ export default StyleSheet.create({
     justifyContent: "space-between",
   },
   progressBarContainer: {
-    height: 10,
+    height: 30,
+    width: 300,
     backgroundColor: "#e0e0df",
-    borderRadius: 5,
+    borderRadius: 15,
     overflow: "hidden",
     marginVertical: 5,
+    alignSelf: "center", 
+    marginTop: 20,
+    borderWidth: 3,
+    borderColor: "#98A869",
   },
-  progressBar: {
-    height: "100%",
-    backgroundColor: "#4caf50", 
+  itemHeader: {
+    fontSize: 10,
+    fontFamily: "coolveticarg",
   },
 });

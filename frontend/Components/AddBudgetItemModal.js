@@ -36,12 +36,14 @@ export default function AddBudgetItemModal({ onAddItem }) {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Add Item</Text>
+            <Text style={styles.itemHeader}>Item Name:</Text>
             <TextInput
               style={styles.input}
               placeholder="Enter title for budget item"
               value={title}
               onChangeText={(text) => setTitle(text)}
             />
+            <Text style={styles.itemHeader}>Budget: </Text>
             <TextInput
               style={styles.input}
               placeholder="Enter amount to allocate to budget item"

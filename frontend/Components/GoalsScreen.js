@@ -16,7 +16,8 @@ import { ipAddress } from "./ip";
 import AddGoalItemModal from "./AddGoalItemModal";
 import EditGoalItemModal from "./EditGoalItemModal";
 import loadFonts from "./styles/fonts";
-import ProgressBar from "./ProgressBar";
+import * as Progress from 'react-native-progress';
+
 
 export default function GoalsScreen({ navigation }) {
   const [goal, setGoal] = useState([]);
@@ -217,41 +218,104 @@ export default function GoalsScreen({ navigation }) {
     loadFonts().then(() => setFontsLoaded(true));
   }, []);
 
+  const navigateToBudgetOverviewScreen = () => {
+    navigation.navigate("BudgetOverviewScreen");
+  };
+
+  const navigateToProfileScreen = () => {
+    navigation.navigate("ProfileScreen");
+  };
+
   return (
     <SafeAreaView style={styles.background}>
-      <View style={styles.greenPageSection}>
-        <View style={styles.pageContentContainer}>
-          <FlatList
-            data={data}
-            keyExtractor={(goalItem) => goalItem._id.toString()}
-            renderItem={({ item }) => (
-              <View style={styles.listItem}>
-                <Text style={styles.goalItem}>{item.title}</Text>
-                <Text style={styles.value}>
-                  {`$ ${parseFloat(item.value).toFixed(2)}` || "$0.00"}
-                </Text>
-                <View style={styles.itemActions}>
-                  <TouchableOpacity onPress={() => handleEditPress(item)}>
-                    <Text style={styles.actionText}>Edit</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => handleDeletePress(item._id)}>
-                    <Text style={styles.actionText}>Delete</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
+    
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : error ? (
+        <Text style={styles.errorText}>{error}</Text>
+      ) : (
+        <>
+          <View
+            style={{
+              flexDirection: "row",
+              alignSelf: "center",
+              marginRight: 90,
+            }}
+          >
+            <TouchableOpacity
+              title="Your Profile"
+              onPress={navigateToProfileScreen}
+              style={{ alignSelf: "flex-start" }}
+            >
+              <Image
+                source={profileImages[profile]}
+                style={styles.profileIcon}
+              />
+            </TouchableOpacity>
+            {data.length > 0 ? (
+              <BudgetPieChart data={data} />
+            ) : (
+              <Text>No goal data to display</Text>
             )}
-            
-          />
-          <ProgressBar progress={(item.currentValue / item.value) * 100 || 0} />
-          <AddGoalItemModal onAddItem={addGoalItem} />
-        </View>
-        <EditGoalItemModal
-          item={selectedItem}
-          isVisible={isEditModalVisible}
-          onClose={() => setisEditModalVisible(false)}
-          onSave={saveEditedItem}
-        />
-      </View>
+          </View>
+          <Progress.Bar style={styles.progressBarContainer} progress={0} />
+          <View
+            style={[
+              styles.header,
+              { marginBottom: -20, position: "relative", zIndex: 10 },
+            ]}
+          >
+            <TouchableOpacity
+            style={{ marginLeft: 30, borderRadius: 20, padding: 10 }}
+            onPress={navigateToBudgetOverviewScreen}
+            >
+              <Text style={styles.headerText}>OVERVIEW</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+              style={{
+                marginRight: 30,
+                backgroundColor: "#ccc",
+                borderRadius: 20,
+                padding: 10,
+                }}
+                >
+                  <Text style={styles.headerText}>GOALS</Text>
+                  </TouchableOpacity>
+                  </View>
+          
+          <View style={styles.greenPageSection}>
+            <View style={styles.pageContentContainer}>
+              <FlatList
+                data={data}
+                keyExtractor={(goalItem) => goalItem._id.toString()}
+                renderItem={({ item }) => (
+                  <View style={styles.listItem}>
+                    <Text style={styles.goalItem}>{item.title}</Text>
+                    <Text style={styles.value}>
+                      {`$ ${parseFloat(item.value).toFixed(2)}` || "$0.00"}
+                    </Text>
+                    <View style={styles.itemActions}>
+                      <TouchableOpacity onPress={() => handleEditPress(item)}>
+                        <Text style={styles.actionText}>Edit</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={() => handleDeletePress(item._id)}>
+                        <Text style={styles.actionText}>Delete</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                )}
+              />
+              <AddGoalItemModal onAddItem={addGoalItem} />
+            </View>
+            <EditGoalItemModal
+              item={selectedItem}
+              isVisible={isEditModalVisible}
+              onClose={() => setisEditModalVisible(false)}
+              onSave={saveEditedItem}
+            />
+          </View>
+        </>
+      )}
       <TabNavigation navigation={navigation} />
     </SafeAreaView>
   );
