@@ -22,7 +22,10 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
   const [profile, setProfile] = useState("default");
   // for date selection
   const [date, setDate] = useState(new Date());
+  // for showing date picker
   const [showDate, setShowDate] = useState(false);
+  // for tracking whether date has been selected
+  const [dateSelected, setDateSelected] = useState(false);
   // for title/description of spending
   const [title, setTitle] = useState("");
   // amount spent
@@ -36,9 +39,9 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
   // for loading dropdown categories menu
   const [loading, setLoading] = useState(true);
 
-  const showDatePicker = () => {
+  const showDatePicker = useCallback(() => {
     setShowDate(true);
-  };
+  }, []);
 
   // navigation on click of profile icon
   const navigateToProfileScreen = () => {
@@ -61,8 +64,8 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
       // resetting values after expense added
       setCategory("");
       setTitle("");
-      setDate(new Date());
       setAmount(0);
+      setDateSelected(false);
     } else {
       alert("Please fill out all fields");
     }
@@ -95,10 +98,12 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
   }, []);
 
   // date selection function
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+  const changeDate = (event, selectedDate) => {
+    const currentDate = selectedDate;
     setShow(Platform.OS === "ios"); // Hide on iOS after selection
     setDate(currentDate);
+    setShowDate(false); // hide date picker after date selection
+    setDateSelected(true);
   };
 
   // load profile image
@@ -197,18 +202,18 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
       </View>
       <View style={styles.greenPageSection}>
         <View style={[styles.pageContentContainer, { marginTop: 10 }]}>
+          <Text style={{ fontFamily: "coolveticarg", margin: 5 }}>Date:</Text>
           <View
             style={{
               backgroundColor: "#ccc",
               margin: 5,
               borderRadius: 20,
               padding: 10,
-              flex: 1,
             }}
           >
             <TouchableOpacity onPress={showDatePicker}>
-              <Text style={{ fontFamily: "coolveticarg", fontSize: 16 }}>
-                Select Date
+              <Text style={{ fontFamily: "LouisGeorgeCafe", fontSize: 16 }}>
+                {!dateSelected ? "Select Date" : `${date.toLocaleDateString()}`}
               </Text>
             </TouchableOpacity>
             {showDate && (
@@ -216,21 +221,23 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
                 value={date}
                 mode="date"
                 display="default"
-                onChange={onChange}
+                onChange={this.changeDate}
               />
             )}
           </View>
+          <Text style={{ fontFamily: "coolveticarg", margin: 5 }}>
+            Title of Expense:
+          </Text>
           <View>
             <TextInput
               placeholder="Enter title of spending"
               style={{
-                fontFamily: "coolveticarg",
+                fontFamily: "LouisGeorgeCafe",
                 fontSize: 16,
                 backgroundColor: "#ccc",
                 margin: 5,
                 borderRadius: 20,
                 padding: 10,
-                flex: 1,
               }}
               value={title}
               onChangeText={(text) => setTitle(text)}
@@ -318,6 +325,7 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
                 placeholderStyle={{
                   fontFamily: "LouisGeorgeCafe",
                   fontSize: 16,
+                  color: "gray",
                 }}
                 itemTextStyle={{ fontFamily: "LouisGeorgeCafe", fontSize: 16 }}
                 value={category}

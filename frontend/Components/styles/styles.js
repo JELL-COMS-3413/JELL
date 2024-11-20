@@ -54,7 +54,7 @@ export default StyleSheet.create({
     flexDirection: "row",
   },
   actionText: {
-    color: "blue",
+    color: "gray",
     marginHorizontal: 5,
   },
   addButton: {
@@ -141,6 +141,7 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 16,
+    width: "100%",
   },
   greenPageSection: {
     backgroundColor: "#98A869",
@@ -190,13 +191,13 @@ export default StyleSheet.create({
     fontSize: 16,
     fontFamily: "coolveticarg",
     textTransform: "uppercase",
-    width: 200,
+    width: "30%",
   },
   value: {
     fontSize: 16,
     fontFamily: "coolveticarg",
     textAlign: "left",
-    width: 200,
+    width: "30%",
   },
   budgetCategories: {
     flexDirection: "row",
