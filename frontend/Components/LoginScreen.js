@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   SafeAreaView,
   TextInput,
-  Button,
+  Pressable,
   View,
   StyleSheet,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
 import { ipAddress } from "./ip";
+import loadFonts from "./styles/fonts";
 
 export default function LoginScreen({ navigation, setIsLoggedIn }) {
   const [email, setEmail] = useState("");
@@ -18,6 +19,7 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
   const [lastName, setLastName] = useState("");
   const [isLogin, setIsLogin] = useState(true);
   const [message, setMessage] = useState("");
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   const handlePress = async () => {
     if (isLogin) {
@@ -91,21 +93,25 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
     }
   };
 
+  useEffect(() => {
+    loadFonts().then(() => setFontsLoaded(true));
+  }, []);
+
   return (
     <SafeAreaView style={loginStyles.background}>
-      <View>
-        <Text style={styles.header}>{isLogin ? "Login" : "Sign Up"}</Text>
+      <View style={styles.pageContentContainer}>
+        <Text style={styles.headerText}>{isLogin ? "Login" : "Sign Up"}</Text>
 
         {!isLogin && (
           <>
             <TextInput
-              style={styles.input}
+              style={[styles.input, { fontFamily: "LouisGeorgeCafe" }]}
               placeholder="Enter first name"
               value={firstName}
               onChangeText={(text) => setFirstName(text)}
             />
             <TextInput
-              style={styles.input}
+              style={[styles.input, { fontFamily: "LouisGeorgeCafe" }]}
               placeholder="Enter last name"
               value={lastName}
               onChangeText={(text) => setLastName(text)}
@@ -114,37 +120,72 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
         )}
 
         <TextInput
-          style={loginStyles.input}
+          style={[loginStyles.input, { fontFamily: "LouisGeorgeCafe" }]}
           placeholder="Enter email"
           value={email}
           onChangeText={(text) => setEmail(text)}
           keyboardType="email-address"
         />
         <TextInput
-          style={loginStyles.input}
+          style={[loginStyles.input, { fontFamily: "LouisGeorgeCafe" }]}
           placeholder="Enter password"
           value={password}
           onChangeText={(text) => setPassword(text)}
           secureTextEntry={true}
         />
-        <View>
-          <View style={styles.buttonContainer}>
-            <View style={styles.button}>
-              <Button
-                title={isLogin ? "Login" : "Sign Up"}
-                onPress={handlePress}
-              />
-            </View>
-            <View style={styles.button}>
-              <Button
-                title={isLogin ? "Switch to Sign Up" : "Switch to Login"}
-                onPress={() => setIsLogin(!isLogin)}
-              />
-            </View>
-          </View>
-        </View>
 
         {message ? <Text style={styles.message}>{message}</Text> : null}
+      </View>
+
+      <View
+        style={{
+          justifyContent: "center",
+          alignSelf: "center",
+          width: "50%",
+        }}
+      >
+        <View
+          style={{
+            borderRadius: 20,
+            backgroundColor: "#E7C6CD",
+            borderWidth: 2,
+            padding: 8,
+            margin: 5,
+          }}
+        >
+          <Pressable onPress={handlePress}>
+            <Text
+              style={{
+                fontFamily: "coolveticarg",
+                alignSelf: "center",
+                fontSize: 16,
+              }}
+            >
+              {isLogin ? "Login" : "Sign Up"}
+            </Text>
+          </Pressable>
+        </View>
+        <View
+          style={{
+            borderRadius: 20,
+            backgroundColor: "#E7C6CD",
+            borderWidth: 2,
+            padding: 8,
+            margin: 5,
+          }}
+        >
+          <Pressable onPress={() => setIsLogin(!isLogin)}>
+            <Text
+              style={{
+                fontFamily: "coolveticarg",
+                alignSelf: "center",
+                fontSize: 16,
+              }}
+            >
+              {isLogin ? "Switch to Sign Up" : "Switch to Login"}
+            </Text>
+          </Pressable>
+        </View>
       </View>
     </SafeAreaView>
   );

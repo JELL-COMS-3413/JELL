@@ -172,12 +172,8 @@ export default function BudgetOverviewScreen({ navigation }) {
 
         if (!response.ok) {
           const errorResponse = await response.json();
-          if (response.status === 404) {
-            await createDefaultProfile();
-          } else {
-            console.error("Server Error:", errorResponse);
-            throw new Error(errorResponse.message || "Failed to fetch profile");
-          }
+          console.error("Server Error:", errorResponse);
+          throw new Error(errorResponse.message || "Failed to fetch profile");
         } else {
           const loadedProfile = await response.json();
           console.log("loadedProfile: ", loadedProfile);
@@ -296,7 +292,7 @@ export default function BudgetOverviewScreen({ navigation }) {
                     <Text style={styles.value}>
                       {`$ ${parseFloat(item.value).toFixed(2)}` || "$0.00"}
                     </Text>
-                    <View style={styles.itemActions}>
+                    <View>
                       <TouchableOpacity onPress={() => handleEditPress(item)}>
                         <Text style={styles.actionText}>Edit</Text>
                       </TouchableOpacity>
