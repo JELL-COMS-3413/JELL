@@ -25,6 +25,8 @@ export default StyleSheet.create({
     marginVertical: 10,
     alignSelf: "center",
     width: "50%",
+    flexDirection: "row",
+    marginTop:10,    
   },
   itemList: {
     backgroundColor: "white",
@@ -79,8 +81,8 @@ export default StyleSheet.create({
     marginHorizontal: 30,
     padding: 20,
     borderRadius: 10,
-    height: 250,
     justifyContent: "space-between",
+    maxHeight: "80%",
   },
   modalTitle: {
     fontSize: 20,
