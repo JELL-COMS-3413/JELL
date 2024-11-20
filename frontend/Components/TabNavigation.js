@@ -66,6 +66,8 @@ const navStyles = StyleSheet.create({
     alignSelf: "center",
     margin: 20,
     padding: 10,
+    position: "absolute",
+    bottom: 20,
   },
   navIcon: {
     height: 50,

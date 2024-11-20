@@ -149,6 +149,7 @@ export default StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     justifyContent: "center",
+    flex: 1,
   },
   pageContentContainer: {
     borderRadius: 20,
