@@ -26,7 +26,9 @@ export default StyleSheet.create({
     alignSelf: "center",
     width: "50%",
     flexDirection: "row",
-    marginTop:10,    
+    marginTop:10, 
+    justifyContent: "space-between",
+    alignItems: "center",   
   },
   itemList: {
     backgroundColor: "white",
@@ -111,6 +113,7 @@ export default StyleSheet.create({
   addButtonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
+
   },
   button: {
     paddingVertical: 6,
@@ -125,11 +128,17 @@ export default StyleSheet.create({
     backgroundColor: "#B3C17A",
     borderColor:"#98A869",
     borderWidth: 2,
+    flex: 1,
+    marginHorizontal: 5,
+    padding: 10,
   },
   cancelButton: {
     backgroundColor: "#ff8c8c",
     borderColor: "#ff5c5c",
     borderWidth: 2,
+    flex: 1,
+    marginHorizontal: 5,
+    padding: 10,
   },
   buttonText: {
     color: "#fff",
@@ -158,6 +167,7 @@ export default StyleSheet.create({
     width: "80%",
     alignSelf: "center",
     marginBottom: 5,
+
   },
   welcomeButton: {
     alignItems: "center",
