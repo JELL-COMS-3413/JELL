@@ -195,3 +195,4 @@ export default StyleSheet.create({
     justifyContent: "space-between",
   },
 });
+export const ipAddress = "10.200.201.194";
