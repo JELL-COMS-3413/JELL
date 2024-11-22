@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   SafeAreaView,
   Text,
@@ -22,7 +22,10 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
   const [profile, setProfile] = useState("default");
   // for date selection
   const [date, setDate] = useState(new Date());
+  // for showing date picker
   const [showDate, setShowDate] = useState(false);
+  // for tracking whether date has been selected
+  const [dateSelected, setDateSelected] = useState(false);
   // for title/description of spending
   const [title, setTitle] = useState("");
   // amount spent
@@ -36,9 +39,9 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
   // for loading dropdown categories menu
   const [loading, setLoading] = useState(true);
 
-  const showDatePicker = () => {
+  const showDatePicker = useCallback(() => {
     setShowDate(true);
-  };
+  }, []);
 
   // navigation on click of profile icon
   const navigateToProfileScreen = () => {
@@ -48,11 +51,59 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
   // open camera to scan receipt
   const openCamera = () => {};
 
+  // on click add expense
+  const handleAddExpense = () => {
+    if (title.trim() && category.trim() && amount > 0 && date) {
+      // database function
+      addExpense({
+        category: category.trim(),
+        title: title.trim(),
+        date: date,
+        value: amount,
+      });
+      // resetting values after expense added
+      setCategory("");
+      setTitle("");
+      setAmount(0);
+      setDateSelected(false);
+    } else {
+      alert("Please fill out all fields");
+    }
+  };
+
+  const addExpense = useCallback(async (newBudgetExpense) => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const response = await fetch(`http://${ipAddress}:5000/expense/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(newBudgetExpense),
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(
+          errorResponse.message || "Failed to add expense to budget"
+        );
+      }
+
+      const savedBudgetExpense = await response.json();
+    } catch (error) {
+      console.error("Error adding expense to budget:", error);
+      alert(error.message);
+    }
+  }, []);
+
   // date selection function
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+  const changeDate = (event, selectedDate) => {
+    const currentDate = selectedDate;
     setShow(Platform.OS === "ios"); // Hide on iOS after selection
     setDate(currentDate);
+    setShowDate(false); // hide date picker after date selection
+    setDateSelected(true);
   };
 
   // load profile image
@@ -151,18 +202,18 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
       </View>
       <View style={styles.greenPageSection}>
         <View style={[styles.pageContentContainer, { marginTop: 10 }]}>
+          <Text style={{ fontFamily: "coolveticarg", margin: 5 }}>Date:</Text>
           <View
             style={{
               backgroundColor: "#ccc",
               margin: 5,
               borderRadius: 20,
               padding: 10,
-              flex: 1,
             }}
           >
             <TouchableOpacity onPress={showDatePicker}>
-              <Text style={{ fontFamily: "coolveticarg", fontSize: 16 }}>
-                Select Date
+              <Text style={{ fontFamily: "LouisGeorgeCafe", fontSize: 16 }}>
+                {!dateSelected ? "Select Date" : `${date.toLocaleDateString()}`}
               </Text>
             </TouchableOpacity>
             {showDate && (
@@ -170,21 +221,23 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
                 value={date}
                 mode="date"
                 display="default"
-                onChange={onChange}
+                onChange={this.changeDate}
               />
             )}
           </View>
+          <Text style={{ fontFamily: "coolveticarg", margin: 5 }}>
+            Title of Expense:
+          </Text>
           <View>
             <TextInput
               placeholder="Enter title of spending"
               style={{
-                fontFamily: "coolveticarg",
+                fontFamily: "LouisGeorgeCafe",
                 fontSize: 16,
                 backgroundColor: "#ccc",
                 margin: 5,
                 borderRadius: 20,
                 padding: 10,
-                flex: 1,
               }}
               value={title}
               onChangeText={(text) => setTitle(text)}
@@ -199,11 +252,11 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
           >
             <View
               style={{
-                flexDirection: "column",
                 borderRadius: 20,
                 backgroundColor: "#ccc",
                 padding: 8,
-                margin: 10,
+                margin: 5,
+                flex: 1,
               }}
             >
               <Text
@@ -225,11 +278,11 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
             </View>
             <View
               style={{
-                flexDirection: "column",
                 borderRadius: 20,
                 backgroundColor: "#ccc",
                 padding: 8,
-                margin: 10,
+                margin: 5,
+                flex: 1,
               }}
             >
               <Text
@@ -272,6 +325,7 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
                 placeholderStyle={{
                   fontFamily: "LouisGeorgeCafe",
                   fontSize: 16,
+                  color: "gray",
                 }}
                 itemTextStyle={{ fontFamily: "LouisGeorgeCafe", fontSize: 16 }}
                 value={category}
@@ -279,6 +333,7 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
                   if (item && item.title) {
                     // Ensure item and item.title are defined
                     setCategory(item.title);
+                    console.log(category);
                   }
                 }}
                 dropdownPosition="bottom"
@@ -289,12 +344,13 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
             style={{
               borderRadius: 20,
               alignSelf: "center",
-              backgroundColor: "#C1BC6B",
+              backgroundColor: "#98A869",
               borderWidth: 1,
               borderColor: "black",
               padding: 10,
               marginTop: 10,
             }}
+            onPress={handleAddExpense}
           >
             <Text style={{ fontFamily: "LouisGeorgeCafe" }}>Add Expense</Text>
           </TouchableOpacity>
@@ -303,5 +359,4 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
       </View>
     </SafeAreaView>
   );
-
 }

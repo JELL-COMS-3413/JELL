@@ -7,12 +7,15 @@ import {
   Image,
   StyleSheet,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
 import { ipAddress } from "./ip";
+import loadFonts from "./styles/fonts";
 import TabNavigation from "./TabNavigation";
 import { profileImages } from "./ProfileScreen";
+import StockModal from "./StockModal";
 
 const loanCalc = [
   { id: "1", title: "Amortized Loan" },
@@ -37,6 +40,7 @@ const saveCalc = [
 export default function CalculationScreen({ navigation, setIsLoggedIn }) {
   const [profile, setProfile] = useState("default");
   const [isLoanCalculator, setIsLoanCalculator] = useState(true);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   const navigateToProfileScreen = () => {
     navigation.navigate("ProfileScreen");
@@ -75,14 +79,20 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
     fetchProfile();
   }, []);
 
+  useEffect(() => {
+    loadFonts().then(() => setFontsLoaded(true));
+  }, []);
+
   const toggleScreen = () => {
     setIsLoanCalculator(!isLoanCalculator);
   };
 
   const renderItem = ({ item }) => (
-    <View style={styles.listItem}>
-      <Text style={styles.title}>{item.title}</Text>
-    </View>
+    <TouchableOpacity style={styles.listItem}>
+      <Text style={{ fontFamily: "LouisGeorgeCafe", fontSize: 16 }}>
+        {item.title}
+      </Text>
+    </TouchableOpacity>
   );
 
   return (
@@ -98,18 +108,23 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
           {isLoanCalculator ? "Calculate Savings" : "Calculate Loans"}
         </Text>
       </TouchableOpacity>
+      <StockModal />
       {isLoanCalculator ? (
-        <FlatList
-          data={loanCalc}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-        />
+        <View style={styles.pageContentContainer}>
+          <FlatList
+            data={loanCalc}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
       ) : (
-        <FlatList
-          data={saveCalc}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-        />
+        <View style={styles.pageContentContainer}>
+          <FlatList
+            data={saveCalc}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
       )}
       <TabNavigation navigation={navigation} />
     </SafeAreaView>

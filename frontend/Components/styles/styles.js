@@ -25,6 +25,10 @@ export default StyleSheet.create({
     marginVertical: 10,
     alignSelf: "center",
     width: "50%",
+    flexDirection: "row",
+    marginTop:10, 
+    justifyContent: "space-between",
+    alignItems: "center",   
   },
   itemList: {
     backgroundColor: "white",
@@ -52,7 +56,7 @@ export default StyleSheet.create({
     flexDirection: "row",
   },
   actionText: {
-    color: "blue",
+    color: "gray",
     marginHorizontal: 5,
   },
   addButton: {
@@ -79,8 +83,8 @@ export default StyleSheet.create({
     marginHorizontal: 30,
     padding: 20,
     borderRadius: 10,
-    height: 250,
     justifyContent: "space-between",
+    maxHeight: "80%",
   },
   modalTitle: {
     fontSize: 20,
@@ -103,24 +107,38 @@ export default StyleSheet.create({
     alignSelf: "flex-start",
     marginLeft: 20,
     marginRight: 20,
-    marginTop: 20,
+    marginTop: 5,
     marginBottom: 5,
   },
   addButtonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
+
   },
   button: {
-    padding: 10,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
     marginHorizontal: 5,
     alignItems: "center",
     borderRadius: 20,
+    flex: 1,
+    maxWidth: 150,
   },
   successButton: {
-    backgroundColor: "#0fff12",
+    backgroundColor: "#B3C17A",
+    borderColor:"#98A869",
+    borderWidth: 2,
+    flex: 1,
+    marginHorizontal: 5,
+    padding: 10,
   },
   cancelButton: {
-    backgroundColor: "#ff5c5c",
+    backgroundColor: "#ff8c8c",
+    borderColor: "#ff5c5c",
+    borderWidth: 2,
+    flex: 1,
+    marginHorizontal: 5,
+    padding: 10,
   },
   buttonText: {
     color: "#fff",
@@ -132,13 +150,15 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 16,
+    width: "100%",
   },
   greenPageSection: {
-    backgroundColor: "#C1BC6B",
+    backgroundColor: "#98A869",
     width: "100%",
     paddingTop: 10,
     paddingBottom: 10,
     justifyContent: "center",
+    flex: 1,
   },
   pageContentContainer: {
     borderRadius: 20,
@@ -146,7 +166,8 @@ export default StyleSheet.create({
     backgroundColor: "white",
     width: "80%",
     alignSelf: "center",
-    margin: 20,
+    marginBottom: 5,
+
   },
   welcomeButton: {
     alignItems: "center",
@@ -158,7 +179,7 @@ export default StyleSheet.create({
     borderRadius: 20,
   },
   welcomeBackground: {
-    backgroundColor: "#DEDBAE",
+    backgroundColor: "#98A869",
     flex: 1,
     justifyContent: "center",
   },
@@ -181,17 +202,51 @@ export default StyleSheet.create({
     fontSize: 16,
     fontFamily: "coolveticarg",
     textTransform: "uppercase",
-    width: 200,
+    width: "30%",
   },
   value: {
     fontSize: 16,
     fontFamily: "coolveticarg",
     textAlign: "left",
-    width: 200,
+    width: "30%",
   },
   budgetCategories: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
-});
+  progressBarContainer: {
+    height: 30,
+    width: 300,
+    backgroundColor: "#e0e0df",
+    borderRadius: 15,
+    overflow: "hidden",
+    marginVertical: 5,
+    alignSelf: "center", 
+    marginTop: 20,
+    borderWidth: 3,
+    borderColor: "#98A869",
+  },
+  itemHeader: {
+    fontSize: 10,
+    fontFamily: "coolveticarg",
+  },
+  /*
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
+    paddingHorizontal: 10,
+  },
+  headerText: {
+    flex: 1, 
+    textAlign: "left",
+    fontWeight: "bold",
+    color: "#333",
+  },
+  ScrollView: {
+    maxHeight: "80%",
+  } */
 
+});

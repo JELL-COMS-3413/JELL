@@ -37,6 +37,21 @@ router.get("/", authMiddleware, async (req, res) => {
   }
 });
 
+// GET /items - Get all items for the authenticated user in given category
+router.get("/:category", authMiddleware, async (req, res) => {
+  try {
+    const expenses = await budgetExpense
+      .find({ user: req.user.id, category: req.params.category })
+      .sort({
+        createdAt: -1,
+      });
+    res.json(expenses);
+  } catch (error) {
+    console.error("Error retrieving expenses:", error);
+    res.status(500).json({ error: "Failed to retrieve expenses" });
+  }
+});
+
 // Update an item
 router.put("/:id", authMiddleware, async (req, res) => {
   try {
