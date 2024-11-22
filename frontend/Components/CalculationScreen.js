@@ -108,7 +108,6 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
           {isLoanCalculator ? "Calculate Savings" : "Calculate Loans"}
         </Text>
       </TouchableOpacity>
-      <StockModal />
       {isLoanCalculator ? (
         <View style={styles.pageContentContainer}>
           <FlatList
@@ -126,6 +125,8 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
           />
         </View>
       )}
+
+      <StockModal />
       <TabNavigation navigation={navigation} />
     </SafeAreaView>
   );

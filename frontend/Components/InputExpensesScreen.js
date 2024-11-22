@@ -99,11 +99,14 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
 
   // date selection function
   const changeDate = (event, selectedDate) => {
-    const currentDate = selectedDate;
-    setShow(Platform.OS === "ios"); // Hide on iOS after selection
-    setDate(currentDate);
-    setShowDate(false); // hide date picker after date selection
-    setDateSelected(true);
+    if (event.type === "set") {
+      setDate(selectedDate);
+      setDateSelected(true);
+      setShowDate(false);
+    } else if (event.type === "dismissed") {
+      setShowDate(false);
+      setShow(Platform.OS === "ios"); // Hide on iOS after selection
+    }
   };
 
   // load profile image
@@ -184,7 +187,14 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
 
   return (
     <SafeAreaView style={styles.background}>
-      <View style={{ flexDirection: "row", alignSelf: "center" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignSelf: "center",
+          marginTop: 60,
+          marginBottom: 5,
+        }}
+      >
         <TouchableOpacity
           onPress={navigateToProfileScreen}
           style={{ alignSelf: "flex-start" }}
@@ -200,8 +210,8 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
           Input Money Spent
         </Text>
       </View>
-      <View style={styles.greenPageSection}>
-        <View style={[styles.pageContentContainer, { marginTop: 10 }]}>
+      <View style={styles.pinkPageSection}>
+        <View style={[styles.pageContentContainer]}>
           <Text style={{ fontFamily: "coolveticarg", margin: 5 }}>Date:</Text>
           <View
             style={{
@@ -221,7 +231,7 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
                 value={date}
                 mode="date"
                 display="default"
-                onChange={this.changeDate}
+                onChange={changeDate}
               />
             )}
           </View>
@@ -248,59 +258,61 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
               flexDirection: "row",
               alignSelf: "center",
               justifyContent: "space-between",
+              width: "100%",
+              marginBottom: 5,
             }}
           >
-            <View
-              style={{
-                borderRadius: 20,
-                backgroundColor: "#ccc",
-                padding: 8,
-                margin: 5,
-                flex: 1,
-              }}
-            >
+            <View style={{ alignItems: "center", marginRight: 5 }}>
               <Text
                 style={{
                   fontFamily: "coolveticarg",
                   paddingRight: 10,
                   fontSize: 16,
-                  paddingBottom: 20,
                 }}
               >
                 Manually Input:
               </Text>
-              <TextInput
-                placeholder="Enter amount spent"
-                style={{ fontFamily: "LouisGeorgeCafe" }}
-                value={amount}
-                onChangeText={(number) => setAmount(parseFloat(number))}
-              />
+              <View
+                style={{
+                  borderRadius: 20,
+                  backgroundColor: "#ccc",
+                  padding: 8,
+                  margin: 5,
+                }}
+              >
+                <TextInput
+                  placeholder="Enter amount spent"
+                  style={{ fontFamily: "LouisGeorgeCafe" }}
+                  value={amount}
+                  onChangeText={(number) => setAmount(parseFloat(number))}
+                />
+              </View>
             </View>
-            <View
-              style={{
-                borderRadius: 20,
-                backgroundColor: "#ccc",
-                padding: 8,
-                margin: 5,
-                flex: 1,
-              }}
-            >
+            <View>
               <Text
                 style={{
                   fontFamily: "coolveticarg",
                   paddingRight: 10,
-                  paddingBottom: 20,
                   fontSize: 16,
                 }}
               >
                 Or Scan Receipt:
               </Text>
-              <TouchableOpacity style={{ alignSelf: "center" }}>
-                <Image
-                  onPress={openCamera}
-                  source={require("../assets/cameraIcon.png")}
-                />
-              </TouchableOpacity>
+              <View
+                style={{
+                  borderRadius: 20,
+                  backgroundColor: "#ccc",
+                  padding: 8,
+                  margin: 5,
+                }}
+              >
+                <TouchableOpacity style={{ alignSelf: "center" }}>
+                  <Image
+                    onPress={openCamera}
+                    source={require("../assets/cameraIcon.png")}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
           {loading ? (
@@ -345,7 +357,7 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
               borderRadius: 20,
               alignSelf: "center",
               backgroundColor: "#98A869",
-              borderWidth: 1,
+              borderWidth: 2,
               borderColor: "black",
               padding: 10,
               marginTop: 10,

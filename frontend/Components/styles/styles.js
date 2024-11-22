@@ -16,7 +16,7 @@ export default StyleSheet.create({
     padding: 2,
   },
   headerText: {
-    fontSize: 20,
+    fontSize: 32,
     textAlign: "center",
     fontFamily: "coolveticarg",
     textTransform: "uppercase",
@@ -26,9 +26,9 @@ export default StyleSheet.create({
     alignSelf: "center",
     width: "50%",
     flexDirection: "row",
-    marginTop:10, 
+    marginTop: 10,
     justifyContent: "space-between",
-    alignItems: "center",   
+    alignItems: "center",
   },
   itemList: {
     backgroundColor: "white",
@@ -113,7 +113,6 @@ export default StyleSheet.create({
   addButtonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-
   },
   button: {
     paddingVertical: 6,
@@ -126,9 +125,8 @@ export default StyleSheet.create({
   },
   successButton: {
     backgroundColor: "#B3C17A",
-    borderColor:"#98A869",
+    borderColor: "#98A869",
     borderWidth: 2,
-    flex: 1,
     marginHorizontal: 5,
     padding: 10,
   },
@@ -136,7 +134,6 @@ export default StyleSheet.create({
     backgroundColor: "#ff8c8c",
     borderColor: "#ff5c5c",
     borderWidth: 2,
-    flex: 1,
     marginHorizontal: 5,
     padding: 10,
   },
@@ -149,15 +146,14 @@ export default StyleSheet.create({
     backgroundColor: "#E7C6CD",
     flex: 1,
     justifyContent: "center",
-    padding: 16,
+    padding: 0,
     width: "100%",
   },
-  greenPageSection: {
+  pinkPageSection: {
     backgroundColor: "#98A869",
     width: "100%",
-    paddingTop: 10,
+    paddingTop: 30,
     paddingBottom: 10,
-    justifyContent: "center",
     flex: 1,
   },
   pageContentContainer: {
@@ -165,13 +161,13 @@ export default StyleSheet.create({
     padding: 10,
     backgroundColor: "white",
     width: "80%",
+    height: "80%",
     alignSelf: "center",
     marginBottom: 5,
-
   },
   welcomeButton: {
     alignItems: "center",
-    backgroundColor: "#E7C6CD",
+    backgroundColor: "#98A869",
     padding: 5,
     width: "60%",
     alignSelf: "center",
@@ -179,7 +175,7 @@ export default StyleSheet.create({
     borderRadius: 20,
   },
   welcomeBackground: {
-    backgroundColor: "#98A869",
+    backgroundColor: "#E7C6CD",
     flex: 1,
     justifyContent: "center",
   },
@@ -189,6 +185,8 @@ export default StyleSheet.create({
   welcomefont: {
     fontFamily: "LouisGeorgeCafe",
     fontSize: 16,
+    textAlign: "center",
+    marginBottom: 5,
   },
   profileHeader: {
     height: 200,
@@ -221,8 +219,8 @@ export default StyleSheet.create({
     borderRadius: 15,
     overflow: "hidden",
     marginVertical: 5,
-    alignSelf: "center", 
-    marginTop: 20,
+    alignSelf: "center",
+    marginTop: 60,
     borderWidth: 3,
     borderColor: "#98A869",
   },
@@ -248,5 +246,4 @@ export default StyleSheet.create({
   ScrollView: {
     maxHeight: "80%",
   } */
-
 });

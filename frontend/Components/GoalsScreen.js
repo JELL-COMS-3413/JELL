@@ -17,8 +17,7 @@ import { ipAddress } from "./ip";
 import AddGoalItemModal from "./AddGoalItemModal";
 import EditGoalItemModal from "./EditGoalItemModal";
 import loadFonts from "./styles/fonts";
-import * as Progress from 'react-native-progress';
-
+import * as Progress from "react-native-progress";
 
 export default function GoalsScreen({ navigation }) {
   const [goal, setGoal] = useState([]);
@@ -229,7 +228,6 @@ export default function GoalsScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.background}>
-    
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : error ? (
@@ -241,6 +239,7 @@ export default function GoalsScreen({ navigation }) {
               flexDirection: "row",
               alignSelf: "center",
               marginRight: 90,
+              marginTop: 20,
             }}
           >
             <TouchableOpacity
@@ -253,13 +252,9 @@ export default function GoalsScreen({ navigation }) {
                 style={styles.profileIcon}
               />
             </TouchableOpacity>
-            {data.length > 0 ? (
-              <BudgetPieChart data={data} />
-            ) : (
-              <Text>No goal data to display</Text>
-            )}
+
+            <Progress.Bar style={styles.progressBarContainer} progress={0} />
           </View>
-          <Progress.Bar style={styles.progressBarContainer} progress={0} />
           <View
             style={[
               styles.header,
@@ -267,24 +262,24 @@ export default function GoalsScreen({ navigation }) {
             ]}
           >
             <TouchableOpacity
-            style={{ marginLeft: 30, borderRadius: 20, padding: 10 }}
-            onPress={navigateToBudgetOverviewScreen}
+              style={{ marginLeft: 30, borderRadius: 20, padding: 10 }}
+              onPress={navigateToBudgetOverviewScreen}
             >
               <Text style={styles.headerText}>OVERVIEW</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
+            </TouchableOpacity>
+            <TouchableOpacity
               style={{
                 marginRight: 30,
                 backgroundColor: "#ccc",
                 borderRadius: 20,
                 padding: 10,
-                }}
-                >
-                  <Text style={styles.headerText}>GOALS</Text>
-                  </TouchableOpacity>
-                  </View>
-          
-          <View style={styles.greenPageSection}>
+              }}
+            >
+              <Text style={styles.headerText}>GOALS</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.pinkPageSection}>
             <View style={styles.pageContentContainer}>
               {/*<ScrollView>
               <View style={styles.headerRow}>
@@ -305,7 +300,9 @@ export default function GoalsScreen({ navigation }) {
                       <TouchableOpacity onPress={() => handleEditPress(item)}>
                         <Text style={styles.actionText}>Edit</Text>
                       </TouchableOpacity>
-                      <TouchableOpacity onPress={() => handleDeletePress(item._id)}>
+                      <TouchableOpacity
+                        onPress={() => handleDeletePress(item._id)}
+                      >
                         <Text style={styles.actionText}>Delete</Text>
                       </TouchableOpacity>
                     </View>
