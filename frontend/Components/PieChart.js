@@ -31,7 +31,7 @@ export default function BudgetPieChart({ data }) {
       getExpenses(selectedSegment.label);
     }
   }, [selectedSegmentId]); // Fetch expenses when selected segment changes
-
+  //fetches the information
   const getExpenses = async (category) => {
     try {
       const token = await AsyncStorage.getItem("token");
@@ -65,7 +65,7 @@ export default function BudgetPieChart({ data }) {
     (acc, item) => acc + parseFloat(item.value),
     0
   );
-
+  //the pie
   const pieData = data
     .map((item, index) => ({
       key: item._id,
@@ -175,7 +175,7 @@ export default function BudgetPieChart({ data }) {
     </View>
   );
 }
-
+//props
 BudgetPieChart.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
@@ -185,7 +185,7 @@ BudgetPieChart.propTypes = {
     })
   ).isRequired,
 };
-
+//styles
 const styles = StyleSheet.create({
   modalBackground: {
     flex: 1,
