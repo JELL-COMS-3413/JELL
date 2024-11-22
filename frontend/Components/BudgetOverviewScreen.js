@@ -7,6 +7,7 @@ import {
   FlatList,
   ActivityIndicator,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import AddBudgetItemModal from "./AddBudgetItemModal";
 import EditBudgetItemModal from "./EditBudgetItemModal";
@@ -172,12 +173,8 @@ export default function BudgetOverviewScreen({ navigation }) {
 
         if (!response.ok) {
           const errorResponse = await response.json();
-          if (response.status === 404) {
-            await createDefaultProfile();
-          } else {
-            console.error("Server Error:", errorResponse);
-            throw new Error(errorResponse.message || "Failed to fetch profile");
-          }
+          console.error("Server Error:", errorResponse);
+          throw new Error(errorResponse.message || "Failed to fetch profile");
         } else {
           const loadedProfile = await response.json();
           console.log("loadedProfile: ", loadedProfile);
@@ -287,6 +284,11 @@ export default function BudgetOverviewScreen({ navigation }) {
           </View>
           <View style={[styles.greenPageSection, { position: "relative" }]}>
             <View style={[styles.pageContentContainer, { marginTop: 30 }]}>
+              {/*<ScrollView>
+              <View style={styles.headerRow}>
+                <Text style={styles.headerText}>Name</Text>
+                <Text style={styles.headerText}>Budget</Text>
+              </View>*/}
               <FlatList
                 data={data}
                 keyExtractor={(budgetItem) => budgetItem._id.toString()}
@@ -296,7 +298,7 @@ export default function BudgetOverviewScreen({ navigation }) {
                     <Text style={styles.value}>
                       {`$ ${parseFloat(item.value).toFixed(2)}` || "$0.00"}
                     </Text>
-                    <View style={styles.itemActions}>
+                    <View>
                       <TouchableOpacity onPress={() => handleEditPress(item)}>
                         <Text style={styles.actionText}>Edit</Text>
                       </TouchableOpacity>
@@ -309,6 +311,7 @@ export default function BudgetOverviewScreen({ navigation }) {
                   </View>
                 )}
               />
+              {/*</ScrollView>*/}
               <AddBudgetItemModal onAddItem={addBudgetItem} />
             </View>
             <EditBudgetItemModal

@@ -15,7 +15,7 @@ export default function AddGoalItemModal({ onAddItem }) {
       setValue("");
       setModalVisible(false);
     } else {
-      alert("Please enter a title and value");
+      alert("Please enter a title and amount");
     }
   };
 
@@ -35,13 +35,23 @@ export default function AddGoalItemModal({ onAddItem }) {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
+          
             <Text style={styles.modalTitle}>Add Item</Text>
+            <Text style={styles.itemHeader}>Item Name</Text>
             <TextInput
               style={styles.input}
               placeholder="Enter title for goal item"
               value={title}
               onChangeText={(text) => setTitle(text)}
             />
+            <Text style={styles.itemHeader}>Current</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter amount saved so far"
+              value={value}
+              onChangeText={(text) => setValue(text)}
+            />
+            <Text style={styles.itemHeader}>Goal</Text>
             <TextInput
               style={styles.input}
               placeholder="Enter amount to allocate to goal item"
