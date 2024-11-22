@@ -7,6 +7,8 @@ import {
   StyleSheet,
   FlatList,
   Image,
+  Modal,
+  Button,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
@@ -15,6 +17,8 @@ import styles from "./styles/styles";
 
 export default function SettingScreen({ navigation, setIsLoggedIn }) {
   const [username, setUsername] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedSetting, setSelectedSetting] = useState(null);
   const navigation1 = useNavigation();
 
   const handleLogout = async () => {
@@ -24,10 +28,6 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
       index: 0,
       routes: [{ name: "Login" }],
     });
-  };
-
-  const navigateToProfileScreen = () => {
-    navigation.navigate("ProfileScreen");
   };
 
   useEffect(() => {
@@ -45,8 +45,12 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
     getUsername();
   }, []);
 
+  // Flatlist for all the categories in the settings page
   const settingsCategories = [
-    { id: "1", title: "Account", image: require("../assets/accountIcon.png") },
+    { id: "1", 
+      title: "Account", 
+      image: require("../assets/accountIcon.png") 
+    },
     {
       id: "2",
       title: "Notifications",
@@ -70,16 +74,28 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
     { id: "6", title: "About", image: require("../assets/aboutIcon.png") },
   ];
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
-      onPress={item.title === "Logout" ? handleLogout : navigateToProfileScreen}
-      style={settingsStyles.link}
-    >
-      <Image source={item.image} style={settingsStyles.image} />
-      <Text style={settingsStyles.text}>{item.title}</Text>
-    </TouchableOpacity>
-  );
+  const openModal = (setting) => {
+    setSelectedSetting(setting);
+    setIsModalVisible(true);
+  };
 
+  const closeModal = () => {
+    setIsModalVisible(false);
+    setSelectedSetting(null);
+  };
+
+//Shows our flatlist on the screen
+const renderItem = ({ item }) => ( 
+  <TouchableOpacity 
+    onPress={() => openModal(item)} 
+    style={settingsStyles.link} 
+  > 
+    <Image source={item.image} style={settingsStyles.image} /> 
+    <Text style={settingsStyles.text}>{item.title}</Text> 
+  </TouchableOpacity> 
+);
+
+  //Formatting and layout of flatlist.
   return (
     <SafeAreaView style={styles.welcomeBackground}>
       <Text style={[settingsStyles.headerText, { alignSelf: "center" }]}>
@@ -93,10 +109,28 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
         />
       </View>
       <TabNavigation navigation={navigation} />
+
+      <Modal
+        visible={isModalVisible}
+        animationType="slide"
+        onRequestClose={closeModal}
+        >
+          <SafeAreaView style={settingsStyles.modalContainer}>
+            <Text style={settingsStyles.modalHeaderText}>
+              {selectedSetting?.title}
+            </Text>
+            <Text style={settingsStyles.modalHeaderText}>
+              This is the content for {selectedSetting?.title}
+            </Text>
+            <Button title="Back" onPress={closeModal}/>
+          </SafeAreaView>
+      </Modal>
     </SafeAreaView>
   );
 }
 
+
+//Extra Styling
 const settingsStyles = StyleSheet.create({
   welcomeBackground: {
     flex: 1,
@@ -123,5 +157,21 @@ const settingsStyles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
+  },
+  modalContainer: { 
+    flex: 1, 
+    justifyContent: "center", 
+    alignItems: "center", 
+    backgroundColor: "#fff", 
+  }, 
+  modalHeaderText: { 
+    fontSize: 24, 
+    fontWeight: "bold", 
+    marginBottom: 20, 
+  }, 
+  modalContentText: { 
+    fontSize: 16, 
+    marginBottom: 20, 
+    textAlign: "center",
   },
 });
