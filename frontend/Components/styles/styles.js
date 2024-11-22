@@ -230,4 +230,23 @@ export default StyleSheet.create({
     fontSize: 10,
     fontFamily: "coolveticarg",
   },
+  /*
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
+    paddingHorizontal: 10,
+  },
+  headerText: {
+    flex: 1, 
+    textAlign: "left",
+    fontWeight: "bold",
+    color: "#333",
+  },
+  ScrollView: {
+    maxHeight: "80%",
+  } */
+
 });
