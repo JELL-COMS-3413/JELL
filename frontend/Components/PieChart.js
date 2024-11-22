@@ -26,7 +26,7 @@ export default function BudgetPieChart({ data }) {
   // modal for pop-up with overview of expenses
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedSegment, setSelectedSegment] = useState({});
-  const [selectedSegmentId, setSelectedSegmentId] = useState(null);
+  const [selectedSegmentId, setSelectedSegmentId] = useState("0");
   // storing expenses for modal pop-up
   const [expenses, setExpenses] = useState([]);
   // pie chart slice colors
@@ -37,7 +37,7 @@ export default function BudgetPieChart({ data }) {
   }, []);
 
   useEffect(() => {
-    if (selectedSegmentId !== null) {
+    if (selectedSegmentId !== "0") {
       getExpenses(selectedSegment.label);
     }
   }, [selectedSegmentId]); // Fetch expenses when selected segment changes
@@ -116,12 +116,12 @@ export default function BudgetPieChart({ data }) {
     setSelectedSegment(segment);
     setSelectedSegmentId(segment.key);
   };
-  /*//reset back to size after the textbox is closed
+  //reset back to size after the textbox is closed
   const handleCloseModal = () => {
     setModalVisible(false);
-    setSelectedSegmentId(null);
+    setSelectedSegmentId("0");
   };
-*/
+
   return (
     <View style={{ alignItems: "center" }}>
       <PieChart
@@ -148,7 +148,7 @@ export default function BudgetPieChart({ data }) {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
+        onRequestClose={handleCloseModal}
       >
         <View style={styles.modalBackground}>
           <View style={styles.modalContent}>
@@ -171,7 +171,7 @@ export default function BudgetPieChart({ data }) {
             ) : (
               <Text>No data selected</Text>
             )}
-            <Button title="Close" onPress={() => setModalVisible(false)} />
+            <Button title="Close" onPress={() => handleCloseModal()} />
           </View>
         </View>
       </Modal>

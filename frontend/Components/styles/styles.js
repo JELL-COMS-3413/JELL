@@ -153,9 +153,9 @@ export default StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#E7C6CD",
     padding: 5,
-    width: "40%",
+    width: "60%",
     alignSelf: "center",
-    marginBottom: 5,
+    marginBottom: 10,
     borderRadius: 20,
   },
   welcomeBackground: {
