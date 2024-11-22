@@ -77,18 +77,24 @@ export default function BudgetPieChart({ data }) {
   );
 
   const pieData = data
-    .map((item, index) => ({
+  .map((item, index) => {
+    if (typeof item._id !== "string") {
+      console.warn("Invalid key value:", item._id);
+    }
+    return {
       key: item._id,
       value: parseFloat(item.value),
       svg: { fill: colors[index % colors.length] },
       arc: {
-        outerRadius: selectedSegmentId === item._id ? "110%" : "100%", // highlights the part
+        outerRadius: selectedSegmentId === item._id ? "110%" : "100%", // Ensure these are strings
         cornerRadius: 10,
       },
       label: item.title,
       percentage: calculatePercentage(item.value, totalValue),
-    }))
-    .filter((item) => item.value > 0);
+    };
+  })
+  .filter((item) => item.value > 0);
+
 
   const Labels = ({ slices }) => {
     return slices.map((slice, index) => {

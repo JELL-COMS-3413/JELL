@@ -21,7 +21,7 @@ export default function EditGoalItemModal({
       onSave({ ...item, title: title.trim(), value: value.trim() });
       onClose();
     } else {
-      alert("Please enter a title and value");
+      alert("Please enter a title and amount");
     }
   };
 
@@ -37,13 +37,13 @@ export default function EditGoalItemModal({
           <Text style={styles.modalTitle}>Edit Goal Item</Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter goal item title"
+            placeholder="Enter item"
             value={title}
             onChangeText={(text) => setTitle(text)}
           />
           <TextInput
             style={styles.input}
-            placeholder="Enter value to allocate"
+            placeholder="Enter amount"
             value={value}
             onChangeText={(text) => setValue(text)}
           />

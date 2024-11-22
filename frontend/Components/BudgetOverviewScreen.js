@@ -7,6 +7,7 @@ import {
   FlatList,
   ActivityIndicator,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import AddBudgetItemModal from "./AddBudgetItemModal";
 import EditBudgetItemModal from "./EditBudgetItemModal";
@@ -283,6 +284,11 @@ export default function BudgetOverviewScreen({ navigation }) {
           </View>
           <View style={[styles.greenPageSection, { position: "relative" }]}>
             <View style={[styles.pageContentContainer, { marginTop: 30 }]}>
+              {/*<ScrollView>
+              <View style={styles.headerRow}>
+                <Text style={styles.headerText}>Name</Text>
+                <Text style={styles.headerText}>Budget</Text>
+              </View>*/}
               <FlatList
                 data={data}
                 keyExtractor={(budgetItem) => budgetItem._id.toString()}
@@ -305,6 +311,7 @@ export default function BudgetOverviewScreen({ navigation }) {
                   </View>
                 )}
               />
+              {/*</ScrollView>*/}
               <AddBudgetItemModal onAddItem={addBudgetItem} />
             </View>
             <EditBudgetItemModal
