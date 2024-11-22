@@ -286,12 +286,12 @@ export default function GoalsScreen({ navigation }) {
           
           <View style={styles.greenPageSection}>
             <View style={styles.pageContentContainer}>
-              {/*<ScrollView>
+              <ScrollView>
               <View style={styles.headerRow}>
-                <Text style={styles.headerText}>Name</Text>
-                <Text style={styles.headerText}>Current</Text>
-                <Text style={styles.headerText}>Goal</Text>
-              </View>*/}
+                <Text style={styles.headerBudgetText}>Name</Text>
+                <Text style={styles.headerBudgetText}>Current</Text>
+                <Text style={styles.headerBudgetText}>Goal</Text>
+              </View>*
               <FlatList
                 data={data}
                 keyExtractor={(goalItem) => goalItem._id.toString()}
@@ -312,7 +312,7 @@ export default function GoalsScreen({ navigation }) {
                   </View>
                 )}
               />
-              {/*</ScrollView>*/}
+              </ScrollView>
               <AddGoalItemModal onAddItem={addGoalItem} />
             </View>
             <EditGoalItemModal

@@ -230,7 +230,7 @@ export default StyleSheet.create({
     fontSize: 10,
     fontFamily: "coolveticarg",
   },
-  /*
+  
   headerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -239,7 +239,7 @@ export default StyleSheet.create({
     borderBottomColor: "#ddd",
     paddingHorizontal: 10,
   },
-  headerText: {
+  headerBudgetText: {
     flex: 1, 
     textAlign: "left",
     fontWeight: "bold",
@@ -247,6 +247,6 @@ export default StyleSheet.create({
   },
   ScrollView: {
     maxHeight: "80%",
-  } */
+  } 
 
 });
