@@ -8,6 +8,8 @@ import {
   StyleSheet,
   FlatList,
   ActivityIndicator,
+  Modal,
+  Button
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
@@ -16,32 +18,33 @@ import loadFonts from "./styles/fonts";
 import TabNavigation from "./TabNavigation";
 import { profileImages } from "./ProfileScreen";
 import StockModal from "./StockModal";
-
-const loanCalc = [
-  { id: "1", title: "Amortized Loan" },
-  { id: "2", title: "Deferred Payment Loan" },
-  { id: "3", title: "Bond" },
-  { id: "4", title: "Mortgage" },
-  { id: "5", title: "Auto Loan" },
-  { id: "6", title: "Student Loan" },
-  { id: "7", title: "Mortgage Payoff" },
-];
-
-const saveCalc = [
-  { id: "1", title: "Savings" },
-  { id: "2", title: "Simple Interest" },
-  { id: "3", title: "Compound Interest" },
-  { id: "4", title: "Certificate of Deposit" },
-  { id: "5", title: "IRAs" },
-  { id: "6", title: "401K" },
-  { id: "7", title: "Social Security" },
-];
+import CalculatorModal from "./CalculatorModal";
 
 export default function CalculationScreen({ navigation, setIsLoggedIn }) {
   const [profile, setProfile] = useState("default");
   const [isLoanCalculator, setIsLoanCalculator] = useState(true);
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
+  const loanCalc = [
+    { id: "1", title: "Amortized Loan" },
+    { id: "2", title: "Deferred Payment Loan" },
+    { id: "3", title: "Bond" },
+    { id: "4", title: "Mortgage" },
+    { id: "5", title: "Auto Loan" },
+    { id: "6", title: "Student Loan" },
+    { id: "7", title: "Mortgage Payoff" },
+  ];
+  
+  const saveCalc = [
+    { id: "1", title: "Savings" },
+    { id: "2", title: "Simple Interest" },
+    { id: "3", title: "Compound Interest" },
+    { id: "4", title: "Certificate of Deposit" },
+    { id: "5", title: "IRAs" },
+    { id: "6", title: "401K" },
+    { id: "7", title: "Social Security" },
+  ];
+  
   const navigateToProfileScreen = () => {
     navigation.navigate("ProfileScreen");
   };
@@ -88,11 +91,7 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
   };
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.listItem}>
-      <Text style={{ fontFamily: "LouisGeorgeCafe", fontSize: 16 }}>
-        {item.title}
-      </Text>
-    </TouchableOpacity>
+    <CalculatorModal calculator={item}/>
   );
 
   return (
@@ -152,6 +151,9 @@ const additionalStyles = StyleSheet.create({
   },
   title: {
     fontSize: 29,
+  },
+  text: {
+    fontSize: 16,
   },
 });
 
