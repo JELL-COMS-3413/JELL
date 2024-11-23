@@ -141,7 +141,7 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
         style={{
           justifyContent: "center",
           alignSelf: "center",
-          width: "50%",
+          width: "60%",
         }}
       >
         <View
@@ -158,7 +158,8 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
               style={{
                 fontFamily: "coolveticarg",
                 alignSelf: "center",
-                fontSize: 16,
+                fontSize: 24,
+                textTransform: "uppercase",
               }}
             >
               {isLogin ? "Login" : "Sign Up"}
@@ -179,7 +180,8 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
               style={{
                 fontFamily: "coolveticarg",
                 alignSelf: "center",
-                fontSize: 16,
+                fontSize: 24,
+                textTransform: "uppercase",
               }}
             >
               {isLogin ? "Switch to Sign Up" : "Switch to Login"}
@@ -205,5 +207,6 @@ const loginStyles = StyleSheet.create({
     padding: 8,
     marginVertical: 10,
     backgroundColor: "white",
+    fontSize: 20,
   },
 });
