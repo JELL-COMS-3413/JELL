@@ -21,6 +21,7 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
   const [username, setUsername] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedSetting, setSelectedSetting] = useState(null);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   // State to manage theme (light/dark)
   const [theme, setTheme] = useState("light");
