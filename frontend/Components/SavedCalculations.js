@@ -158,7 +158,7 @@ export default function SavedCalculations() {
                 <Text>Calculations loading...</Text>
               </>
             )}
-            <View style={[styles.buttonContainer, { alignSelf: "center" }]}>
+            <View style={[styles.buttonContainer, {}]}>
               <TouchableOpacity
                 style={[styles.button, styles.cancelButton]}
                 onPress={() => setModalVisible(false)}

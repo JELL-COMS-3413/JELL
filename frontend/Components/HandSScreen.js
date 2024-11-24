@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { BsFillChatFill } from "react-icons/bs";
 import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity, View, Text } from "react-native";
 
-const HandSScreen = () => {
+function HandSScreen() {
   const [hovered, setHovered] = useState(false);
   const [visible, setVisible] = useState(false);
   const [message, setMessage] = useState(""); // State to store the chat message
@@ -26,23 +27,28 @@ const HandSScreen = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <View style={styles.container}>
       {/* Back Button */}
-      <button onClick={goBack} style={styles.backButton}>
+      <TouchableOpacity
+        onPress={() => {
+          goBack;
+        }}
+        style={styles.backButton}
+      >
         Back
-      </button>
+      </TouchableOpacity>
 
       {/* Chat Button Component */}
-      <div
+      <TouchableOpacity
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        onClick={sendMessage} // Trigger sendMessage on click
+        onPress={() => sendMessage} // Trigger sendMessage on click
         style={{
           ...styles.chatWidget,
           border: hovered ? "1px solid black" : "",
         }}
       >
-        <div
+        <View
           style={{
             display: "flex",
             alignItems: "center",
@@ -50,20 +56,22 @@ const HandSScreen = () => {
           }}
         >
           <BsFillChatFill size={16} color="white" /> {/* Smaller icon */}
-          <span style={styles.chatWidgetText}>Chat Now!!</span>
-        </div>
-      </div>
+          <Text style={styles.chatWidgetText}>Chat Now!!</Text>
+        </View>
+      </TouchableOpacity>
 
       {/* Modal */}
       {visible && (
-        <div style={styles.modalWindow}>
-          <span>{message}</span> {/* Display the message */}
-          <button onClick={() => setVisible(false)}>Close</button>
-        </div>
+        <Modal style={styles.modalWindow}>
+          <Text>{message}</Text> {/* Display the message */}
+          <TouchableOpacity onPress={() => setVisible(false)}>
+            Close
+          </TouchableOpacity>
+        </Modal>
       )}
-    </div>
+    </View>
   );
-};
+}
 
 const styles = {
   container: {

@@ -16,13 +16,13 @@ export default function AppearanceScreen({ toggleTheme, theme, closeModal }) {
         </Text>
       </TouchableOpacity>
 
-      {/* Close Button */}
+      {/* Close Button 
       <TouchableOpacity
         onPress={closeModal}
         style={appearanceStyles.closeButton}
       >
         <Text style={appearanceStyles.closeButtonText}>Close</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>*/}
     </SafeAreaView>
   );
 }
