@@ -202,7 +202,6 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
           throw new Error(errorResponse.message || "Failed to fetch user data");
         } else {
           const loadedUser = await response.json();
-          console.log("loadedUser: ", loadedUser);
           setFirstName(loadedUser.firstname);
           setLastName(loadedUser.lastname);
         }
@@ -224,8 +223,8 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
 
   return (
     <SafeAreaView style={styles.background}>
-      <Text style={styles.headerText}>PROFILE</Text>
-      <View style={styles.greenPageSection}>
+      <Text style={[styles.headerText, { marginTop: 50 }]}>PROFILE</Text>
+      <View style={styles.pinkPageSection}>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : !editing ? (
@@ -234,7 +233,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
               source={profileImages[profile]}
               style={styles.profileHeader}
             />
-            <View style={styles.pageContentContainer}>
+            <View style={[styles.pageContentContainer, { height: "40%" }]}>
               <Text style={{ fontFamily: "coolveticarg" }}>Name:</Text>
               <Text style={{ fontFamily: "LouisGeorgeCafe" }}>
                 {firstName} {lastName}
@@ -257,10 +256,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
               </Pressable>
             </View>
 
-            <Pressable
-              onPress={handleLogout}
-              style={[profileStyles.logout, { borderWidth: 2 }]}
-            >
+            <Pressable onPress={handleLogout} style={[profileStyles.logout]}>
               <Text style={{ fontFamily: "LouisGeorgeCafe" }}>Logout</Text>
             </Pressable>
           </View>
@@ -299,7 +295,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
               </Pressable>
             </View>
             <Pressable onPress={handleLogout} style={profileStyles.logout}>
-              <Text>Logout</Text>
+              <Text style={{ fontFamily: "LouisGeorgeCafe" }}>Logout</Text>
             </Pressable>
           </View>
         )}
@@ -340,5 +336,6 @@ const profileStyles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     margin: 5,
+    borderWidth: 2,
   },
 });

@@ -75,7 +75,9 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
     { id: "6", title: "About", image: require("../assets/aboutIcon.png") },
   ];
 
+
   // Opens modal or navigates directly to the appropriate screen
+  //Creates the little screen that opens when clicking on a setting
   const openModal = (setting) => {
     setSelectedSetting(setting);
     if (setting.title === "Appearance") {
