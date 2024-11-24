@@ -99,6 +99,8 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
       navigation.navigate("AboutScreen");
     } else if (setting.title === "Privacy & Security") {
       navigation.navigate("PrivacyScreen");
+    } else if (setting.title === "Account") {
+      navigation.navigate("ProfileScreen");
     } else {
       setIsModalVisible(true);
       setIsChatOpen(false); // Ensure chat is closed for other settings
