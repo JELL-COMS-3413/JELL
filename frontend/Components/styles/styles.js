@@ -246,4 +246,3 @@ export default StyleSheet.create({
     maxHeight: "80%",
   } */
 });
-export const ipAddress = "10.200.201.194";
