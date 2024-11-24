@@ -21,6 +21,7 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
   const [username, setUsername] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedSetting, setSelectedSetting] = useState(null);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   // State to manage theme (light/dark)
   const [theme, setTheme] = useState("light");
@@ -74,17 +75,27 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
     },
     { id: "6", title: "About", image: require("../assets/aboutIcon.png") },
   ];
-
-
+  const sendInitialMessage = () => {
+    console.log("Initial message sent!");
+  };
   // Opens modal or navigates directly to the appropriate screen
   //Creates the little screen that opens when clicking on a setting
   const openModal = (setting) => {
     setSelectedSetting(setting);
+
     if (setting.title === "Appearance") {
       // Open modal for Appearance screen
       setIsModalVisible(true);
+      setIsChatOpen(false); // Ensure chat is closed for Appearance
+    } else if (setting.title === "Help and Support") {
+      // Navigate to the Help and Support screen and open chat
+      setIsChatOpen(true);
+      navigation.navigate("HandSScreen");
+      sendInitialMessage(); // Optionally, send a greeting message when chat opens
+      setIsModalVisible(false);
     } else {
-      setIsModalVisible(true); // Open modal for other settings
+      setIsModalVisible(true);
+      setIsChatOpen(false); // Ensure chat is closed for other settings
     }
   };
 
