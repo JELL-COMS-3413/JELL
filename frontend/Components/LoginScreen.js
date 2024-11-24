@@ -99,7 +99,7 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
 
   return (
     <SafeAreaView style={loginStyles.background}>
-      <View style={styles.pageContentContainer}>
+      <View style={[styles.pageContentContainer, { height: "20%" }]}>
         <Text style={styles.headerText}>{isLogin ? "Login" : "Sign Up"}</Text>
 
         {!isLogin && (

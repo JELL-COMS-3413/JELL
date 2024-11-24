@@ -202,7 +202,6 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
           throw new Error(errorResponse.message || "Failed to fetch user data");
         } else {
           const loadedUser = await response.json();
-          console.log("loadedUser: ", loadedUser);
           setFirstName(loadedUser.firstname);
           setLastName(loadedUser.lastname);
         }
@@ -234,7 +233,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
               source={profileImages[profile]}
               style={styles.profileHeader}
             />
-            <View style={styles.pageContentContainer}>
+            <View style={[styles.pageContentContainer, { height: "40%" }]}>
               <Text style={{ fontFamily: "coolveticarg" }}>Name:</Text>
               <Text style={{ fontFamily: "LouisGeorgeCafe" }}>
                 {firstName} {lastName}

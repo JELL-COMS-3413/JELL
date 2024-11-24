@@ -8,18 +8,23 @@ import {
   FlatList,
   Image,
   Modal,
-  Button,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import TabNavigation from "./TabNavigation";
 import styles from "./styles/styles";
 
+// Import AppearanceScreen
+import AppearanceScreen from "./AppearanceScreen"; // Make sure it's correctly imported
+
 export default function SettingScreen({ navigation, setIsLoggedIn }) {
   const [username, setUsername] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedSetting, setSelectedSetting] = useState(null);
-  const navigation1 = useNavigation();
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  // State to manage theme (light/dark)
+  const [theme, setTheme] = useState("light");
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem("token");
@@ -47,10 +52,7 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
 
   // Flatlist for all the categories in the settings page
   const settingsCategories = [
-    { id: "1", 
-      title: "Account", 
-      image: require("../assets/accountIcon.png") 
-    },
+    { id: "1", title: "Account", image: require("../assets/accountIcon.png") },
     {
       id: "2",
       title: "Notifications",
@@ -73,11 +75,28 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
     },
     { id: "6", title: "About", image: require("../assets/aboutIcon.png") },
   ];
-
+  const sendInitialMessage = () => {
+    console.log("Initial message sent!");
+  };
+  // Opens modal or navigates directly to the appropriate screen
   //Creates the little screen that opens when clicking on a setting
   const openModal = (setting) => {
     setSelectedSetting(setting);
-    setIsModalVisible(true);
+
+    if (setting.title === "Appearance") {
+      // Open modal for Appearance screen
+      setIsModalVisible(true);
+      setIsChatOpen(false); // Ensure chat is closed for Appearance
+    } else if (setting.title === "Help and Support") {
+      // Navigate to the Help and Support screen and open chat
+      setIsChatOpen(true);
+      navigation.navigate("HandSScreen");
+      sendInitialMessage(); // Optionally, send a greeting message when chat opens
+      setIsModalVisible(false);
+    } else {
+      setIsModalVisible(true);
+      setIsChatOpen(false); // Ensure chat is closed for other settings
+    }
   };
 
   const closeModal = () => {
@@ -85,21 +104,35 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
     setSelectedSetting(null);
   };
 
-//Shows our flatlist on the screen
-const renderItem = ({ item }) => ( 
-  <TouchableOpacity 
-    onPress={() => openModal(item)} 
-    style={settingsStyles.link} 
-  > 
-    <Image source={item.image} style={settingsStyles.image} /> 
-    <Text style={settingsStyles.text}>{item.title}</Text> 
-  </TouchableOpacity> 
-);
+  // Function to toggle between light and dark themes
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+  };
 
-  //Formatting and layout of flatlist.
+  // Styling based on the current theme
+  const backgroundColor = theme === "light" ? "#98A869" : "#333";
+  const textColor = theme === "light" ? "#000" : "#fff";
+
+  // Show FlatList on the screen
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      onPress={() => openModal(item)}
+      style={settingsStyles.link}
+    >
+      <Image source={item.image} style={settingsStyles.image} />
+      <Text style={settingsStyles.text}>{item.title}</Text>
+    </TouchableOpacity>
+  );
+
+  // Formatting and layout of FlatList
   return (
-    <SafeAreaView style={styles.welcomeBackground}>
-      <Text style={[settingsStyles.headerText, { alignSelf: "center" }]}>
+    <SafeAreaView style={[styles.welcomeBackground, { backgroundColor }]}>
+      <Text
+        style={[
+          settingsStyles.headerText,
+          { alignSelf: "center", color: textColor },
+        ]}
+      >
         SETTINGS
       </Text>
       <View style={styles.pageContentContainer}>
@@ -109,33 +142,34 @@ const renderItem = ({ item }) => (
           keyExtractor={(item) => item.id}
         />
       </View>
-      <TabNavigation navigation={navigation} />
 
+      <TabNavigation navigation={navigation} />
       <Modal
         visible={isModalVisible}
         animationType="slide"
         onRequestClose={closeModal}
-        >
-          <SafeAreaView style={settingsStyles.modalContainer}>
-            <Text style={settingsStyles.modalHeaderText}>
-              {selectedSetting?.title}
-            </Text>
-            <Text style={settingsStyles.modalHeaderText}>
-              This is the content for {selectedSetting?.title}
-            </Text>
-            <Button title="Back" onPress={closeModal}/>
-          </SafeAreaView>
+      >
+        <SafeAreaView style={settingsStyles.modalContainer}>
+          <Text style={settingsStyles.modalHeaderText}>
+            {selectedSetting?.title}
+          </Text>
+          {selectedSetting?.title === "Appearance" && (
+            <AppearanceScreen
+              toggleTheme={toggleTheme}
+              theme={theme} // Pass the current theme state to AppearanceScreen
+              closeModal={closeModal} // Allow the modal to be closed from AppearanceScreen
+            />
+          )}
+        </SafeAreaView>
       </Modal>
     </SafeAreaView>
   );
 }
 
-
-//Extra Styling
 const settingsStyles = StyleSheet.create({
   welcomeBackground: {
+    backgroundColor: "#98A869",
     flex: 1,
-    backgroundColor: "#fff",
     padding: 20,
   },
   headerText: {
@@ -148,7 +182,7 @@ const settingsStyles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     marginVertical: 5,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#E7C6CD",
     borderRadius: 5,
   },
   image: {
@@ -159,20 +193,15 @@ const settingsStyles = StyleSheet.create({
   text: {
     fontSize: 16,
   },
-  modalContainer: { 
-    flex: 1, 
-    justifyContent: "center", 
-    alignItems: "center", 
-    backgroundColor: "#fff", 
-  }, 
-  modalHeaderText: { 
-    fontSize: 24, 
-    fontWeight: "bold", 
-    marginBottom: 20, 
-  }, 
-  modalContentText: { 
-    fontSize: 16, 
-    marginBottom: 20, 
-    textAlign: "center",
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  modalHeaderText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
   },
 });

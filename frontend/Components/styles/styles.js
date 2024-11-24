@@ -83,14 +83,15 @@ export default StyleSheet.create({
     marginHorizontal: 30,
     padding: 20,
     borderRadius: 10,
+    height: 250,
     justifyContent: "space-between",
-    maxHeight: "80%",
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
     fontFamily: "LouisGeorgeCafe",
+    textTransform: "uppercase",
   },
   input: {
     height: 40,
@@ -115,13 +116,10 @@ export default StyleSheet.create({
     justifyContent: "space-around",
   },
   button: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+    padding: 10,
     marginHorizontal: 5,
     alignItems: "center",
     borderRadius: 20,
-    flex: 1,
-    maxWidth: 150,
   },
   successButton: {
     backgroundColor: "#B3C17A",
@@ -139,8 +137,9 @@ export default StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: "LouisGeorgeCafe",
+    textTransform: "uppercase",
   },
   background: {
     backgroundColor: "#E7C6CD",
@@ -149,7 +148,7 @@ export default StyleSheet.create({
     padding: 0,
     width: "100%",
   },
-  pinkPageSection: {
+  greenPageSection: {
     backgroundColor: "#98A869",
     width: "100%",
     paddingTop: 30,
@@ -169,9 +168,9 @@ export default StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#98A869",
     padding: 5,
-    width: "60%",
+    width: "40%",
     alignSelf: "center",
-    marginBottom: 10,
+    marginBottom: 5,
     borderRadius: 20,
   },
   welcomeBackground: {
@@ -228,7 +227,6 @@ export default StyleSheet.create({
     fontSize: 10,
     fontFamily: "coolveticarg",
   },
-  /*
   headerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -237,13 +235,28 @@ export default StyleSheet.create({
     borderBottomColor: "#ddd",
     paddingHorizontal: 10,
   },
-  headerText: {
+  headerBudgetText: {
     flex: 1, 
     textAlign: "left",
     fontWeight: "bold",
     color: "#333",
   },
-  ScrollView: {
-    maxHeight: "80%",
-  } */
+  amount: {
+    fontSize: 16,
+    fontFamily: "coolveticarg",
+    textAlign: "left",
+    width: "30%",
+  },
+  total: {
+    fontSize: 60,
+    color: "#0",
+  },
+  ProgressText: {
+    fontFamily: "coolveticarg",
+    textAlign: "center",
+  },
+  savings: {
+    color: "#656038",
+    fontSize: 25,
+  }
 });

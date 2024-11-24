@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import {
-  View,
-  Text,
-  Button,
-  Modal,
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
+import { View, Text, Button, Modal, StyleSheet, FlatList } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PieChart } from "react-native-svg-charts";
 import { G, Text as SvgText } from "react-native-svg";
@@ -21,15 +13,14 @@ const calculatePercentage = (value, total) => {
 };
 
 export default function BudgetPieChart({ data }) {
-  // loading fonts
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  // modal for pop-up with overview of expenses
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedSegment, setSelectedSegment] = useState({});
   const [selectedSegmentId, setSelectedSegmentId] = useState("0");
   // storing expenses for modal pop-up
   const [expenses, setExpenses] = useState([]);
-  // pie chart slice colors
+
+  // Pie chart slice colors
   const colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
 
   useEffect(() => {
@@ -41,7 +32,7 @@ export default function BudgetPieChart({ data }) {
       getExpenses(selectedSegment.label);
     }
   }, [selectedSegmentId]); // Fetch expenses when selected segment changes
-
+  //fetches the information
   const getExpenses = async (category) => {
     try {
       const token = await AsyncStorage.getItem("token");
@@ -75,7 +66,7 @@ export default function BudgetPieChart({ data }) {
     (acc, item) => acc + parseFloat(item.value),
     0
   );
-
+  //the pie
   const pieData = data
     .map((item, index) => {
       if (typeof item._id !== "string") {
@@ -121,7 +112,8 @@ export default function BudgetPieChart({ data }) {
     setSelectedSegment(segment);
     setSelectedSegmentId(segment.key);
   };
-  //reset back to size after the textbox is closed
+
+  // Reset back to size after the modal is closed
   const handleCloseModal = () => {
     setModalVisible(false);
     setSelectedSegmentId("0");
@@ -129,25 +121,29 @@ export default function BudgetPieChart({ data }) {
 
   return (
     <View style={{ alignItems: "center" }}>
-      <PieChart
-        style={{
-          height: 200,
-          width: 320,
-          paddingLeft: 40,
-          paddingRight: 40,
-          alignSelf: "center",
-          marginTop: 5,
-        }}
-        data={pieData.map((segment) => ({
-          ...segment,
-          svg: {
-            ...segment.svg,
-            onPress: () => handleSegmentPress(segment),
-          },
-        }))}
-      >
-        <Labels />
-      </PieChart>
+      {fontsLoaded ? (
+        <PieChart
+          style={{
+            height: 200,
+            width: 320,
+            paddingLeft: 40,
+            paddingRight: 40,
+            alignSelf: "center",
+            marginTop: 5,
+          }}
+          data={pieData.map((segment) => ({
+            ...segment,
+            svg: {
+              ...segment.svg,
+              onPress: () => handleSegmentPress(segment),
+            },
+          }))}
+        >
+          <Labels />
+        </PieChart>
+      ) : (
+        <Text>Loading fonts...</Text>
+      )}
 
       <Modal
         animationType="slide"
@@ -165,7 +161,9 @@ export default function BudgetPieChart({ data }) {
                     textTransform: "uppercase",
                     fontSize: 24,
                   }}
-                >{`${selectedSegment.label}: ${selectedSegment.value}`}</Text>
+                >{`${selectedSegment.label}: $${(
+                  selectedSegment.value || 0
+                ).toFixed(2)}`}</Text>
                 <FlatList
                   data={expenses}
                   style={{ marginVertical: 10 }}
@@ -217,7 +215,7 @@ export default function BudgetPieChart({ data }) {
     </View>
   );
 }
-
+//props
 BudgetPieChart.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
@@ -227,7 +225,7 @@ BudgetPieChart.propTypes = {
     })
   ).isRequired,
 };
-
+//styles
 const styles = StyleSheet.create({
   modalBackground: {
     flex: 1,
@@ -247,5 +245,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#333",
     marginBottom: 10,
+  },
+  listItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 5,
+  },
+  budgetItem: {
+    fontSize: 16,
+  },
+  value: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });

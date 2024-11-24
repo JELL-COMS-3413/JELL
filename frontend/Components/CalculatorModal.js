@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"; 
+import React, { useState, useEffect, useCallback } from "react";
 import {
   SafeAreaView,
   Text,
@@ -10,17 +10,20 @@ import {
   FlatList,
   TextInput,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles"; // Import your styles
+import { ipAddress } from "./ip";
 
 export default function CalculatorModal({ calculator }) {
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [modalContent, setModalContent] = useState(""); // State for modal content
-    const [selectedCalculation, setSelectedCalculation] = useState(null); // State for selected calculation
-    const [formData, setFormData] = useState([]);
-    const [result, setResult] = useState(""); // State to store the result of the calculation
-
-
-    const openModal = (Calc) => {
+  const [isModalVisible, setIsModalVisible] = useState(false); // show modal when calculator selected
+  const [modalContent, setModalContent] = useState(""); // State for calculation description
+  const [selectedCalculation, setSelectedCalculation] = useState(null); // State for selected calculation
+  const [formData, setFormData] = useState([]); // stores input fields of opened calculator
+  const [result, setResult] = useState(null); // State to store the result of the calculation
+  const [results, setResults] = useState([]); // store array of results with labels and values
+  const [resultCalculated, setResultCalculated] = useState(false); // to render save button when result is calculated
+  
+      const openModal = (Calc) => {
         let content = "";
         let fields = [];
 
@@ -211,6 +214,18 @@ export default function CalculatorModal({ calculator }) {
                         (1 - Math.pow(1 + monthlyRate, -totalPayments));
     
                     calculationResult = calculationResult.toFixed(2); // Round to 2 decimal places
+                  setResults([
+              {
+                label: "Monthly Payment",
+                value: parseFloat(calculationResult),
+              },
+              {
+                label: "Total Paid",
+                value: parseFloat(
+                  (totalPayments * parseFloat(calculationResult)).toFixed(2)
+                ),
+              },
+            ]);
                 } else {
                     calculationResult = "Invalid input values. Please check your inputs.";
                 }
@@ -254,6 +269,20 @@ export default function CalculatorModal({ calculator }) {
                         (1 - Math.pow(1 + monthlyRate, -totalPaymentsAfterDeferral));
     
                     calculationResult = calculationResult.toFixed(2); // Round to 2 decimal places
+                  setResults([
+              {
+                label: "Monthly Payment after Deferral",
+                value: parseFloat(calculationResult),
+              },
+              {
+                label: "Total Paid after Deferral",
+                value: parseFloat(
+                  (
+                    parseFloat(calculationResult) * totalPaymentsAfterDeferral
+                  ).toFixed(2)
+                ),
+              },
+            ]);
                 } else {
                     calculationResult = "Invalid input values. Please check your inputs.";
                 } 
@@ -296,6 +325,12 @@ export default function CalculatorModal({ calculator }) {
                     bondPrice += faceValue / Math.pow(1 + ratePerPeriod, periods);
     
                     calculationResult = bondPrice.toFixed(2); // Round to 2 decimal places
+                  setResults([
+              {
+                label: "Value of bond at maturity",
+                value: parseFloat(calculationResult),
+              },
+            ]);
                 } else {
                     calculationResult = "Invalid input values. Please check your inputs.";
                 }
@@ -308,6 +343,18 @@ export default function CalculatorModal({ calculator }) {
                      const totalPayments = loanTerm * paymentsPerYear;
                      const monthlyPayment = (loanAmount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -totalPayments));
                      calculationResult = monthlyPayment.toFixed(2);
+                   setResults([
+              {
+                label: "Monthly Payment",
+                value: parseFloat(calculationResult),
+              },
+              {
+                label: "Total Paid",
+                value: parseFloat(
+                  (totalPayments * parseFloat(monthlyPayment)).toFixed(2)
+                ),
+              },
+            ]);
                  } else {
                      calculationResult = "Invalid input values. Please check your inputs.";
                  }
@@ -343,6 +390,18 @@ export default function CalculatorModal({ calculator }) {
                     const monthlyPayment = (loanPrincipal * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -totalPayments));
             
                     calculationResult = monthlyPayment.toFixed(2); // Round to 2 decimal places
+                  setResults([
+              {
+                label: "Monthly Payment",
+                value: parseFloat(calculationResult),
+              },
+              {
+                label: "Total Paid",
+                value: parseFloat(
+                  (totalPayments * parseFloat(monthlyPayment)).toFixed(2)
+                ),
+              },
+            ]);
                 } else {
                     calculationResult = "Invalid input values. Please check your inputs.";
                 }
@@ -381,6 +440,16 @@ export default function CalculatorModal({ calculator }) {
                         (loanWithGrace * monthlyRate) / (1 - Math.pow(1 + monthlyRate, - (totalPayments - gracePayments)));
                 
                     calculationResult = monthlyPayment.toFixed(2); // Round to 2 decimal places
+                  setResults([
+              {
+                label: "Monthly Payment",
+                value: parseFloat(calculationResult),
+              },
+              {
+                label: "Total Paid",
+                value: parseFloat((totalPayments * monthlyPayment).toFixed(2)),
+              },
+            ]);
                     } else {
                         calculationResult = "Invalid input values. Please check your inputs.";
                     }
@@ -589,37 +658,90 @@ export default function CalculatorModal({ calculator }) {
                 break;  
             default:
                 calculationResult = "Invalid calculation type";
-        }
+      }
     }
-        setResult(calculationResult); // Set the result state
-    };
-    
+    setResult(calculationResult); // Set the result state
+    if (
+      calculationResult != "Invalid calculation type" &&
+      calculationResult != "Invalid input values. Please check your inputs."
+    ) {
+      setResultCalculated(true);
+    }
+  };
 
-    const renderItem = ({ item }) => (
-        <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>{item.label}</Text>
-            <TextInput
-                style={styles.inputField}
-                value={item.value}
-                onChangeText={text => handleInputChange(item.id, text)} // Handle input change
-                keyboardType="numeric" // Ensure numeric keyboard is shown
-                placeholder="Enter value"
-            />
-        </View>
-    );
+  const renderItem = ({ item }) => (
+    <View style={styles.inputContainer}>
+      <Text style={styles.inputLabel}>{item.label}</Text>
+      <TextInput
+        style={styles.inputField}
+        value={item.value}
+        onChangeText={(text) => handleInputChange(item.id, text)} // Handle input change
+        keyboardType="numeric" // Ensure numeric keyboard is shown
+        placeholder="Enter value"
+      />
+    </View>
+  );
 
-    return (
-        <View>
-            <TouchableOpacity
-                onPress={() => openModal(calculator)} // Pass calculator here to openModal
-                style={styles.listItem}
-            >
-                <Text style={{ fontFamily: "LouisGeorgeCafe", fontSize: 16 }}>
-                    {calculator.title} {/* Access title directly from calculator */}
-                </Text>
-            </TouchableOpacity>
 
-            <Modal
+  const handleSave = () => {
+    // converting inputs data from form to database format
+    const inputs = formData.map((field) => {
+      return {
+        title: field.label, // Use the label as the title
+        value: parseFloat(field.value) || 0, // Convert the value to a number, default to 0 if empty
+      };
+    });
+
+    const outputs = results.map((result) => {
+      return {
+        title: result.label,
+        value: parseFloat(result.value) || 0,
+      };
+    });
+
+    saveCalculation({
+      type: calculator.title.trim(),
+      inputs: inputs,
+      outputs: outputs,
+    });
+  };
+
+  const saveCalculation = useCallback(async (newCalculation) => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const response = await fetch(`http://${ipAddress}:5000/calculation`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(newCalculation),
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.message || "Failed to save calculation");
+      }
+
+      const savedCalculation = await response.json();
+    } catch (error) {
+      console.error("Error saving calculation:", error);
+      alert(error.message);
+    }
+  }, []);
+
+  return (
+    <View>
+      <TouchableOpacity
+        onPress={() => openModal(calculator)} // Pass calculator here to openModal
+        style={styles.listItem}
+      >
+        <Text style={{ fontFamily: "LouisGeorgeCafe", fontSize: 16 }}>
+          {calculator.title} {/* Access title directly from calculator */}
+        </Text>
+      </TouchableOpacity>
+
+     <Modal
                 visible={isModalVisible}
                 animationType="slide"
                 onRequestClose={closeModal}
@@ -653,13 +775,18 @@ export default function CalculatorModal({ calculator }) {
                     <TouchableOpacity onPress={calculateResult} style={additionalStyles.modalButton}> 
                         <Text style={additionalStyles.buttonText}>Submit</Text> 
                     </TouchableOpacity>
+{resultCalculated && (
+              <TouchableOpacity onPress={handleSave} style={additionalStyles.modalButton}>
+                <Text style={additionalStyles.buttonText}>Save</Text>
+              </TouchableOpacity>
+            )}
                     </View>
 
                     
                 </SafeAreaView>
             </Modal>
-        </View>
-    );
+    </View>
+  );
 }
 const additionalStyles = StyleSheet.create({
     modalContainer: { 
