@@ -112,14 +112,71 @@ export default function CalculatorModal({ calculator }) {
       case "Certificate of Deposit":
         content =
           "A Certificate of Deposit (CD) is a type of savings account offered by banks or credit unions that pays a fixed interest rate for a specified term, with the principal and interest returned to the depositor at maturity. Early withdrawal usually incurs a penalty.";
+        fields = [
+          { id: "1", label: "Principal (initial deposit)", value: "" },
+          {
+            id: "2",
+            label: "Annual Interest Rate",
+            value: "",
+          },
+          {
+            id: "3",
+            label: "Number of Compounding Periods per year",
+            value: "",
+          },
+          { id: "4", label: "Time invested (years)", value: "" },
+        ];
         break;
       case "IRAs":
         content =
           "An IRA (Individual Retirement Account) is a tax-advantaged savings account designed to help individuals save for retirement.";
+        fields = [
+          { id: "1", label: "Principal (initial deposit)", value: "" },
+          {
+            id: "2",
+            label: "Regular contribution (0 if not applicable)",
+            value: "",
+          },
+          {
+            id: "3",
+            label: "Annual Interest Rate",
+            value: "",
+          },
+          {
+            id: "4",
+            label: "Number of Compounding Periods per year",
+            value: "",
+          },
+          { id: "5", label: "Time (years)", value: "" },
+        ];
         break;
       case "401K":
         content =
           "A 401(k) is a retirement savings plan offered by employers, allowing employees to contribute a portion of their salary on a pre-tax basis, with potential employer matching, and tax-deferred growth until withdrawals are made in retirement.";
+        fields = [
+          { id: "1", label: "Principal (initial deposit)", value: "" },
+          {
+            id: "2",
+            label: "Regular contribution (0 if not applicable)",
+            value: "",
+          },
+          {
+            id: "3",
+            label: "Annual Interest Rate",
+            value: "",
+          },
+          {
+            id: "4",
+            label: "Number of Compounding Periods per year",
+            value: "",
+          },
+          {
+            id: "5",
+            label: "Employer Matching Percentage (0 if not applicable)",
+            value: "",
+          },
+          { id: "6", label: "Time (years)", value: "" },
+        ];
         break;
       case "Social Security":
         content =
@@ -141,6 +198,7 @@ export default function CalculatorModal({ calculator }) {
     setModalContent("");
     setFormData([]); // clear form data when closing modal
     setResult(""); // Clear the result
+    setResultCalculated(false);
   };
 
   const handleInputChange = (id, value) => {
@@ -468,15 +526,152 @@ export default function CalculatorModal({ calculator }) {
         case "Compound Interest":
           calculationResult = "Compound Interest result"; // Placeholder
           break;
-        case "Certificate of Deposit":
-          calculationResult = "Certificate of Deposit result"; // Placeholder
+        case "Certificate of Deposit": {
+          const {
+            "Principal (initial deposit)": cdPrincipal,
+            "Annual Interest Rate": cdInterest,
+            "Number of Compounding Periods per year": cdPeriodsPerYear,
+            "Time invested (years)": cdTimeInvested,
+          } = formValues;
+          // Ensure all necessary values are provided and valid
+          if (
+            !isNaN(cdPrincipal) &&
+            !isNaN(cdInterest) &&
+            !isNaN(cdPeriodsPerYear) &&
+            !isNaN(cdTimeInvested) &&
+            cdPrincipal > 0 &&
+            cdInterest > 0 &&
+            cdPeriodsPerYear > 0 &&
+            cdTimeInvested > 0
+          ) {
+            let cdInterestDecimal = cdInterest / 100;
+            let cdFutureValue =
+              cdPrincipal *
+              Math.pow(
+                1 + cdInterestDecimal / cdPeriodsPerYear,
+                cdPeriodsPerYear * cdTimeInvested
+              );
+            calculationResult = cdFutureValue.toFixed(2);
+            setResults([
+              {
+                label: "CD Future Value",
+                value: parseFloat(calculationResult),
+              },
+            ]);
+          } else {
+            calculationResult =
+              "Invalid input values. Please check your inputs.";
+          }
           break;
-        case "IRAs":
-          calculationResult = "IRAs result"; // Placeholder
+        }
+        case "IRAs": {
+          const {
+            "Principal (initial deposit)": iraPrincipal,
+            "Regular contribution (0 if not applicable)": iraContribution,
+            "Annual Interest Rate": iraInterest,
+            "Number of Compounding Periods per year": iraCompoundingPeriods,
+            "Time (years)": iraTime,
+          } = formValues;
+          // Ensure all necessary values are provided and valid
+          if (
+            !isNaN(iraPrincipal) &&
+            !isNaN(iraContribution) &&
+            !isNaN(iraInterest) &&
+            !isNaN(iraCompoundingPeriods) &&
+            !isNaN(iraTime) &&
+            iraPrincipal > 0 &&
+            iraContribution >= 0 &&
+            iraInterest > 0 &&
+            iraCompoundingPeriods > 0 &&
+            iraTime > 0
+          ) {
+            let iraInterestDecimal = iraInterest / 100;
+            let iraFutureValue =
+              iraPrincipal *
+                Math.pow(
+                  1 + iraInterestDecimal / iraCompoundingPeriods,
+                  iraCompoundingPeriods * iraTime
+                ) +
+              iraContribution *
+                ((Math.pow(
+                  1 + iraInterestDecimal / iraCompoundingPeriods,
+                  iraCompoundingPeriods * iraTime
+                ) -
+                  1) /
+                  (iraInterestDecimal / iraCompoundingPeriods));
+            calculationResult = iraFutureValue.toFixed(2); // string, two decimals
+            setResults([
+              {
+                label: "Value of IRA at maturigy",
+                value: parseFloat(calculationResult),
+              },
+            ]);
+          } else {
+            calculationResult =
+              "Invalid input values. Please check your inputs.";
+          }
           break;
-        case "401K":
-          calculationResult = "401K result"; // Placeholder
+        }
+        case "401K": {
+          const {
+            "Principal (initial deposit)": kPrincipal,
+            "Regular contribution (0 if not applicable)": kContribution,
+            "Annual Interest Rate": kInterest,
+            "Number of Compounding Periods per year": kCompoundingPeriods,
+            "Employer Matching Percentage (0 if not applicable)": kEmpMatch,
+            "Time (years)": kTime,
+          } = formValues;
+          // Ensure all necessary values are provided
+          if (
+            !isNaN(kPrincipal) &&
+            !isNaN(kContribution) &&
+            !isNaN(kInterest) &&
+            !isNaN(kCompoundingPeriods) &&
+            !isNaN(kEmpMatch) &&
+            !isNaN(kTime) &&
+            kPrincipal > 0 &&
+            kContribution >= 0 &&
+            kInterest > 0 &&
+            kCompoundingPeriods > 0 &&
+            kEmpMatch >= 0 &&
+            kTime > 0
+          ) {
+            let kInterestDecimal = kInterest / 100;
+            let kEmpMatchDecimal = kEmpMatch / 100;
+            let kFutureValue =
+              kPrincipal *
+                Math.pow(
+                  1 + kInterestDecimal / kCompoundingPeriods,
+                  kCompoundingPeriods * kTime
+                ) +
+              (kContribution + kEmpMatchDecimal * kContribution) *
+                ((Math.pow(
+                  1 + kInterestDecimal / kCompoundingPeriods,
+                  kCompoundingPeriods * kTime
+                ) -
+                  1) /
+                  (kInterestDecimal / kCompoundingPeriods));
+            let kTotalContribution = (
+              kCompoundingPeriods *
+              kTime *
+              kContribution
+            ).toFixed(2);
+            let kGain = (kFutureValue - kTotalContribution).toFixed(2);
+            calculationResult = kFutureValue.toFixed(2); // Round to 2 decimal places, string
+            setResults([
+              { label: "Future Value", value: parseFloat(calculationResult) },
+              {
+                label: "Your Total Contribution",
+                value: parseFloat(kTotalContribution),
+              },
+              { label: "Net Gain", value: parseFloat(kGain) },
+            ]);
+          } else {
+            calculationResult =
+              "Invalid input values. Please check your inputs.";
+          }
           break;
+        }
         case "Social Security":
           calculationResult = "Social Security result"; // Placeholder
           break;

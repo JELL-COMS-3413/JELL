@@ -22,15 +22,22 @@ export default function GoalsScreen({ navigation }) {
   const [error, setError] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
   const [data, setData] = useState([]);
-  const [profile, setProfile] = useState([]);
+  const [profile, setProfile] = useState("default");
   const [fontsLoaded, setFontsLoaded] = useState(true);
   const [isEditModalVisible, setisEditModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
 
- //progress bar calculations 
-  const totalAccumulated = data.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0);
-  const totalGoal = data.reduce((sum, item) => sum + parseFloat(item.goal || 0), 0);
-  const progress = totalGoal > 0 ? Math.min(totalAccumulated / totalGoal, 1) : 0;
+  //progress bar calculations
+  const totalAccumulated = data.reduce(
+    (sum, item) => sum + parseFloat(item.amount || 0),
+    0
+  );
+  const totalGoal = data.reduce(
+    (sum, item) => sum + parseFloat(item.goal || 0),
+    0
+  );
+  const progress =
+    totalGoal > 0 ? Math.min(totalAccumulated / totalGoal, 1) : 0;
 
   const fetchItems = useCallback(async () => {
     setLoading(true);
@@ -98,12 +105,12 @@ export default function GoalsScreen({ navigation }) {
 
   const addGoalItem = useCallback(async (newGoalItem) => {
     try {
-      // needed to use this when i was having issues i am scared to delete it 
+      // needed to use this when i was having issues i am scared to delete it
       if (!newGoalItem.title || !newGoalItem.amount || !newGoalItem.goal) {
         alert("Please provide all fields for the goal item.");
         return;
       }
-  
+
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(`http://${ipAddress}:5000/goals/`, {
         method: "POST",
@@ -113,12 +120,12 @@ export default function GoalsScreen({ navigation }) {
         },
         body: JSON.stringify(newGoalItem),
       });
-  
+
       if (!response.ok) {
         const errorResponse = await response.json();
         throw new Error(errorResponse.message || "Failed to add item to goal");
       }
-  
+
       const savedGoalItem = await response.json();
       setData((prevData) => [savedGoalItem, ...prevData]);
     } catch (error) {
@@ -126,7 +133,7 @@ export default function GoalsScreen({ navigation }) {
       alert(error.message);
     }
   }, []);
-  
+
   const saveEditedItem = useCallback(async (updatedItem) => {
     try {
       const token = await AsyncStorage.getItem("token");
@@ -161,33 +168,15 @@ export default function GoalsScreen({ navigation }) {
     const fetchProfile = async () => {
       setLoading(true);
       try {
-        const token = await AsyncStorage.getItem("token");
-        const response = await fetch(`http://${ipAddress}:5000/profile`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          const errorResponse = await response.json();
-
-          console.error("Server Error:", errorResponse);
-          throw new Error(errorResponse.message || "Failed to fetch profile");
-        } else {
-          const loadedProfile = await response.json();
-          console.log("loadedProfile: ", loadedProfile);
-          setProfile(loadedProfile.profile);
-          console.log("profile: ", profile);
-        }
+        const loadedProfile = await AsyncStorage.getItem("profile");
+        setProfile(loadedProfile || "default"); // Set a default profile if none exists
       } catch (error) {
-        console.error("Error fetching profile:", error);
+        console.error("Error getting profile:", error);
         alert(error.message);
       } finally {
         setLoading(false);
       }
     };
-
     const fetchItems = async () => {
       setLoading(true);
       try {
@@ -244,38 +233,48 @@ export default function GoalsScreen({ navigation }) {
               flexDirection: "row",
               alignSelf: "center",
               marginRight: 90,
-              marginTop: 20,
+              marginTop: 70,
             }}
           >
-            <TouchableOpacity
-              title="Your Profile"
-              onPress={navigateToProfileScreen}
-              style={{ alignSelf: "flex-start" }}
-            >
-              <Image
-                source={profileImages[profile]}
-                style={styles.profileIcon}
+            {loading ? (
+              <></>
+            ) : (
+              <TouchableOpacity
+                title="Your Profile"
+                onPress={navigateToProfileScreen}
+                style={{ alignSelf: "flex-start" }}
+              >
+                <Image
+                  source={profileImages[profile]}
+                  style={styles.profileIcon}
+                />
+              </TouchableOpacity>
+            )}
+            <View>
+              <Text style={styles.ProgressText}>
+                <Text style={styles.total}>{`$${totalAccumulated.toFixed(
+                  2
+                )}\n`}</Text>
+                <Text style={styles.savings}>{`of $${totalGoal.toFixed(
+                  2
+                )} total savings `}</Text>
+              </Text>
+              <Progress.Bar //needed to make style changes here
+                progress={progress}
+                width={300}
+                height={30}
+                color="#98A869"
+                unfilledColor="#e0e0df"
+                borderRadius={15}
+                borderWidth={3}
+                borderColor="#98A869"
+                style={{
+                  alignSelf: "center",
+                  marginTop: 20,
+                }}
               />
-            </TouchableOpacity>
+            </View>
           </View>
-            <Text style={styles.ProgressText}>
-        <Text style={styles.total}>{`$${totalGoal.toFixed(2)}\n`}</Text>
-        <Text style={styles.savings}>{`of $ ${totalAccumulated.toFixed(2)} total savings `}</Text>
-      </Text>
-      <Progress.Bar //needed to make style changes here
-        progress={progress}
-        width={300}
-        height={30}
-        color="#98A869" 
-        unfilledColor="#e0e0df" 
-        borderRadius={15} 
-        borderWidth={3} 
-        borderColor="#98A869" 
-        style={{
-          alignSelf: "center", 
-          marginTop: 20, 
-        }}
-      />
           <View
             style={[
               styles.header,
@@ -298,7 +297,7 @@ export default function GoalsScreen({ navigation }) {
             >
               <Text style={styles.headerText}>GOALS</Text>
             </TouchableOpacity>
-          </View>          
+          </View>
           <View style={styles.greenPageSection}>
             <View style={styles.pageContentContainer}>
               <View style={styles.headerRow}>
@@ -310,15 +309,15 @@ export default function GoalsScreen({ navigation }) {
                 data={data}
                 keyExtractor={(goalItem) => goalItem._id.toString()}
                 renderItem={({ item }) => (
-                  <View style={styles.listItem}> 
-                    <Text style={styles.goalItem}>{item.title}</Text>                                    
+                  <View style={styles.listItem}>
+                    <Text style={styles.goalItem}>{item.title}</Text>
                     <Text style={styles.goalItem}>
                       {`$ ${parseFloat(item.amount || 0).toFixed(2)}`}
                     </Text>
                     <Text style={styles.goal}>
                       {`$ ${parseFloat(item.goal).toFixed(2)}` || "$0.00"}
-                    </Text> 
-                        
+                    </Text>
+
                     <View style={styles.itemActions}>
                       <TouchableOpacity onPress={() => handleEditPress(item)}>
                         <Text style={styles.actionText}>Edit</Text>
@@ -331,7 +330,7 @@ export default function GoalsScreen({ navigation }) {
                     </View>
                   </View>
                 )}
-              />              
+              />
               <AddGoalItemModal onAddItem={addGoalItem} />
             </View>
             <EditGoalItemModal
@@ -346,5 +345,4 @@ export default function GoalsScreen({ navigation }) {
       <TabNavigation navigation={navigation} />
     </SafeAreaView>
   );
-};
-
+}

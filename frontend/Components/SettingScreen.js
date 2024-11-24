@@ -90,7 +90,7 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
     } else if (setting.title === "Help and Support") {
       // Navigate to the Help and Support screen and open chat
       setIsChatOpen(true);
-      navigation.navigate("HandSScreen");
+      //navigation.navigate("HandSScreen");
       sendInitialMessage(); // Optionally, send a greeting message when chat opens
       setIsModalVisible(false);
     } else {
@@ -135,7 +135,7 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
       >
         SETTINGS
       </Text>
-      <View style={styles.pageContentContainer}>
+      <View style={[styles.pageContentContainer, { height: "50%" }]}>
         <FlatList
           data={settingsCategories}
           renderItem={renderItem}
@@ -160,6 +160,16 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
               closeModal={closeModal} // Allow the modal to be closed from AppearanceScreen
             />
           )}
+          <TouchableOpacity
+            onPress={closeModal}
+            style={{
+              padding: 10,
+              backgroundColor: "#E7C6CD",
+              borderRadius: 5,
+            }}
+          >
+            <Text style={{ fontSize: 16, color: "#000" }}>Close</Text>
+          </TouchableOpacity>
         </SafeAreaView>
       </Modal>
     </SafeAreaView>

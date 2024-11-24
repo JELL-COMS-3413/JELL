@@ -168,7 +168,7 @@ export default StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#98A869",
     padding: 5,
-    width: "40%",
+    width: "60%",
     alignSelf: "center",
     marginBottom: 5,
     borderRadius: 20,
@@ -178,12 +178,14 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  text: {
+  welcomeButtonText: {
     fontFamily: "LouisGeorgeCafe",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   welcomefont: {
     fontFamily: "LouisGeorgeCafe",
-    fontSize: 16,
+    fontSize: 20,
     textAlign: "center",
     marginBottom: 5,
   },
@@ -236,7 +238,7 @@ export default StyleSheet.create({
     paddingHorizontal: 10,
   },
   headerBudgetText: {
-    flex: 1, 
+    flex: 1,
     textAlign: "left",
     fontWeight: "bold",
     color: "#333",
@@ -258,5 +260,5 @@ export default StyleSheet.create({
   savings: {
     color: "#656038",
     fontSize: 25,
-  }
+  },
 });
