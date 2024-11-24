@@ -18,6 +18,7 @@ import AppearanceScreen from "./Components/AppearanceScreen";
 import HandSScreen from "./Components/HandSScreen";
 import NotificationScreen from "./Components/NotificationScreen";
 import AboutScreen from "./Components/AboutScreen";
+import PrivacyScreen from "./Components/PrivacyScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -138,6 +139,11 @@ function AppNavigator() {
                 },
               }}
             />
+            <Stack.Screen name="PrivacyScreen" options={{ headerShown: false }}>
+              {(props) => (
+                <PrivacyScreen {...props} setIsLoggedIn={setIsLoggedIn} />
+              )}
+            </Stack.Screen>
           </>
         ) : (
           <Stack.Screen name="Login" options={{ headerShown: false }}>

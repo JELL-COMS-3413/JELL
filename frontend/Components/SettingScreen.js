@@ -95,8 +95,10 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
       setIsModalVisible(false);
     } else if (setting.title === "Notifications") {
       navigation.navigate("NotificationScreen");
-    } else if (setting.title==="About"){
+    } else if (setting.title === "About") {
       navigation.navigate("AboutScreen");
+    } else if (setting.title === "Privacy & Security") {
+      navigation.navigate("PrivacyScreen");
     } else {
       setIsModalVisible(true);
       setIsChatOpen(false); // Ensure chat is closed for other settings
