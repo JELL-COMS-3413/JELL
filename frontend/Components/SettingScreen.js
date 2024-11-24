@@ -93,6 +93,8 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
       navigation.navigate("HandSScreen");
       sendInitialMessage(); // Optionally, send a greeting message when chat opens
       setIsModalVisible(false);
+    } else if (setting.title === "Notifications") {
+      navigation.navigate("NotificationScreen");
     } else {
       setIsModalVisible(true);
       setIsChatOpen(false); // Ensure chat is closed for other settings

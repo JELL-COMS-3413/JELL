@@ -16,6 +16,7 @@ import InputExpensesScreen from "./Components/InputExpensesScreen";
 import SettingScreen from "./Components/SettingScreen";
 import AppearanceScreen from "./Components/AppearanceScreen";
 import HandSScreen from "./Components/HandSScreen";
+import NotificationScreen from "./Components/NotificationScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -116,6 +117,14 @@ function AppNavigator() {
             <Stack.Screen name="HandSScreen" options={{ headerShown: false }}>
               {(props) => (
                 <HandSScreen {...props} setIsLoggedIn={setIsLoggedIn} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen
+              name="NotificationScreen"
+              options={{ headerShown: false }}
+            >
+              {(props) => (
+                <NotificationScreen {...props} setIsLoggedIn={setIsLoggedIn} />
               )}
             </Stack.Screen>
           </>

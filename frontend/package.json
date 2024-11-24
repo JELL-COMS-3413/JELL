@@ -31,6 +31,7 @@
     "react-native-svg": "15.8.0",
     "react-native-svg-charts": "^5.4.0",
     "react-native-web": "~0.19.13",
+    "react-toastify": "^10.0.6",
     "reactjs-popup": "^2.0.6"
   },
   "devDependencies": {
