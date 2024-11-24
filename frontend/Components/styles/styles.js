@@ -148,7 +148,7 @@ export default StyleSheet.create({
     padding: 0,
     width: "100%",
   },
-  pinkPageSection: {
+  greenPageSection: {
     backgroundColor: "#98A869",
     width: "100%",
     paddingTop: 30,
@@ -227,7 +227,6 @@ export default StyleSheet.create({
     fontSize: 10,
     fontFamily: "coolveticarg",
   },
-  /*
   headerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -236,13 +235,28 @@ export default StyleSheet.create({
     borderBottomColor: "#ddd",
     paddingHorizontal: 10,
   },
-  headerText: {
+  headerBudgetText: {
     flex: 1, 
     textAlign: "left",
     fontWeight: "bold",
     color: "#333",
   },
-  ScrollView: {
-    maxHeight: "80%",
-  } */
+  amount: {
+    fontSize: 16,
+    fontFamily: "coolveticarg",
+    textAlign: "left",
+    width: "30%",
+  },
+  total: {
+    fontSize: 60,
+    color: "#0",
+  },
+  ProgressText: {
+    fontFamily: "coolveticarg",
+    textAlign: "center",
+  },
+  savings: {
+    color: "#656038",
+    fontSize: 25,
+  }
 });

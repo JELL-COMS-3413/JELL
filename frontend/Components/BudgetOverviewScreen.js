@@ -283,13 +283,14 @@ export default function BudgetOverviewScreen({ navigation }) {
               <Text style={styles.headerText}>GOALS</Text>
             </TouchableOpacity>
           </View>
-          <View style={[styles.pinkPageSection, { position: "relative" }]}>
-            <View style={[styles.pageContentContainer]}>
-              {/*<ScrollView>
+
+          <View style={[styles.greenPageSection, { position: "relative" }]}>
+            <View style={[styles.pageContentContainer, { marginTop: 30 }]}>
+              <ScrollView>
               <View style={styles.headerRow}>
-                <Text style={styles.headerText}>Name</Text>
-                <Text style={styles.headerText}>Budget</Text>
-              </View>*/}
+                <Text style={styles.headerBudgetText}>Name</Text>
+                <Text style={styles.headerBudgetText}>Budget</Text>
+              </View>
               <FlatList
                 data={data}
                 keyExtractor={(budgetItem) => budgetItem._id.toString()}
@@ -312,7 +313,7 @@ export default function BudgetOverviewScreen({ navigation }) {
                   </View>
                 )}
               />
-              {/*</ScrollView>*/}
+              </ScrollView>
               <AddBudgetItemModal onAddItem={addBudgetItem} />
             </View>
             <EditBudgetItemModal
