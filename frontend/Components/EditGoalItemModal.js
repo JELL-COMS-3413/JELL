@@ -10,18 +10,21 @@ export default function EditGoalItemModal({
 }) {
   const [title, setTitle] = useState(item?.title || ""); 
   const [value, setValue] = useState(item?.value || "");
+  const [amount, setAmount] = useState("");
+  const [goal, setGoal] = useState("");
 
   useEffect(() => {
     setTitle(item?.title || ""); 
+    setAmount(item?.amount || "");
     setValue(item?.value || "");
   }, [item]);
 
   const handleSave = () => {
-    if (title.trim() && value.trim()) {
-      onSave({ ...item, title: title.trim(), value: value.trim() });
+    if (title.trim() && amount.trim() && goal.trim()) {
+      onSave({ ...item, title: title.trim(), amount: amount.trim(), goal: goal.trim() });
       onClose();
     } else {
-      alert("Please enter a title and amount");
+      alert("Please enter a title, current amount and goal");
     }
   };
 
@@ -37,15 +40,21 @@ export default function EditGoalItemModal({
           <Text style={styles.modalTitle}>Edit Goal Item</Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter item"
+            placeholder="Enter title for goal item"
             value={title}
             onChangeText={(text) => setTitle(text)}
           />
           <TextInput
             style={styles.input}
-            placeholder="Enter amount"
-            value={value}
-            onChangeText={(text) => setValue(text)}
+            placeholder="Enter amount saved so far"
+            value={amount}
+            onChangeText={(text) => setAmount(text)}
+          />
+          <TextInput
+            style={styles.input}
+            placeHolder="Enter amoung to allocate to goal item"
+            value={goal}
+            onChangeText={(text) => setGoal(text)}
           />
           <View style={styles.buttonContainer}>
             <TouchableOpacity
