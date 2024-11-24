@@ -240,7 +240,8 @@ export default function BudgetOverviewScreen({ navigation }) {
             style={{
               flexDirection: "row",
               alignSelf: "center",
-              marginRight: 90,
+              marginRight: 70,
+              marginTop: 50,
             }}
           >
             <TouchableOpacity
@@ -282,6 +283,7 @@ export default function BudgetOverviewScreen({ navigation }) {
               <Text style={styles.headerText}>GOALS</Text>
             </TouchableOpacity>
           </View>
+
           <View style={[styles.greenPageSection, { position: "relative" }]}>
             <View style={[styles.pageContentContainer, { marginTop: 30 }]}>
               <ScrollView>

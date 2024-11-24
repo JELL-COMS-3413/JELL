@@ -18,7 +18,6 @@ import EditGoalItemModal from "./EditGoalItemModal";
 import loadFonts from "./styles/fonts";
 import * as Progress from "react-native-progress";
 
-
 export default function GoalsScreen({ navigation }) {
   const [error, setError] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -172,12 +171,9 @@ export default function GoalsScreen({ navigation }) {
 
         if (!response.ok) {
           const errorResponse = await response.json();
-          if (response.status === 404) {
-            await createDefaultProfile();
-          } else {
-            console.error("Server Error:", errorResponse);
-            throw new Error(errorResponse.message || "Failed to fetch profile");
-          }
+
+          console.error("Server Error:", errorResponse);
+          throw new Error(errorResponse.message || "Failed to fetch profile");
         } else {
           const loadedProfile = await response.json();
           console.log("loadedProfile: ", loadedProfile);
