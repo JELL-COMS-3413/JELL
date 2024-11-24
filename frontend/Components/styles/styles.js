@@ -87,10 +87,11 @@ export default StyleSheet.create({
     maxHeight: "80%",
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
     fontFamily: "LouisGeorgeCafe",
+    textTransform: "uppercase",
   },
   input: {
     height: 40,
@@ -139,8 +140,9 @@ export default StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: "LouisGeorgeCafe",
+    textTransform: "uppercase",
   },
   background: {
     backgroundColor: "#E7C6CD",

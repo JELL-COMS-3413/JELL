@@ -41,4 +41,4 @@ app.use("/budget", budgetItemRoutes);
 app.use("/profile", profileRoutes);
 app.use("/goals", goalItemRoutes);
 app.use("/expense", budgetExpenseRoutes);
-//app.use("/calculation", calculationRoutes);
+app.use("/calculation", calculationRoutes);
