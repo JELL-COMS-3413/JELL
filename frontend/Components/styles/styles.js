@@ -16,7 +16,7 @@ export default StyleSheet.create({
     padding: 2,
   },
   headerText: {
-    fontSize: 20,
+    fontSize: 32,
     textAlign: "center",
     fontFamily: "coolveticarg",
     textTransform: "uppercase",
@@ -25,6 +25,10 @@ export default StyleSheet.create({
     marginVertical: 10,
     alignSelf: "center",
     width: "50%",
+    flexDirection: "row",
+    marginTop: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   itemList: {
     backgroundColor: "white",
@@ -83,10 +87,11 @@ export default StyleSheet.create({
     justifyContent: "space-between",
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
     fontFamily: "LouisGeorgeCafe",
+    textTransform: "uppercase",
   },
   input: {
     height: 40,
@@ -117,41 +122,51 @@ export default StyleSheet.create({
     borderRadius: 20,
   },
   successButton: {
-    backgroundColor: "#98A869",
+    backgroundColor: "#B3C17A",
+    borderColor: "#98A869",
+    borderWidth: 2,
+    marginHorizontal: 5,
+    padding: 10,
   },
   cancelButton: {
-    backgroundColor: "#E7C6CD",
+    backgroundColor: "#ff8c8c",
+    borderColor: "#ff5c5c",
+    borderWidth: 2,
+    marginHorizontal: 5,
+    padding: 10,
   },
   buttonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: "LouisGeorgeCafe",
+    textTransform: "uppercase",
   },
   background: {
     backgroundColor: "#E7C6CD",
     flex: 1,
     justifyContent: "center",
-    padding: 16,
+    padding: 0,
     width: "100%",
   },
-  greenPageSection: {
+  pinkPageSection: {
     backgroundColor: "#98A869",
     width: "100%",
-    paddingTop: 10,
+    paddingTop: 30,
     paddingBottom: 10,
-    justifyContent: "center",
+    flex: 1,
   },
   pageContentContainer: {
     borderRadius: 20,
     padding: 10,
     backgroundColor: "white",
     width: "80%",
+    height: "80%",
     alignSelf: "center",
     marginBottom: 5,
   },
   welcomeButton: {
     alignItems: "center",
-    backgroundColor: "#E7C6CD",
+    backgroundColor: "#98A869",
     padding: 5,
     width: "40%",
     alignSelf: "center",
@@ -159,7 +174,7 @@ export default StyleSheet.create({
     borderRadius: 20,
   },
   welcomeBackground: {
-    backgroundColor: "#98A869",
+    backgroundColor: "#E7C6CD",
     flex: 1,
     justifyContent: "center",
   },
@@ -169,6 +184,8 @@ export default StyleSheet.create({
   welcomefont: {
     fontFamily: "LouisGeorgeCafe",
     fontSize: 16,
+    textAlign: "center",
+    marginBottom: 5,
   },
   profileHeader: {
     height: 200,
@@ -194,5 +211,39 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  progressBarContainer: {
+    height: 30,
+    width: 300,
+    backgroundColor: "#e0e0df",
+    borderRadius: 15,
+    overflow: "hidden",
+    marginVertical: 5,
+    alignSelf: "center",
+    marginTop: 60,
+    borderWidth: 3,
+    borderColor: "#98A869",
+  },
+  itemHeader: {
+    fontSize: 10,
+    fontFamily: "coolveticarg",
+  },
+  /*
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
+    paddingHorizontal: 10,
+  },
+  headerText: {
+    flex: 1, 
+    textAlign: "left",
+    fontWeight: "bold",
+    color: "#333",
+  },
+  ScrollView: {
+    maxHeight: "80%",
+  } */
 });
 export const ipAddress = "10.200.201.194";

@@ -87,11 +87,19 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
   return (
     <SafeAreaView style={styles.welcomeBackground}>
       <Image
-        source={profileImages[profile] || profileImages["default"]}
-        style={styles.profileIcon}
+        source={require("../assets/jellLogo.png")}
+        style={{
+          alignSelf: "center",
+          margin: 10,
+          height: "13%",
+          width: "90%",
+          marginTop: 20,
+        }}
       />
-      <Text style={styles.headerText}>Welcome to JELL, {username}!</Text>
-      <View style={styles.pageContentContainer}>
+      <View style={[styles.pageContentContainer, { height: "40%" }]}>
+        <Text style={[styles.headerText, { marginBottom: 5 }]}>
+          Welcome to JELL, {username}!
+        </Text>
         <View style={welcomeStyles.instruction}>
           <Text style={styles.welcomefont}>
             Take a look around and set yourself up for a better financial

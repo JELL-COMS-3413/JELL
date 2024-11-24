@@ -16,7 +16,8 @@ export default function BudgetPieChart({ data }) {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedSegment, setSelectedSegment] = useState({});
-  const [selectedSegmentId, setSelectedSegmentId] = useState(null);
+  const [selectedSegmentId, setSelectedSegmentId] = useState("0");
+  // storing expenses for modal pop-up
   const [expenses, setExpenses] = useState([]);
 
   // Pie chart slice colors
@@ -27,7 +28,7 @@ export default function BudgetPieChart({ data }) {
   }, []);
 
   useEffect(() => {
-    if (selectedSegmentId !== null) {
+    if (selectedSegmentId !== "0") {
       getExpenses(selectedSegment.label);
     }
   }, [selectedSegmentId]); // Fetch expenses when selected segment changes
@@ -67,17 +68,22 @@ export default function BudgetPieChart({ data }) {
   );
   //the pie
   const pieData = data
-    .map((item, index) => ({
-      key: item._id,
-      value: parseFloat(item.value),
-      svg: { fill: colors[index % colors.length] },
-      arc: {
-        outerRadius: selectedSegmentId === item._id ? "110%" : "100%", // Highlights the part
-        cornerRadius: 10,
-      },
-      label: item.title,
-      percentage: calculatePercentage(item.value, totalValue),
-    }))
+    .map((item, index) => {
+      if (typeof item._id !== "string") {
+        console.warn("Invalid key value:", item._id);
+      }
+      return {
+        key: item._id,
+        value: parseFloat(item.value),
+        svg: { fill: colors[index % colors.length] },
+        arc: {
+          outerRadius: selectedSegmentId === item._id ? "110%" : "100%", // Ensure these are strings
+          cornerRadius: 10,
+        },
+        label: item.title,
+        percentage: calculatePercentage(item.value, totalValue),
+      };
+    })
     .filter((item) => item.value > 0);
 
   const Labels = ({ slices }) => {
@@ -110,7 +116,7 @@ export default function BudgetPieChart({ data }) {
   // Reset back to size after the modal is closed
   const handleCloseModal = () => {
     setModalVisible(false);
-    setSelectedSegmentId(null);
+    setSelectedSegmentId("0");
   };
 
   return (
@@ -149,16 +155,50 @@ export default function BudgetPieChart({ data }) {
           <View style={styles.modalContent}>
             {selectedSegment ? (
               <>
-                <Text>{`${selectedSegment.label}: $${(
+                <Text
+                  style={{
+                    fontFamily: "coolveticarg",
+                    textTransform: "uppercase",
+                    fontSize: 24,
+                  }}
+                >{`${selectedSegment.label}: $${(
                   selectedSegment.value || 0
                 ).toFixed(2)}`}</Text>
                 <FlatList
                   data={expenses}
+                  style={{ marginVertical: 10 }}
                   keyExtractor={(budgetExpense) => budgetExpense._id.toString()}
                   renderItem={({ item }) => (
-                    <View style={styles.listItem}>
-                      <Text style={styles.budgetItem}>{item.title}</Text>
-                      <Text style={styles.value}>
+                    <View
+                      style={[
+                        styles.listItem,
+                        {
+                          flexDirection: "row",
+                        },
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.budgetItem,
+                          {
+                            fontFamily: "LouisGeorgeCafe",
+                            fontSize: 18,
+                            width: "70%",
+                          },
+                        ]}
+                      >
+                        {item.title}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.value,
+                          {
+                            fontFamily: "LouisGeorgeCafe",
+                            fontSize: 18,
+                            textAlign: "right",
+                          },
+                        ]}
+                      >
                         {`$ ${parseFloat(item.value).toFixed(2)}` || "$0.00"}
                       </Text>
                     </View>
@@ -168,7 +208,7 @@ export default function BudgetPieChart({ data }) {
             ) : (
               <Text>No data selected</Text>
             )}
-            <Button title="Close" onPress={handleCloseModal} />
+            <Button title="Close" onPress={() => handleCloseModal()} />
           </View>
         </View>
       </Modal>

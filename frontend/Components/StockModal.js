@@ -104,8 +104,11 @@ export default function StockModal() {
 
   return (
     <View>
-      <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <Text style={styles.addButtonText}> Look up stock price </Text>
+      <TouchableOpacity
+        onPress={() => setModalVisible(true)}
+        style={[styles.toggleButton, { marginTop: 0 }]}
+      >
+        <Text style={styles.buttonText}> Look up stock price </Text>
       </TouchableOpacity>
       <Modal
         visible={modalVisible}
@@ -116,16 +119,48 @@ export default function StockModal() {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Look up Stock Price</Text>
-            <Text>Select Stock, Crypto, or Gold</Text>
-            <View>
-              <TouchableOpacity onPress={() => setType("stock")}>
-                <Text>Stock</Text>
+            <Text style={{ fontFamily: "coolveticarg", fontSize: 24 }}>
+              Select Stock, Crypto, or Gold
+            </Text>
+            <View style={{ flexDirection: "row", alignSelf: "center" }}>
+              <TouchableOpacity
+                onPress={() => setType("stock")}
+                style={{
+                  borderRadius: 20,
+                  padding: 10,
+                  backgroundColor: "#89A869",
+                  margin: 10,
+                }}
+              >
+                <Text style={{ fontFamily: "LouisGeorgeCafe", fontSize: 18 }}>
+                  Stock
+                </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => setType("crypto")}>
-                <Text>Crypto</Text>
+              <TouchableOpacity
+                onPress={() => setType("crypto")}
+                style={{
+                  borderRadius: 20,
+                  padding: 10,
+                  backgroundColor: "#89A869",
+                  margin: 10,
+                }}
+              >
+                <Text style={{ fontFamily: "LouisGeorgeCafe", fontSize: 18 }}>
+                  Crypto
+                </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => setType("gold")}>
-                <Text>Gold</Text>
+              <TouchableOpacity
+                onPress={() => setType("gold")}
+                style={{
+                  borderRadius: 20,
+                  padding: 10,
+                  backgroundColor: "#89A869",
+                  margin: 10,
+                }}
+              >
+                <Text style={{ fontFamily: "LouisGeorgeCafe", fontSize: 18 }}>
+                  Gold
+                </Text>
               </TouchableOpacity>
             </View>
             {type === "crypto" || type === "stock" ? (
@@ -161,7 +196,7 @@ export default function StockModal() {
             ) : (
               <></>
             )}
-            <View style={styles.buttonContainer}>
+            <View style={[styles.buttonContainer, { width: "80%" }]}>
               <TouchableOpacity
                 style={[styles.button, styles.successButton]}
                 onPress={handlePress}
