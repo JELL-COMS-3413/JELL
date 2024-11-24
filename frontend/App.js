@@ -17,6 +17,7 @@ import SettingScreen from "./Components/SettingScreen";
 import AppearanceScreen from "./Components/AppearanceScreen";
 import HandSScreen from "./Components/HandSScreen";
 import NotificationScreen from "./Components/NotificationScreen";
+import AboutScreen from "./Components/AboutScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -127,6 +128,16 @@ function AppNavigator() {
                 <NotificationScreen {...props} setIsLoggedIn={setIsLoggedIn} />
               )}
             </Stack.Screen>
+            <Stack.Screen
+              name="AboutScreen"
+              component={AboutScreen}
+              options={{
+                title: "About the App",
+                headerStyle: {
+                  backgroundColor: "#E7C6CD", // Change header background color
+                },
+              }}
+            />
           </>
         ) : (
           <Stack.Screen name="Login" options={{ headerShown: false }}>
