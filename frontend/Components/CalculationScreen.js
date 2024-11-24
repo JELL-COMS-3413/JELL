@@ -9,7 +9,7 @@ import {
   FlatList,
   ActivityIndicator,
   Modal,
-  Button
+  Button,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles/styles";
@@ -19,6 +19,7 @@ import TabNavigation from "./TabNavigation";
 import { profileImages } from "./ProfileScreen";
 import StockModal from "./StockModal";
 import CalculatorModal from "./CalculatorModal";
+import SavedCalculations from "./SavedCalculations";
 
 export default function CalculationScreen({ navigation, setIsLoggedIn }) {
   const [profile, setProfile] = useState("default");
@@ -34,7 +35,7 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
     { id: "6", title: "Student Loan" },
     { id: "7", title: "Mortgage Payoff" },
   ];
-  
+
   const saveCalc = [
     { id: "1", title: "Savings" },
     { id: "2", title: "Simple Interest" },
@@ -44,7 +45,7 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
     { id: "6", title: "401K" },
     { id: "7", title: "Social Security" },
   ];
-  
+
   const navigateToProfileScreen = () => {
     navigation.navigate("ProfileScreen");
   };
@@ -62,12 +63,9 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
 
         if (!response.ok) {
           const errorResponse = await response.json();
-          if (response.status === 404) {
-            await createDefaultProfile();
-          } else {
-            console.error("Server Error:", errorResponse);
-            throw new Error(errorResponse.message || "Failed to fetch profile");
-          }
+
+          console.error("Server Error:", errorResponse);
+          throw new Error(errorResponse.message || "Failed to fetch profile");
         } else {
           const loadedProfile = await response.json();
           console.log("loadedProfile: ", loadedProfile);
@@ -90,13 +88,11 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
     setIsLoanCalculator(!isLoanCalculator);
   };
 
-  const renderItem = ({ item }) => (
-    <CalculatorModal calculator={item}/>
-  );
+  const renderItem = ({ item }) => <CalculatorModal calculator={item} />;
 
   return (
     <SafeAreaView style={styles.welcomeBackground}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={navigateToProfileScreen}>
         <Image source={profileImages[profile]} style={styles.profileIcon} />
       </TouchableOpacity>
       <Text style={styles.headerText}>
@@ -108,7 +104,7 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
         </Text>
       </TouchableOpacity>
       {isLoanCalculator ? (
-        <View style={styles.pageContentContainer}>
+        <View style={[styles.pageContentContainer, { height: "50%" }]}>
           <FlatList
             data={loanCalc}
             renderItem={renderItem}
@@ -116,7 +112,7 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
           />
         </View>
       ) : (
-        <View style={styles.pageContentContainer}>
+        <View style={[styles.pageContentContainer, { height: "50%" }]}>
           <FlatList
             data={saveCalc}
             renderItem={renderItem}
@@ -124,7 +120,7 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
           />
         </View>
       )}
-
+      <SavedCalculations />
       <StockModal />
       <TabNavigation navigation={navigation} />
     </SafeAreaView>

@@ -123,10 +123,9 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
 
         if (!response.ok) {
           const errorResponse = await response.json();
-          if (response.status === 404) {
-            console.error("Server Error:", errorResponse);
-            throw new Error(errorResponse.message || "Failed to fetch profile");
-          }
+
+          console.error("Server Error:", errorResponse);
+          throw new Error(errorResponse.message || "Failed to fetch profile");
         } else {
           const loadedProfile = await response.json();
           console.log("loadedProfile: ", loadedProfile);

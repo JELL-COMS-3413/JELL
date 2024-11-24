@@ -106,7 +106,7 @@ export default function StockModal() {
     <View>
       <TouchableOpacity
         onPress={() => setModalVisible(true)}
-        style={styles.toggleButton}
+        style={[styles.toggleButton, { marginTop: 0 }]}
       >
         <Text style={styles.buttonText}> Look up stock price </Text>
       </TouchableOpacity>

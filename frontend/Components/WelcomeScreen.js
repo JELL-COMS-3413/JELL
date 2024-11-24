@@ -88,9 +88,15 @@ export default function WelcomeScreen({ navigation, setIsLoggedIn }) {
     <SafeAreaView style={styles.welcomeBackground}>
       <Image
         source={require("../assets/jellLogo.png")}
-        style={{ alignSelf: "center", margin: 10, height: "13%", width: "90%" }}
+        style={{
+          alignSelf: "center",
+          margin: 10,
+          height: "13%",
+          width: "90%",
+          marginTop: 20,
+        }}
       />
-      <View style={styles.pageContentContainer}>
+      <View style={[styles.pageContentContainer, { height: "40%" }]}>
         <Text style={[styles.headerText, { marginBottom: 5 }]}>
           Welcome to JELL, {username}!
         </Text>
