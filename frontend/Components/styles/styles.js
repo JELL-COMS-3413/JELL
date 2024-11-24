@@ -83,8 +83,8 @@ export default StyleSheet.create({
     marginHorizontal: 30,
     padding: 20,
     borderRadius: 10,
+    height: 250,
     justifyContent: "space-between",
-    maxHeight: "80%",
   },
   modalTitle: {
     fontSize: 24,
@@ -116,13 +116,10 @@ export default StyleSheet.create({
     justifyContent: "space-around",
   },
   button: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+    padding: 10,
     marginHorizontal: 5,
     alignItems: "center",
     borderRadius: 20,
-    flex: 1,
-    maxWidth: 150,
   },
   successButton: {
     backgroundColor: "#B3C17A",
@@ -171,9 +168,9 @@ export default StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#98A869",
     padding: 5,
-    width: "60%",
+    width: "40%",
     alignSelf: "center",
-    marginBottom: 10,
+    marginBottom: 5,
     borderRadius: 20,
   },
   welcomeBackground: {
