@@ -76,11 +76,25 @@ export default function SavedCalculations() {
 
   const renderCalculation = ({ item }) => {
     return (
-      <View style={{}}>
+      <View
+        style={{
+          borderRadius: 20,
+          backgroundColor: "white",
+          padding: 5,
+          marginBottom: 5,
+          paddingLeft: 10,
+        }}
+      >
         <Text style={{ fontFamily: "coolveticarg", fontSize: 20 }}>
           {item.type}
         </Text>
-        <Text style={{ fontFamily: "LouisGeorgeCafe", fontSize: 18 }}>
+        <Text
+          style={{
+            fontFamily: "LouisGeorgeCafe",
+            fontSize: 18,
+            fontWeight: "bold",
+          }}
+        >
           Inputs:
         </Text>
         <FlatList
@@ -94,7 +108,13 @@ export default function SavedCalculations() {
             </View>
           )}
         />
-        <Text style={{ fontFamily: "LouisGeorgeCafe", fontSize: 18 }}>
+        <Text
+          style={{
+            fontFamily: "LouisGeorgeCafe",
+            fontSize: 18,
+            fontWeight: "bold",
+          }}
+        >
           Results:
         </Text>
         <FlatList
@@ -126,7 +146,7 @@ export default function SavedCalculations() {
     <View>
       <TouchableOpacity
         onPress={() => getCalculations()}
-        style={styles.toggleButton}
+        style={[styles.toggleButton, styles.successButton, { width: "50%" }]}
       >
         <Text style={styles.buttonText}> View Saved Calculations </Text>
       </TouchableOpacity>
@@ -137,10 +157,19 @@ export default function SavedCalculations() {
         onRequestClose={() => setModalVisible(false)}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
+          <View style={[styles.modalContent, { alignItems: "center" }]}>
             <Text style={styles.modalTitle}>Calculations</Text>
             {loaded ? (
-              <View>
+              <View
+                style={{
+                  height: "80%",
+                  borderRadius: 20,
+                  borderWidth: 2,
+                  borderColor: "black",
+                  padding: 3,
+                  backgroundColor: "#ccc",
+                }}
+              >
                 {calculations.length > 0 ? (
                   <FlatList
                     data={calculations}
@@ -158,9 +187,9 @@ export default function SavedCalculations() {
                 <Text>Calculations loading...</Text>
               </>
             )}
-            <View style={[styles.buttonContainer, {}]}>
+            <View style={[{ alignSelf: "flex-end" }]}>
               <TouchableOpacity
-                style={[styles.button, styles.cancelButton]}
+                style={[styles.button, styles.cancelButton, { margin: 0 }]}
                 onPress={() => setModalVisible(false)}
               >
                 <Text style={styles.buttonText}>Close</Text>

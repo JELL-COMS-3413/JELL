@@ -26,7 +26,6 @@ export default StyleSheet.create({
     alignSelf: "center",
     width: "50%",
     flexDirection: "row",
-    marginTop: 10,
     justifyContent: "space-between",
     alignItems: "center",
   },
@@ -83,7 +82,7 @@ export default StyleSheet.create({
     marginHorizontal: 30,
     padding: 20,
     borderRadius: 10,
-    height: 250,
+    height: "50%",
     justifyContent: "space-between",
   },
   modalTitle: {
@@ -99,6 +98,8 @@ export default StyleSheet.create({
     borderWidth: 1,
     padding: 8,
     marginVertical: 10,
+    fontFamily: "LouisGeorgeCafe",
+    fontSize: 18,
   },
   profileIcon: {
     height: 50,
@@ -137,7 +138,7 @@ export default StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: "LouisGeorgeCafe",
     textTransform: "uppercase",
   },
@@ -226,7 +227,7 @@ export default StyleSheet.create({
     borderColor: "#98A869",
   },
   itemHeader: {
-    fontSize: 10,
+    fontSize: 20,
     fontFamily: "coolveticarg",
   },
   headerRow: {

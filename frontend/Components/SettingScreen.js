@@ -128,14 +128,13 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
   return (
     <SafeAreaView style={[styles.welcomeBackground, { backgroundColor }]}>
       <Text
-        style={[
-          settingsStyles.headerText,
-          { alignSelf: "center", color: textColor },
-        ]}
+        style={[styles.headerText, { alignSelf: "center", color: textColor }]}
       >
         SETTINGS
       </Text>
-      <View style={[styles.pageContentContainer, { height: "50%" }]}>
+      <View
+        style={[styles.pageContentContainer, { height: "50%", marginTop: 20 }]}
+      >
         <FlatList
           data={settingsCategories}
           renderItem={renderItem}

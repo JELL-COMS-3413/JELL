@@ -95,7 +95,7 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
         </Text>
       </TouchableOpacity>
       {isLoanCalculator ? (
-        <View style={[styles.pageContentContainer, { height: "50%" }]}>
+        <View style={[styles.pageContentContainer, { height: "45%" }]}>
           <FlatList
             data={loanCalc}
             renderItem={renderItem}
@@ -103,7 +103,7 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
           />
         </View>
       ) : (
-        <View style={[styles.pageContentContainer, { height: "50%" }]}>
+        <View style={[styles.pageContentContainer, { height: "45%" }]}>
           <FlatList
             data={saveCalc}
             renderItem={renderItem}
