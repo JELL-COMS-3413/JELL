@@ -16,7 +16,7 @@ export default StyleSheet.create({
     padding: 2,
   },
   headerText: {
-    fontSize: 20,
+    fontSize: 32,
     textAlign: "center",
     fontFamily: "coolveticarg",
     textTransform: "uppercase",
@@ -26,9 +26,8 @@ export default StyleSheet.create({
     alignSelf: "center",
     width: "50%",
     flexDirection: "row",
-    marginTop:10, 
     justifyContent: "space-between",
-    alignItems: "center",   
+    alignItems: "center",
   },
   itemList: {
     backgroundColor: "white",
@@ -83,14 +82,15 @@ export default StyleSheet.create({
     marginHorizontal: 30,
     padding: 20,
     borderRadius: 10,
+    height: "50%",
     justifyContent: "space-between",
-    maxHeight: "80%",
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
     fontFamily: "LouisGeorgeCafe",
+    textTransform: "uppercase",
   },
   input: {
     height: 40,
@@ -98,6 +98,8 @@ export default StyleSheet.create({
     borderWidth: 1,
     padding: 8,
     marginVertical: 10,
+    fontFamily: "LouisGeorgeCafe",
+    fontSize: 18,
   },
   profileIcon: {
     height: 50,
@@ -113,22 +115,17 @@ export default StyleSheet.create({
   addButtonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-
   },
   button: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+    padding: 10,
     marginHorizontal: 5,
     alignItems: "center",
     borderRadius: 20,
-    flex: 1,
-    maxWidth: 150,
   },
   successButton: {
     backgroundColor: "#B3C17A",
-    borderColor:"#98A869",
+    borderColor: "#98A869",
     borderWidth: 2,
-    flex: 1,
     marginHorizontal: 5,
     padding: 10,
   },
@@ -136,28 +133,27 @@ export default StyleSheet.create({
     backgroundColor: "#ff8c8c",
     borderColor: "#ff5c5c",
     borderWidth: 2,
-    flex: 1,
     marginHorizontal: 5,
     padding: 10,
   },
   buttonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 20,
     fontFamily: "LouisGeorgeCafe",
+    textTransform: "uppercase",
   },
   background: {
     backgroundColor: "#E7C6CD",
     flex: 1,
     justifyContent: "center",
-    padding: 16,
+    padding: 0,
     width: "100%",
   },
   greenPageSection: {
     backgroundColor: "#98A869",
     width: "100%",
-    paddingTop: 10,
+    paddingTop: 30,
     paddingBottom: 10,
-    justifyContent: "center",
     flex: 1,
   },
   pageContentContainer: {
@@ -165,30 +161,34 @@ export default StyleSheet.create({
     padding: 10,
     backgroundColor: "white",
     width: "80%",
+    height: "80%",
     alignSelf: "center",
     marginBottom: 5,
-
   },
   welcomeButton: {
     alignItems: "center",
-    backgroundColor: "#E7C6CD",
+    backgroundColor: "#98A869",
     padding: 5,
     width: "60%",
     alignSelf: "center",
-    marginBottom: 10,
+    marginBottom: 5,
     borderRadius: 20,
   },
   welcomeBackground: {
-    backgroundColor: "#98A869",
+    backgroundColor: "#E7C6CD",
     flex: 1,
     justifyContent: "center",
   },
-  text: {
+  welcomeButtonText: {
     fontFamily: "LouisGeorgeCafe",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   welcomefont: {
     fontFamily: "LouisGeorgeCafe",
-    fontSize: 16,
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 5,
   },
   profileHeader: {
     height: 200,
@@ -221,16 +221,15 @@ export default StyleSheet.create({
     borderRadius: 15,
     overflow: "hidden",
     marginVertical: 5,
-    alignSelf: "center", 
-    marginTop: 20,
+    alignSelf: "center",
+    marginTop: 60,
     borderWidth: 3,
     borderColor: "#98A869",
   },
   itemHeader: {
-    fontSize: 10,
+    fontSize: 20,
     fontFamily: "coolveticarg",
   },
-  
   headerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -240,13 +239,28 @@ export default StyleSheet.create({
     paddingHorizontal: 10,
   },
   headerBudgetText: {
-    flex: 1, 
+    flex: 1,
+
     textAlign: "left",
     fontWeight: "bold",
     color: "#333",
   },
-  ScrollView: {
-    maxHeight: "80%",
-  } 
-
+  amount: {
+    fontSize: 16,
+    fontFamily: "coolveticarg",
+    textAlign: "left",
+    width: "30%",
+  },
+  total: {
+    fontSize: 60,
+    color: "#0",
+  },
+  ProgressText: {
+    fontFamily: "coolveticarg",
+    textAlign: "center",
+  },
+  savings: {
+    color: "#656038",
+    fontSize: 25,
+  },
 });

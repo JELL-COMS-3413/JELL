@@ -7,15 +7,22 @@ export default function AddGoalItemModal({ onAddItem }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [title, setTitle] = useState("");
   const [value, setValue] = useState("");
+  const [amount, setAmount] = useState("");
+  const [goal, setGoal] = useState("");
 
   const handlePress = () => {
-    if (title.trim() && value.trim()) {
-      onAddItem({ title: title.trim(), value: value.trim() });
+    if (title.trim() && amount.trim() && goal.trim()) {
+      onAddItem({
+        title: title.trim(),
+        amount: amount.trim(),
+        goal: goal.trim(),
+      });
       setTitle("");
-      setValue("");
+      setAmount("");
+      setGoal("");
       setModalVisible(false);
     } else {
-      alert("Please enter a title and amount");
+      alert("Please enter a title, current amount and goal amount");
     }
   };
 
@@ -35,7 +42,6 @@ export default function AddGoalItemModal({ onAddItem }) {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-          
             <Text style={styles.modalTitle}>Add Item</Text>
             <Text style={styles.itemHeader}>Item Name</Text>
             <TextInput
@@ -48,15 +54,16 @@ export default function AddGoalItemModal({ onAddItem }) {
             <TextInput
               style={styles.input}
               placeholder="Enter amount saved so far"
-              value={value}
-              onChangeText={(text) => setValue(text)}
+              value={amount}
+              onChangeText={(text) => setAmount(text)}
+              keyboardType="numeric"
             />
             <Text style={styles.itemHeader}>Goal</Text>
             <TextInput
               style={styles.input}
               placeholder="Enter amount to allocate to goal item"
-              value={value}
-              onChangeText={(text) => setValue(text)}
+              value={goal}
+              onChangeText={(text) => setGoal(text)}
             />
             <View style={styles.buttonContainer}>
               <TouchableOpacity

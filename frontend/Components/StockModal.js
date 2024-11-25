@@ -11,6 +11,14 @@ export default function StockModal() {
   const [error, setError] = useState("");
   const [result, setResult] = useState({});
 
+  // for handling selection of gold, stock, or crypto to search
+  const handleSelect = (selectedType) => {
+    setType(selectedType);
+    setResult({});
+    setLoaded(false);
+  };
+
+  // for handling press of get price button
   const handlePress = () => {
     if (type === "gold") {
       getGoldPrice();
@@ -104,8 +112,11 @@ export default function StockModal() {
 
   return (
     <View>
-      <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <Text style={styles.addButtonText}> Look up stock price </Text>
+      <TouchableOpacity
+        onPress={() => setModalVisible(true)}
+        style={[styles.toggleButton, styles.successButton, { marginTop: 0 }]}
+      >
+        <Text style={styles.buttonText}> Look up stock price </Text>
       </TouchableOpacity>
       <Modal
         visible={modalVisible}
@@ -114,18 +125,55 @@ export default function StockModal() {
         onRequestClose={() => setModalVisible(false)}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
+          <View style={[styles.modalContent, { height: "40%" }]}>
             <Text style={styles.modalTitle}>Look up Stock Price</Text>
-            <Text>Select Stock, Crypto, or Gold</Text>
-            <View>
-              <TouchableOpacity onPress={() => setType("stock")}>
-                <Text>Stock</Text>
+            <Text
+              style={{
+                fontFamily: "coolveticarg",
+                fontSize: 24,
+              }}
+            >
+              Select Stock, Crypto, or Gold
+            </Text>
+            <View style={{ flexDirection: "row", alignSelf: "center" }}>
+              <TouchableOpacity
+                onPress={() => handleSelect("stock")}
+                style={{
+                  borderRadius: 20,
+                  padding: 10,
+                  backgroundColor: type == "stock" ? "#89A869" : "#ccc",
+                  margin: 10,
+                }}
+              >
+                <Text style={{ fontFamily: "LouisGeorgeCafe", fontSize: 18 }}>
+                  Stock
+                </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => setType("crypto")}>
-                <Text>Crypto</Text>
+              <TouchableOpacity
+                onPress={() => handleSelect("crypto")}
+                style={{
+                  borderRadius: 20,
+                  padding: 10,
+                  backgroundColor: type == "crypto" ? "#89A869" : "#ccc",
+                  margin: 10,
+                }}
+              >
+                <Text style={{ fontFamily: "LouisGeorgeCafe", fontSize: 18 }}>
+                  Crypto
+                </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => setType("gold")}>
-                <Text>Gold</Text>
+              <TouchableOpacity
+                onPress={() => handleSelect("gold")}
+                style={{
+                  borderRadius: 20,
+                  padding: 10,
+                  backgroundColor: type == "gold" ? "#89A869" : "#ccc",
+                  margin: 10,
+                }}
+              >
+                <Text style={{ fontFamily: "LouisGeorgeCafe", fontSize: 18 }}>
+                  Gold
+                </Text>
               </TouchableOpacity>
             </View>
             {type === "crypto" || type === "stock" ? (
@@ -139,29 +187,66 @@ export default function StockModal() {
               <></>
             )}
             {loaded ? (
-              <View>
+              <View style={{ alignItems: "flex-start" }}>
                 {type === "gold" ? (
-                  <>
-                    <Text>Gold</Text>
-                  </>
+                  <Text
+                    style={{
+                      fontFamily: "coolveticarg",
+                      fontSize: 22,
+                      alignSelf: "center",
+                    }}
+                  >
+                    Gold
+                  </Text>
                 ) : (
-                  <>
-                    <Text>{type === "stock" ? "Ticker:" : "Symbol:"}</Text>
-                    <Text>
+                  <View style={{ flexDirection: "row" }}>
+                    <Text
+                      style={{
+                        fontFamily: "coolveticarg",
+                        fontSize: 22,
+                        marginRight: 10,
+                      }}
+                    >
+                      {type === "stock" ? "Ticker:" : "Symbol:"}
+                    </Text>
+                    <Text
+                      style={{ fontFamily: "LouisGeorgeCafe", fontSize: 20 }}
+                    >
                       {type === "stock"
                         ? `${result.ticker}`
                         : `${result.symbol}`}
                     </Text>
-                  </>
+                  </View>
                 )}
-                <Text>Price: </Text>
-                <Text>{result.price}</Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "coolveticarg",
+                      fontSize: 20,
+                      marginRight: 10,
+                    }}
+                  >
+                    Price:
+                  </Text>
+                  <Text style={{ fontFamily: "LouisGeorgeCafe", fontSize: 20 }}>
+                    {result.price}
+                  </Text>
+                </View>
                 <Text>{error}</Text>
               </View>
             ) : (
               <></>
             )}
-            <View style={styles.buttonContainer}>
+            <View
+              style={[
+                styles.buttonContainer,
+                { width: "50%", alignSelf: "flex-end" },
+              ]}
+            >
               <TouchableOpacity
                 style={[styles.button, styles.successButton]}
                 onPress={handlePress}

@@ -163,26 +163,10 @@ export default function BudgetOverviewScreen({ navigation }) {
     const fetchProfile = async () => {
       setLoading(true);
       try {
-        const token = await AsyncStorage.getItem("token");
-        const response = await fetch(`http://${ipAddress}:5000/profile`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          const errorResponse = await response.json();
-          console.error("Server Error:", errorResponse);
-          throw new Error(errorResponse.message || "Failed to fetch profile");
-        } else {
-          const loadedProfile = await response.json();
-          console.log("loadedProfile: ", loadedProfile);
-          setProfile(loadedProfile.profile);
-          console.log("profile: ", profile);
-        }
+        const loadedProfile = await AsyncStorage.getItem("profile");
+        setProfile(loadedProfile || "default"); // Set a default profile if none exists
       } catch (error) {
-        console.error("Error fetching profile:", error);
+        console.error("Error getting profile:", error);
         alert(error.message);
       } finally {
         setLoading(false);
@@ -240,7 +224,8 @@ export default function BudgetOverviewScreen({ navigation }) {
             style={{
               flexDirection: "row",
               alignSelf: "center",
-              marginRight: 90,
+              marginRight: 70,
+              marginTop: 50,
             }}
           >
             <TouchableOpacity
@@ -282,35 +267,36 @@ export default function BudgetOverviewScreen({ navigation }) {
               <Text style={styles.headerText}>GOALS</Text>
             </TouchableOpacity>
           </View>
+
           <View style={[styles.greenPageSection, { position: "relative" }]}>
-            <View style={[styles.pageContentContainer, { marginTop: 30 }]}>
+            <View style={[styles.pageContentContainer, { marginTop: 0 }]}>
               <ScrollView>
-              <View style={styles.headerRow}>
-                <Text style={styles.headerBudgetText}>Name</Text>
-                <Text style={styles.headerBudgetText}>Budget</Text>
-              </View>
-              <FlatList
-                data={data}
-                keyExtractor={(budgetItem) => budgetItem._id.toString()}
-                renderItem={({ item }) => (
-                  <View style={styles.listItem}>
-                    <Text style={styles.budgetItem}>{item.title}</Text>
-                    <Text style={styles.value}>
-                      {`$ ${parseFloat(item.value).toFixed(2)}` || "$0.00"}
-                    </Text>
-                    <View>
-                      <TouchableOpacity onPress={() => handleEditPress(item)}>
-                        <Text style={styles.actionText}>Edit</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => handleDeletePress(item._id)}
-                      >
-                        <Text style={styles.actionText}>Delete</Text>
-                      </TouchableOpacity>
+                <View style={styles.headerRow}>
+                  <Text style={styles.headerBudgetText}>Name</Text>
+                  <Text style={styles.headerBudgetText}>Budget</Text>
+                </View>
+                <FlatList
+                  data={data}
+                  keyExtractor={(budgetItem) => budgetItem._id.toString()}
+                  renderItem={({ item }) => (
+                    <View style={styles.listItem}>
+                      <Text style={styles.budgetItem}>{item.title}</Text>
+                      <Text style={styles.value}>
+                        {`$ ${parseFloat(item.value).toFixed(2)}` || "$0.00"}
+                      </Text>
+                      <View>
+                        <TouchableOpacity onPress={() => handleEditPress(item)}>
+                          <Text style={styles.actionText}>Edit</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => handleDeletePress(item._id)}
+                        >
+                          <Text style={styles.actionText}>Delete</Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
-                  </View>
-                )}
-              />
+                  )}
+                />
               </ScrollView>
               <AddBudgetItemModal onAddItem={addBudgetItem} />
             </View>

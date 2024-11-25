@@ -99,43 +99,32 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
 
   // date selection function
   const changeDate = (event, selectedDate) => {
-    const currentDate = selectedDate;
-    setShow(Platform.OS === "ios"); // Hide on iOS after selection
-    setDate(currentDate);
-    setShowDate(false); // hide date picker after date selection
-    setDateSelected(true);
+    if (event.type === "set") {
+      setDate(selectedDate);
+      setDateSelected(true);
+      setShowDate(false);
+    } else if (event.type === "dismissed") {
+      setShowDate(false);
+      setShow(Platform.OS === "ios"); // Hide on iOS after selection
+    }
   };
 
   // load profile image
   useEffect(() => {
     const fetchProfile = async () => {
+      setLoading(true);
       try {
-        const token = await AsyncStorage.getItem("token");
-        const response = await fetch(`http://${ipAddress}:5000/profile`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          const errorResponse = await response.json();
-          if (response.status === 404) {
-            console.error("Server Error:", errorResponse);
-            throw new Error(errorResponse.message || "Failed to fetch profile");
-          }
-        } else {
-          const loadedProfile = await response.json();
-          console.log("loadedProfile: ", loadedProfile);
-          setProfile(loadedProfile.profile);
-          console.log("profile: ", profile);
-        }
+        const loadedProfile = await AsyncStorage.getItem("profile");
+        setProfile(loadedProfile || "default"); // Set a default profile if none exists
       } catch (error) {
-        console.error("Error fetching profile:", error);
+        console.error("Error getting profile:", error);
         alert(error.message);
+      } finally {
+        setLoading(false);
       }
     };
     const fetchBudgetItems = async () => {
+      setLoading(true);
       try {
         const token = await AsyncStorage.getItem("token");
         const response = await fetch(`http://${ipAddress}:5000/budget/`, {
@@ -159,7 +148,6 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
           const validBudgetItems = budgetItems.filter(
             (item) => item.title && item.value
           );
-          console.log("validBudgetItems: ", validBudgetItems);
           setCategories(validBudgetItems);
         } else {
           console.warn("Received empty or invalid budget items:", budgetItems);
@@ -173,7 +161,6 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
     };
     fetchProfile();
     fetchBudgetItems();
-    console.log(categories);
   }, []);
 
   // load font
@@ -184,13 +171,24 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
 
   return (
     <SafeAreaView style={styles.background}>
-      <View style={{ flexDirection: "row", alignSelf: "center" }}>
-        <TouchableOpacity
-          onPress={navigateToProfileScreen}
-          style={{ alignSelf: "flex-start" }}
-        >
-          <Image source={profileImages[profile]} style={styles.profileIcon} />
-        </TouchableOpacity>
+      <View
+        style={{
+          flexDirection: "row",
+          alignSelf: "center",
+          marginTop: 60,
+          marginBottom: 5,
+        }}
+      >
+        {loading ? (
+          <></>
+        ) : (
+          <TouchableOpacity
+            onPress={navigateToProfileScreen}
+            style={{ alignSelf: "flex-start" }}
+          >
+            <Image source={profileImages[profile]} style={styles.profileIcon} />
+          </TouchableOpacity>
+        )}
         <Text
           style={[
             styles.headerText,
@@ -200,8 +198,13 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
           Input Money Spent
         </Text>
       </View>
-      <View style={styles.greenPageSection}>
-        <View style={[styles.pageContentContainer, { marginTop: 10 }]}>
+      <View style={styles.pinkPageSection}>
+        <View
+          style={[
+            styles.pageContentContainer,
+            { height: "65%", marginTop: 20 },
+          ]}
+        >
           <Text style={{ fontFamily: "coolveticarg", margin: 5 }}>Date:</Text>
           <View
             style={{
@@ -221,7 +224,7 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
                 value={date}
                 mode="date"
                 display="default"
-                onChange={this.changeDate}
+                onChange={changeDate}
               />
             )}
           </View>
@@ -248,15 +251,16 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
               flexDirection: "row",
               alignSelf: "center",
               justifyContent: "space-between",
+              width: "100%",
+              marginBottom: 5,
+              position: "static",
             }}
           >
             <View
               style={{
-                borderRadius: 20,
-                backgroundColor: "#ccc",
-                padding: 8,
-                margin: 5,
-                flex: 1,
+                alignItems: "center",
+                marginRight: 5,
+                width: "50%",
               }}
             >
               <Text
@@ -264,43 +268,57 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
                   fontFamily: "coolveticarg",
                   paddingRight: 10,
                   fontSize: 16,
-                  paddingBottom: 20,
                 }}
               >
-                Manually Input:
+                Input Manually:
               </Text>
-              <TextInput
-                placeholder="Enter amount spent"
-                style={{ fontFamily: "LouisGeorgeCafe" }}
-                value={amount}
-                onChangeText={(number) => setAmount(parseFloat(number))}
-              />
+              <View
+                style={{
+                  borderRadius: 20,
+                  backgroundColor: "#ccc",
+                  padding: 5,
+                  margin: 5,
+                }}
+              >
+                <TextInput
+                  placeholder="Enter amount spent"
+                  style={{
+                    fontFamily: "LouisGeorgeCafe",
+                    fontSize: 16,
+                    position: "static",
+                  }}
+                  value={amount}
+                  onChangeText={(number) => setAmount(parseFloat(number))}
+                />
+              </View>
             </View>
-            <View
-              style={{
-                borderRadius: 20,
-                backgroundColor: "#ccc",
-                padding: 8,
-                margin: 5,
-                flex: 1,
-              }}
-            >
+            <View style={{ width: "50%" }}>
               <Text
                 style={{
                   fontFamily: "coolveticarg",
                   paddingRight: 10,
-                  paddingBottom: 20,
                   fontSize: 16,
+                  textAlign: "center",
                 }}
               >
                 Or Scan Receipt:
               </Text>
-              <TouchableOpacity style={{ alignSelf: "center" }}>
-                <Image
-                  onPress={openCamera}
-                  source={require("../assets/cameraIcon.png")}
-                />
-              </TouchableOpacity>
+              <View
+                style={{
+                  borderRadius: 20,
+                  backgroundColor: "#ccc",
+                  padding: 8,
+                  margin: 5,
+                  position: "static",
+                }}
+              >
+                <TouchableOpacity style={{ alignSelf: "center" }}>
+                  <Image
+                    onPress={openCamera}
+                    source={require("../assets/cameraIcon.png")}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
           {loading ? (
@@ -345,7 +363,7 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
               borderRadius: 20,
               alignSelf: "center",
               backgroundColor: "#98A869",
-              borderWidth: 1,
+              borderWidth: 2,
               borderColor: "black",
               padding: 10,
               marginTop: 10,

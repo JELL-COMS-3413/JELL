@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ActivityIndicator } from "react-native";
+import { ThemeProvider, useTheme } from "./Components/ThemeContext";
 
 // Import your screens
 import LoginScreen from "./Components/LoginScreen";
@@ -12,19 +14,26 @@ import CalculationScreen from "./Components/CalculationScreen";
 import GoalsScreen from "./Components/GoalsScreen";
 import InputExpensesScreen from "./Components/InputExpensesScreen";
 import SettingScreen from "./Components/SettingScreen";
+import AppearanceScreen from "./Components/AppearanceScreen";
+import HandSScreen from "./Components/HandSScreen";
+import NotificationScreen from "./Components/NotificationScreen";
+import AboutScreen from "./Components/AboutScreen";
+import PrivacyScreen from "./Components/PrivacyScreen";
 
 const Stack = createNativeStackNavigator();
-export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(null); // Initialize as null
+
+function AppNavigator() {
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const { theme } = useTheme(); // Access theme from context
 
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
         const token = await AsyncStorage.getItem("token");
-        setIsLoggedIn(!!token);
+        setIsLoggedIn(!!token); // Check token presence to set login status
       } catch (error) {
         console.error("Error fetching token:", error);
-        setIsLoggedIn(false);
+        setIsLoggedIn(false); // Default to logged out state if error occurs
       }
     };
 
@@ -32,15 +41,25 @@ export default function App() {
   }, []);
 
   if (isLoggedIn === null) {
-    // Optional: Show a loading indicator while checking login status
-    return null;
+    return <ActivityIndicator size="large" color="#0000ff" />; // Show loading until login state is checked
   }
+
+  const themeColors =
+    theme === "dark"
+      ? { background: "#1c1c1c", text: "#fff" }
+      : { background: "#fff", text: "#000" };
+
+  const screenOptions = {
+    headerStyle: {
+      backgroundColor: themeColors.background,
+    },
+    headerTintColor: themeColors.text,
+  };
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={screenOptions}>
         {isLoggedIn ? (
-          // If logged in, show the Welcome screen
           <>
             <Stack.Screen name="WelcomeScreen" options={{ headerShown: false }}>
               {(props) => (
@@ -63,7 +82,6 @@ export default function App() {
                 />
               )}
             </Stack.Screen>
-
             <Stack.Screen
               name="CalculationScreen"
               options={{ headerShown: false }}
@@ -78,33 +96,56 @@ export default function App() {
             >
               {(props) => (
                 <InputExpensesScreen {...props} setIsLoggedIn={setIsLoggedIn} />
-
               )}
             </Stack.Screen>
-            <Stack.Screen
-              name="SettingScreen"
-              options={{ headerShown: false }}
-            >
+            <Stack.Screen name="SettingScreen" options={{ headerShown: false }}>
               {(props) => (
                 <SettingScreen {...props} setIsLoggedIn={setIsLoggedIn} />
-
+              )}
+            </Stack.Screen>
+            <Stack.Screen name="GoalsScreen" options={{ headerShown: false }}>
+              {(props) => (
+                <GoalsScreen {...props} setIsLoggedIn={setIsLoggedIn} />
               )}
             </Stack.Screen>
             <Stack.Screen
-              name="GoalsScreen"
+              name="AppearanceScreen"
               options={{ headerShown: false }}
             >
               {(props) => (
-                <GoalsScreen
-                  {...props}
-                  setIsLoggedIn={setIsLoggedIn}
-                />
+                <AppearanceScreen {...props} setIsLoggedIn={setIsLoggedIn} />
               )}
             </Stack.Screen>
-
+            <Stack.Screen name="HandSScreen" options={{ headerShown: false }}>
+              {(props) => (
+                <HandSScreen {...props} setIsLoggedIn={setIsLoggedIn} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen
+              name="NotificationScreen"
+              options={{ headerShown: false }}
+            >
+              {(props) => (
+                <NotificationScreen {...props} setIsLoggedIn={setIsLoggedIn} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen
+              name="AboutScreen"
+              component={AboutScreen}
+              options={{
+                title: "About the App",
+                headerStyle: {
+                  backgroundColor: "#E7C6CD", // Change header background color
+                },
+              }}
+            />
+            <Stack.Screen name="PrivacyScreen" options={{ headerShown: false }}>
+              {(props) => (
+                <PrivacyScreen {...props} setIsLoggedIn={setIsLoggedIn} />
+              )}
+            </Stack.Screen>
           </>
         ) : (
-          // Not logged in, show the Login screen
           <Stack.Screen name="Login" options={{ headerShown: false }}>
             {(props) => (
               <LoginScreen {...props} setIsLoggedIn={setIsLoggedIn} />
@@ -113,5 +154,13 @@ export default function App() {
         )}
       </Stack.Navigator>
     </NavigationContainer>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppNavigator />
+    </ThemeProvider>
   );
 }

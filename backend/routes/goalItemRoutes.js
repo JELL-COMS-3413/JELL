@@ -6,7 +6,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 // POST /items - Add a new item
 router.post("/", authMiddleware, async (req, res) => {
   try {
-    const { title, value } = req.body;
+    const { title, amount, goal } = req.body;
 
     const newGoalItem = new goalItem({
       title,
