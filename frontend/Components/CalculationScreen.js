@@ -23,6 +23,7 @@ import SavedCalculations from "./SavedCalculations";
 
 export default function CalculationScreen({ navigation, setIsLoggedIn }) {
   const [profile, setProfile] = useState("default");
+  const [loading, setLoading] = useState(true);
   const [isLoanCalculator, setIsLoanCalculator] = useState(true);
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
@@ -52,29 +53,15 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
 
   useEffect(() => {
     const fetchProfile = async () => {
+      setLoading(true);
       try {
-        const token = await AsyncStorage.getItem("token");
-        const response = await fetch(`http://${ipAddress}:5000/profile/`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          const errorResponse = await response.json();
-
-          console.error("Server Error:", errorResponse);
-          throw new Error(errorResponse.message || "Failed to fetch profile");
-        } else {
-          const loadedProfile = await response.json();
-          console.log("loadedProfile: ", loadedProfile);
-          setProfile(loadedProfile.profile);
-          console.log("profile: ", profile);
-        }
+        const loadedProfile = await AsyncStorage.getItem("profile");
+        setProfile(loadedProfile || "default"); // Set a default profile if none exists
       } catch (error) {
-        console.error("Error fetching profile:", error);
+        console.error("Error getting profile:", error);
         alert(error.message);
+      } finally {
+        setLoading(false);
       }
     };
     fetchProfile();
@@ -92,9 +79,13 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
 
   return (
     <SafeAreaView style={styles.welcomeBackground}>
-      <TouchableOpacity onPress={navigateToProfileScreen}>
-        <Image source={profileImages[profile]} style={styles.profileIcon} />
-      </TouchableOpacity>
+      {loading ? (
+        <></>
+      ) : (
+        <TouchableOpacity onPress={navigateToProfileScreen}>
+          <Image source={profileImages[profile]} style={styles.profileIcon} />
+        </TouchableOpacity>
+      )}
       <Text style={styles.headerText}>
         {isLoanCalculator ? "Loan Calculations" : "Savings Calculations"}
       </Text>
@@ -104,7 +95,7 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
         </Text>
       </TouchableOpacity>
       {isLoanCalculator ? (
-        <View style={[styles.pageContentContainer, { height: "50%" }]}>
+        <View style={[styles.pageContentContainer, { height: "45%" }]}>
           <FlatList
             data={loanCalc}
             renderItem={renderItem}
@@ -112,7 +103,7 @@ export default function CalculationScreen({ navigation, setIsLoggedIn }) {
           />
         </View>
       ) : (
-        <View style={[styles.pageContentContainer, { height: "50%" }]}>
+        <View style={[styles.pageContentContainer, { height: "45%" }]}>
           <FlatList
             data={saveCalc}
             renderItem={renderItem}

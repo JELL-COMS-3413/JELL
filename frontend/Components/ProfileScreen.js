@@ -87,6 +87,9 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
         const errorResponse = await response.json();
         console.error("Server Error:", errorResponse);
         throw new Error(errorResponse.message || "Failed to update profile");
+      } else {
+        const result = await response.json();
+        await AsyncStorage.setItem("profile", result.profile);
       }
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -142,6 +145,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
 
       const newProfile = await response.json();
       setProfile(newProfile.profile);
+      await AsyncStorage.setItem("profile", newProfile.profile);
       console.log("Created new profile: ", newProfile.profile);
     } catch (error) {
       console.error("Error creating profile:", error);
@@ -165,6 +169,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
           const errorResponse = await response.json();
           if (response.status === 404) {
             await createDefaultProfile();
+            await AsyncStorage.setItem("profile", "default");
           } else {
             console.error("Server Error:", errorResponse);
             throw new Error(errorResponse.message || "Failed to fetch profile");
@@ -172,6 +177,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
         } else {
           const loadedProfile = await response.json();
           setProfile(loadedProfile.profile);
+          await AsyncStorage.setItem("profile", loadedProfile.profile);
         }
       } catch (error) {
         console.error("Error fetching profile:", error);
@@ -219,7 +225,6 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
   useEffect(() => {
     loadFonts().then(() => setFontsLoaded(true));
   }, []);
-  //if (!fontsLoaded) return null;
 
   return (
     <SafeAreaView style={styles.background}>

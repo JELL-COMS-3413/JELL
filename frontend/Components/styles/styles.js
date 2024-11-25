@@ -26,7 +26,6 @@ export default StyleSheet.create({
     alignSelf: "center",
     width: "50%",
     flexDirection: "row",
-    marginTop: 10,
     justifyContent: "space-between",
     alignItems: "center",
   },
@@ -83,7 +82,7 @@ export default StyleSheet.create({
     marginHorizontal: 30,
     padding: 20,
     borderRadius: 10,
-    height: 250,
+    height: "50%",
     justifyContent: "space-between",
   },
   modalTitle: {
@@ -99,6 +98,8 @@ export default StyleSheet.create({
     borderWidth: 1,
     padding: 8,
     marginVertical: 10,
+    fontFamily: "LouisGeorgeCafe",
+    fontSize: 18,
   },
   profileIcon: {
     height: 50,
@@ -137,7 +138,7 @@ export default StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: "LouisGeorgeCafe",
     textTransform: "uppercase",
   },
@@ -148,7 +149,7 @@ export default StyleSheet.create({
     padding: 0,
     width: "100%",
   },
-  pinkPageSection: {
+  greenPageSection: {
     backgroundColor: "#98A869",
     width: "100%",
     paddingTop: 30,
@@ -168,7 +169,7 @@ export default StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#98A869",
     padding: 5,
-    width: "40%",
+    width: "60%",
     alignSelf: "center",
     marginBottom: 5,
     borderRadius: 20,
@@ -178,12 +179,14 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  text: {
+  welcomeButtonText: {
     fontFamily: "LouisGeorgeCafe",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   welcomefont: {
     fontFamily: "LouisGeorgeCafe",
-    fontSize: 16,
+    fontSize: 20,
     textAlign: "center",
     marginBottom: 5,
   },
@@ -224,10 +227,9 @@ export default StyleSheet.create({
     borderColor: "#98A869",
   },
   itemHeader: {
-    fontSize: 10,
+    fontSize: 20,
     fontFamily: "coolveticarg",
   },
-  /*
   headerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -236,13 +238,28 @@ export default StyleSheet.create({
     borderBottomColor: "#ddd",
     paddingHorizontal: 10,
   },
-  headerText: {
-    flex: 1, 
+  headerBudgetText: {
+    flex: 1,
     textAlign: "left",
     fontWeight: "bold",
     color: "#333",
   },
-  ScrollView: {
-    maxHeight: "80%",
-  } */
+  amount: {
+    fontSize: 16,
+    fontFamily: "coolveticarg",
+    textAlign: "left",
+    width: "30%",
+  },
+  total: {
+    fontSize: 60,
+    color: "#0",
+  },
+  ProgressText: {
+    fontFamily: "coolveticarg",
+    textAlign: "center",
+  },
+  savings: {
+    color: "#656038",
+    fontSize: 25,
+  },
 });

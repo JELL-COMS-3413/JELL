@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Modal } from "react-native";
 import { BsFillChatFill } from "react-icons/bs";
 import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity, View, Text } from "react-native";
 
-const HandSScreen = () => {
+function HandSScreen() {
   const [hovered, setHovered] = useState(false);
   const [visible, setVisible] = useState(false);
   const [message, setMessage] = useState("");
@@ -65,7 +66,7 @@ const HandSScreen = () => {
       )}
     </View>
   );
-};
+}
 
 const styles = {
   container: {
