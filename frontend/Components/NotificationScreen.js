@@ -37,15 +37,15 @@ const NotificationScreen = ({ navigation }) => {
         <Text style={styles.backButtonText}>Back</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.button, styles.success]}
+        style={[styles.button, styles.successButton]}
         onPress={() =>
-          addNotification("Don't Forget to use me to Calculate!", "success")
+          addNotification("Don't forget to use me to Calculate!", "success")
         }
       >
         <Text style={styles.buttonText}>Great</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.button, styles.error]}
+        style={[styles.button, styles.errorButton]}
         onPress={() =>
           addNotification("You didn't reach the goal! :(", "error")
         }
@@ -53,7 +53,7 @@ const NotificationScreen = ({ navigation }) => {
         <Text style={styles.buttonText}>Sad</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.button, styles.closeToGoal]}
+        style={[styles.button, styles.closeToGoalButton]}
         onPress={() =>
           addNotification(
             "We are so close, don't forget to add to your savings",
@@ -84,13 +84,10 @@ const NotificationScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: "#98A869", // Background color
-    padding: "20px",
-    height: "100vh", // Full height for the background color
-    display: "flex",
-    alignItems: "center",
+    padding: 20,
     justifyContent: "center",
-    flexDirection: "column",
   },
   notification: {
     flexDirection: "row",
@@ -111,7 +108,7 @@ const styles = StyleSheet.create({
   },
   message: {
     flex: 1,
-    color: "black",
+    color: "#fff",
     fontSize: 16,
   },
   closeButton: {
@@ -124,18 +121,30 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 5,
     alignItems: "center",
+    width: "80%",
+    alignSelf: "center",
+  },
+  successButton: {
+    backgroundColor: "#4caf50",
+  },
+  errorButton: {
+    backgroundColor: "#f44336",
+  },
+  closeToGoalButton: {
+    backgroundColor: "#36A2EB",
   },
   buttonText: {
-    color: "black",
+    color: "#fff",
     fontWeight: "bold",
   },
   backButton: {
     padding: 10,
     backgroundColor: "#E7C6CD",
-    color: "black",
     borderRadius: 5,
     alignItems: "center",
     marginBottom: 20,
+    width: "80%",
+    alignSelf: "center",
   },
   backButtonText: {
     color: "black",
