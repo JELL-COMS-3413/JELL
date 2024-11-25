@@ -96,7 +96,7 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
     } else if (setting.title === "Notifications") {
       navigation.navigate("NotificationScreen");
     } else if (setting.title === "About") {
-      navigation.navigate("AboutScreen");
+      navigation.navigate("AboutScreen");b
     } else if (setting.title === "Privacy & Security") {
       navigation.navigate("PrivacyScreen");
     } else if (setting.title === "Account") {
