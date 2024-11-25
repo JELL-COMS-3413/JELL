@@ -34,7 +34,7 @@ export default function AddBudgetItemModal({ onAddItem }) {
         onRequestClose={() => setModalVisible(false)}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
+          <View style={[styles.modalContent, { height: "30%" }]}>
             <Text style={styles.modalTitle}>Add Item</Text>
             <Text style={styles.itemHeader}>Item Name:</Text>
             <TextInput
@@ -50,15 +50,15 @@ export default function AddBudgetItemModal({ onAddItem }) {
               value={value}
               onChangeText={(text) => setValue(text)}
             />
-            <View style={styles.buttonContainer}>
+            <View style={[styles.buttonContainer, { alignSelf: "center" }]}>
               <TouchableOpacity
-                style={[styles.button, styles.successButton]}
+                style={[styles.button, styles.successButton, { width: "40%" }]}
                 onPress={handlePress}
               >
                 <Text style={styles.buttonText}>Add</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.button, styles.cancelButton]}
+                style={[styles.button, styles.cancelButton, { width: "40%" }]}
                 onPress={() => setModalVisible(false)}
               >
                 <Text style={styles.buttonText}>Cancel</Text>

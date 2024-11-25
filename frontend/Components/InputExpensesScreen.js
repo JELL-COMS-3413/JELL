@@ -199,7 +199,12 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
         </Text>
       </View>
       <View style={styles.pinkPageSection}>
-        <View style={[styles.pageContentContainer]}>
+        <View
+          style={[
+            styles.pageContentContainer,
+            { height: "65%", marginTop: 20 },
+          ]}
+        >
           <Text style={{ fontFamily: "coolveticarg", margin: 5 }}>Date:</Text>
           <View
             style={{
@@ -255,7 +260,6 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
               style={{
                 alignItems: "center",
                 marginRight: 5,
-                position: "static",
                 width: "50%",
               }}
             >
@@ -264,7 +268,6 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
                   fontFamily: "coolveticarg",
                   paddingRight: 10,
                   fontSize: 16,
-                  position: "static",
                 }}
               >
                 Input Manually:
@@ -273,7 +276,7 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
                 style={{
                   borderRadius: 20,
                   backgroundColor: "#ccc",
-                  padding: 8,
+                  padding: 5,
                   margin: 5,
                 }}
               >
@@ -283,7 +286,6 @@ export default function InputExpensesScreen({ navigation, setIsLoggedIn }) {
                     fontFamily: "LouisGeorgeCafe",
                     fontSize: 16,
                     position: "static",
-                    flex: 1,
                   }}
                   value={amount}
                   onChangeText={(number) => setAmount(parseFloat(number))}

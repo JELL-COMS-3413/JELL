@@ -12,7 +12,11 @@ export default function AddGoalItemModal({ onAddItem }) {
 
   const handlePress = () => {
     if (title.trim() && amount.trim() && goal.trim()) {
-      onAddItem({ title: title.trim(), amount: amount.trim(), goal: goal.trim() });
+      onAddItem({
+        title: title.trim(),
+        amount: amount.trim(),
+        goal: goal.trim(),
+      });
       setTitle("");
       setAmount("");
       setGoal("");
@@ -38,7 +42,6 @@ export default function AddGoalItemModal({ onAddItem }) {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-          
             <Text style={styles.modalTitle}>Add Item</Text>
             <Text style={styles.itemHeader}>Item Name</Text>
             <TextInput
