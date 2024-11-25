@@ -13,9 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import TabNavigation from "./TabNavigation";
 import styles from "./styles/styles";
-
-// Import AppearanceScreen
-import AppearanceScreen from "./AppearanceScreen"; // Make sure it's correctly imported
+import AppearanceScreen from "./AppearanceScreen";
 
 export default function SettingScreen({ navigation, setIsLoggedIn }) {
   const [username, setUsername] = useState("");
@@ -88,20 +86,22 @@ export default function SettingScreen({ navigation, setIsLoggedIn }) {
       setIsModalVisible(true);
       setIsChatOpen(false); // Ensure chat is closed for Appearance
     } else if (setting.title === "Help and Support") {
-      // Navigate to the Help and Support screen and open chat
-      setIsChatOpen(true);
-      //navigation.navigate("HandSScreen");
-      sendInitialMessage(); // Optionally, send a greeting message when chat opens
-      setIsModalVisible(false);
+      // Navigate directly to the Help and Support screen
+      navigation.navigate("HandSScreen");
     } else if (setting.title === "Notifications") {
+      // Navigate to Notifications screen
       navigation.navigate("NotificationScreen");
     } else if (setting.title === "About") {
-      navigation.navigate("AboutScreen");b
+      // Navigate to About screen
+      navigation.navigate("AboutScreen");
     } else if (setting.title === "Privacy & Security") {
+      // Navigate to Privacy & Security screen
       navigation.navigate("PrivacyScreen");
     } else if (setting.title === "Account") {
+      // Navigate to Profile screen
       navigation.navigate("ProfileScreen");
     } else {
+      // For any other settings, open the modal
       setIsModalVisible(true);
       setIsChatOpen(false); // Ensure chat is closed for other settings
     }

@@ -1,25 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Modal } from "react-native";
-import { BsFillChatFill } from "react-icons/bs";
+import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
-import { TouchableOpacity, View, Text } from "react-native";
 
-function HandSScreen() {
-  const [hovered, setHovered] = useState(false);
+const HandSScreen = () => {
   const [visible, setVisible] = useState(false);
-  const [message, setMessage] = useState("");
   const navigation = useNavigation();
 
   const sendMessage = () => {
-    setMessage(`
-      Hello, you have reached the help and support. Unfortunately, we did not have enough time to add everything we wanted.
-      If you have any questions, feel free to reach out to any of us at our emails down below.
-      Laura: lpaul2@atu.edu
-      Lisset: lluna1@atu.edu
-      Janniebeth: jmelendez2@atu.edu
-      Evelin: ecerrospatricio@atu.edu
-      Thank you!
-    `);
     setVisible(true); // Show the modal
   };
 
@@ -34,17 +22,9 @@ function HandSScreen() {
         <Text style={styles.backButtonText}>Back</Text>
       </TouchableOpacity>
 
-      {/* Chat Button Component */}
-      <TouchableOpacity
-        onPress={sendMessage}
-        style={[
-          styles.chatWidget,
-          hovered ? { borderWidth: 1, borderColor: "black" } : {},
-        ]}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
-        <BsFillChatFill size={16} color="white" />
+      {/* Chat Button */}
+      <TouchableOpacity onPress={sendMessage} style={styles.chatWidget}>
+        <Icon name="comment" size={16} color="white" />
         <Text style={styles.chatWidgetText}>Chat Now!!</Text>
       </TouchableOpacity>
 
@@ -57,22 +37,31 @@ function HandSScreen() {
           onRequestClose={() => setVisible(false)}
         >
           <View style={styles.modalWindow}>
-            <Text>{message}</Text>
-            <TouchableOpacity onPress={() => setVisible(false)}>
-              <Text>Close</Text>
+            <Text style={styles.modalText}>
+              Hello, you have reached Help & Support. Please email us:{"\n"}
+              Laura: lpaul2@atu.edu{"\n"}
+              Lisset: lluna1@atu.edu{"\n"}
+              Janniebeth: jmelendez2@atu.edu{"\n"}
+              Evelin: ecerrospatricio@atu.edu
+            </Text>
+            <TouchableOpacity
+              onPress={() => setVisible(false)}
+              style={styles.closeButton}
+            >
+              <Text style={styles.closeButtonText}>Close</Text>
             </TouchableOpacity>
           </View>
         </Modal>
       )}
     </View>
   );
-}
+};
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#98A869", // Background color
-    padding: 20,
     flex: 1,
+    backgroundColor: "#98A869",
+    padding: 20,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -93,22 +82,33 @@ const styles = {
     borderRadius: 20,
     flexDirection: "row",
     alignItems: "center",
-    cursor: "pointer",
   },
   chatWidgetText: {
     color: "white",
     marginLeft: 8,
   },
   modalWindow: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: [{ translateX: -50 }, { translateY: -50 }],
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalText: {
     backgroundColor: "#E7C6CD",
     padding: 20,
     borderRadius: 10,
-    alignItems: "center",
+    textAlign: "center",
   },
-};
+  closeButton: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: "#007BFF",
+    borderRadius: 5,
+  },
+  closeButtonText: {
+    color: "white",
+    textAlign: "center",
+  },
+});
 
 export default HandSScreen;
